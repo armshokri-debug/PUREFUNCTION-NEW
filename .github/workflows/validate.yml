@@ -2,7 +2,7 @@ name: Recovery validation
 on:
   pull_request:
   push:
-    branches: [recovery/stability-2026-11-13]
+    branches: [main, recovery/stability-2026-11-13]
 permissions:
   contents: read
 jobs:
@@ -30,3 +30,4 @@ jobs:
           VITE_SUPABASE_URL: https://mock.supabase.co
           VITE_SUPABASE_ANON_KEY: anon
       - run: node e2e/cloud-flow.cjs dist-cloud
+      - run: node e2e/program-template-preview.cjs dist-cloud
