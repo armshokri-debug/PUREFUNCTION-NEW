@@ -14,12 +14,19 @@ Deno.serve(async (req) => {
   const { data: userData } = await admin.auth.getUser(token);
   const uid = userData.user?.id;
   if (!uid) return json(401, { error: 'Sign in again.' });
+  // Use the caller's JWT for row access so revoked/unverified coaches also fail RLS.
+  const caller = createClient(url, Deno.env.get('SUPABASE_ANON_KEY')!, {
+    global: { headers: { Authorization: `Bearer ${token}` } },
+    auth: { persistSession: false }
+  });
   const { data: me } = await admin.from('profiles').select('role, display_name').eq('id', uid).maybeSingle();
   if (me?.role !== 'coach') return json(403, { error: 'Only the coach can send invites.' });
 
   const { clientId } = await req.json().catch(() => ({}));
-  const { data: client } = await admin.from('clients').select('id, email, data').eq('id', String(clientId ?? '')).maybeSingle();
-  if (!client?.email) return json(400, { error: 'This client has no email yet.' });
+  // RLS plus an explicit ownership check before revealing email or sending.
+  const { data: client } = await caller.from('clients').select('id, email, data, coach_id').eq('id', String(clientId ?? '')).maybeSingle();
+  if (!client || client.coach_id !== uid) return json(403, { error: 'Only the owning coach may invite this client.' });
+  if (!client.email) return json(400, { error: 'This client has no email yet.' });
 
   const name = String(client.data?.name ?? '').split(' ')[0] || 'there';
   const coach = me.display_name || 'Your coach';

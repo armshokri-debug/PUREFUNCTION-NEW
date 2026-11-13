@@ -30,7 +30,7 @@ const today = iso(new Date());
 
 (async () => {
   const mock = createMock({ coachEmail: 'coach@example.com' });
-  const b = await chromium.launch();
+  const b = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {});
   const open = async (viewport) => {
     const ctx = await b.newContext({ viewport });
     await ctx.route('https://mock.supabase.co/**', mock.handler);
@@ -41,6 +41,10 @@ const today = iso(new Date());
     await p.goto(`http://localhost:${PORT}/`);
     return p;
   };
+  const verify = async (p, email) => {
+    const mail = [...mock.db.emails].reverse().find(e => e.kind === 'verify' && e.to === email.toLowerCase());
+    if (mail) await p.goto(`http://localhost:${PORT}/?verify=${mail.token}`);
+  };
   const signUp = async (p, name, email, pw, who = 'client') => {
     await p.getByRole('tab', { name: who === 'coach' ? 'I’m the coach' : 'I’m a client' }).click();
     await p.getByRole('button', { name: who === 'coach' ? 'Create coach account' : 'Set up your account' }).click();
@@ -48,6 +52,8 @@ const today = iso(new Date());
     await p.getByLabel('Email').fill(email);
     await p.getByLabel('Password').fill(pw);
     await p.locator('form button[type=submit]').click();
+    await p.waitForTimeout(300);
+    await verify(p, email);
   };
   const shot = (p, n) => shots && p.screenshot({ path: `${shots}/${n}.png` });
 
@@ -58,8 +64,7 @@ const today = iso(new Date());
   await S.getByRole('tab', { name: 'I’m the coach' }).click();
   ok(await S.getByRole('heading', { name: 'Coach sign in' }).isVisible(), 'separate coach sign-in');
   await signUp(S, 'Eve', 'eve@example.com', 'password123');
-  await S.getByText(/isn’t on your coach’s list/).waitFor({ timeout: 8000 }).catch(() => {});
-  ok(await S.getByText(/isn’t on your coach’s list/).isVisible(), 'unknown email cannot create an account');
+  ok(!mock.db.users.some(u => u.email === 'eve@example.com'), 'unknown email cannot create an account');
   await shot(S, 'cloud-signup-blocked');
 
   /* ---------------- coach ---------------- */
@@ -123,6 +128,8 @@ const today = iso(new Date());
   await R.getByLabel('Your name').fill('Ryan');
   await R.getByLabel('Password').fill('ryanpass1');
   await R.locator('form button[type=submit]').click();
+  await R.waitForTimeout(300);
+  await verify(R, 'ryan@example.com');
   await R.getByRole('heading', { name: /Goblet Squat/ }).first().waitFor({ timeout: 10000 });
   ok(true, 'client signs up with the email the coach added and sees today’s workout');
   ok((await R.getByRole('button', { name: 'Coach' }).count()) === 0, 'client has no coach switch');

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PostureReports } from '../PostureReports';
 import { ArrowLeft } from 'lucide-react';
 import { ClientProfile, ClientSection, Exercise } from '../../types';
 import { ClientAvatar } from '../VisualAssets';
@@ -122,6 +123,7 @@ export const ClientDetail: React.FC<{
             />
             {asSub === 'overview' && (
               <>
+                <PostureReports clientId={client.id} />
                 <AssessmentSummary client={client} />
                 <SpectrumOfPatterns client={client} onUpdateClient={onUpdateClient} />
                 <BodyLab client={client} onUpdateClient={onUpdateClient} />

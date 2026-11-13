@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSecureNotes } from '../../cloud/secureNotes';
 import { Eye, EyeOff, Lock, Pin, Trash2 } from 'lucide-react';
 import { ClientProfile, CoachNote } from '../../types';
 import { formatDate, newId, todayISO } from '../../lib/workouts';
@@ -7,23 +8,24 @@ const card = 'bg-white rounded-[28px] border border-gray-100 shadow-[0_2px_14px_
 
 /** Coach notes per client: private by default, can be shared with the client. */
 export const NotesPanel: React.FC<{ client: ClientProfile; onUpdateClient: (c: ClientProfile) => void }> = ({ client, onUpdateClient }) => {
-  const notes = client.coachNotes ?? [];
+  const { notes, ready, busy, error, save } = useSecureNotes(client, onUpdateClient);
   const [text, setText] = useState('');
   const [shared, setShared] = useState(false);
-  const save = (next: CoachNote[]) => onUpdateClient({ ...client, coachNotes: next });
 
-  const add = () => {
+  const add = async () => {
     const t = text.trim();
     if (!t) return;
-    save([{ id: newId('note'), date: todayISO(), text: t, shared }, ...notes]);
-    setText('');
-    setShared(false);
+    if (await save([{ id: newId('note'), date: todayISO(), text: t, shared }, ...notes])) {
+      setText(''); setShared(false);
+    }
   };
   const sorted = [...notes].sort((a, b) => Number(!!b.pinned) - Number(!!a.pinned) || b.date.localeCompare(a.date));
 
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
       <section className={card}>
+        {error && <p role="alert" className="text-sm text-red-700 mb-3">{error}</p>}
+        <fieldset disabled={!ready || busy} className="min-w-0">
         <h3 className="text-sm font-bold text-[#111827] mb-3">New note</h3>
         <textarea
           value={text}
@@ -42,6 +44,7 @@ export const NotesPanel: React.FC<{ client: ClientProfile; onUpdateClient: (c: C
         <p className="text-xs text-gray-400 mt-3 flex items-center gap-1.5">
           <Lock className="w-3.5 h-3.5" /> Notes are private unless you share them.
         </p>
+        </fieldset>
       </section>
 
       <section className={card}>
@@ -61,10 +64,10 @@ export const NotesPanel: React.FC<{ client: ClientProfile; onUpdateClient: (c: C
                 </div>
               </div>
               <div className="flex items-start gap-1 shrink-0">
-                <button title={n.pinned ? 'Unpin' : 'Pin'} onClick={() => save(notes.map((x) => (x.id === n.id ? { ...x, pinned: !x.pinned } : x)))} className="p-2 rounded-full hover:bg-gray-100 cursor-pointer">
+                <button title={n.pinned ? 'Unpin' : 'Pin'} onClick={() => save(notes.map((x) => (x.id === n.id ? { ...x, pinned: !x.pinned } : x)))} disabled={!ready || busy} className="p-2 rounded-full hover:bg-gray-100 cursor-pointer">
                   <Pin className={`w-4 h-4 ${n.pinned ? 'text-[#111827]' : 'text-gray-400'}`} />
                 </button>
-                <button title={n.shared ? 'Make private' : 'Share with client'} onClick={() => save(notes.map((x) => (x.id === n.id ? { ...x, shared: !x.shared } : x)))} className="p-2 rounded-full hover:bg-gray-100 cursor-pointer">
+                <button title={n.shared ? 'Make private' : 'Share with client'} onClick={() => save(notes.map((x) => (x.id === n.id ? { ...x, shared: !x.shared } : x)))} disabled={!ready || busy} className="p-2 rounded-full hover:bg-gray-100 cursor-pointer">
                   {n.shared ? <Eye className="w-4 h-4 text-green-700" /> : <EyeOff className="w-4 h-4 text-gray-400" />}
                 </button>
                 <button
@@ -72,7 +75,7 @@ export const NotesPanel: React.FC<{ client: ClientProfile; onUpdateClient: (c: C
                   onClick={() => {
                     if (window.confirm('Delete this note?')) save(notes.filter((x) => x.id !== n.id));
                   }}
-                  className="p-2 rounded-full hover:bg-gray-100 cursor-pointer"
+                  disabled={!ready || busy} className="p-2 rounded-full hover:bg-gray-100 cursor-pointer"
                 >
                   <Trash2 className="w-4 h-4 text-gray-400" />
                 </button>

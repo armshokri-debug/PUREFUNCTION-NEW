@@ -39,7 +39,7 @@ async function measure(p) {
 
 (async () => {
   let failures = 0, unvisited = 0;
-  const b = await chromium.launch();
+  const b = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {});
   for (const [vn, vp] of Object.entries(VP)) {
     const ctx = await b.newContext({ viewport: vp, hasTouch: vn !== 'tabletL' });
     const p = await ctx.newPage();

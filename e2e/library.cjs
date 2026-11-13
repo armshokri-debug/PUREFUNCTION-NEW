@@ -25,7 +25,7 @@ const ok = (c, m) => {
 };
 
 (async () => {
-  const b = await chromium.launch();
+  const b = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {});
   const run = async (name, viewport, fn) => {
     const ctx = await b.newContext({ viewport });
     const p = await ctx.newPage();

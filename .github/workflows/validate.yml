@@ -1,0 +1,32 @@
+name: Recovery validation
+on:
+  pull_request:
+  push:
+    branches: [recovery/stability-2026-11-13]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - run: npx playwright install --with-deps chromium
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - run: node e2e/responsive-check.cjs dist
+      - run: node e2e/library.cjs dist
+      - run: node e2e/pwa.cjs dist
+      - run: npx vite build --outDir dist-cloud --base=/
+        env:
+          VITE_SUPABASE_URL: https://mock.supabase.co
+          VITE_SUPABASE_ANON_KEY: anon
+      - run: node e2e/cloud-flow.cjs dist-cloud

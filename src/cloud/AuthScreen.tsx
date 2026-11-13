@@ -35,7 +35,7 @@ function initialWho(): { who: Who; joinEmail: string } {
 
 /** Separate coach and client sign-in, like TrueCoach. Invite links (?join=email) open client set-up. */
 export const AuthScreen: React.FC = () => {
-  const { signIn, signUp, forgotPassword, notice } = useSession();
+  const { signIn, signUp, forgotPassword, resendVerification, notice } = useSession();
   const start = initialWho();
   const [who, setWho] = useState<Who>(start.who);
   const [mode, setMode] = useState<'sign-in' | 'sign-up' | 'forgot'>(start.joinEmail ? 'sign-up' : 'sign-in');
@@ -74,6 +74,7 @@ export const AuthScreen: React.FC = () => {
     }
     const err = mode === 'sign-in' ? await signIn(email, password) : await signUp(email, password, name);
     setBusy(false);
+    if (!err && mode === 'sign-up') { setSent(true); setPassword(''); }
     if (err) {
       setError(
         who === 'client' && /isn’t on the list/.test(err)
@@ -97,7 +98,7 @@ export const AuthScreen: React.FC = () => {
     who === 'coach'
       ? mode === 'sign-in'
         ? 'Manage clients, assessments and programs.'
-        : 'Only the coach email for this app can create a coach account.'
+        : 'Only invited coaches can create a coach account.'
       : mode === 'sign-in'
       ? 'See your workouts and log your training.'
       : 'Use the email your coach invited. Choose a password (8+ characters).';
@@ -174,6 +175,9 @@ export const AuthScreen: React.FC = () => {
           </div>
         )}
 
+        {sent && mode === 'sign-up' && <p role="status" className="text-sm text-green-800 break-words">If this email is invited, a verification link is on its way. Check your inbox and spam, then open the link before signing in.</p>}
+        {mode === 'sign-in' && <button type="button" disabled={busy || !email.trim()} onClick={async () => { setBusy(true); const err = await resendVerification(email); setBusy(false); setError(err); if (!err) setSent(true); }} className="text-sm underline min-h-[44px]">Resend verification email</button>}
+        {sent && mode === 'sign-in' && <p role="status" className="text-sm text-green-800">If verification is needed, a link is on its way. Check your inbox and spam.</p>}
         {sent && mode === 'forgot' && (
           <div className="flex items-start gap-2 text-sm text-[#166534] bg-green-50 border border-green-100 rounded-xl px-3 py-2.5" role="status">
             <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />

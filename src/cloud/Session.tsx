@@ -25,6 +25,7 @@ interface SessionValue {
   signIn: (email: string, password: string) => Promise<string | null>;
   signUp: (email: string, password: string, name: string) => Promise<string | null>;
   signOut: () => Promise<void>;
+  resendVerification: (email: string) => Promise<string | null>;
   /** One-time message for the sign-in screen (e.g. expired reset link). */
   notice: string | null;
   /** Emails a reset link. Returns an error message or null. */
@@ -52,8 +53,10 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const resetPending = React.useRef(new URLSearchParams(window.location.search).has('reset'));
 
+  const profileRequest = React.useRef(0);
   const loadProfile = useCallback(async (s: Session | null) => {
     if (!supabase) return;
+    const request = ++profileRequest.current;
     if (!s) {
       setProfile(null);
       setStatus('signed-out');
@@ -64,7 +67,8 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
       .select('id, role, display_name, client_id')
       .eq('id', s.user.id)
       .maybeSingle();
-    if (error || !data) {
+    if (request !== profileRequest.current) return;
+    if (error || !data || !['coach', 'client'].includes(data.role)) {
       setProfile(null);
       setStatus('no-access');
       return;
@@ -94,8 +98,21 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
   useEffect(() => {
     if (!supabase) return;
     let active = true;
-    const resetToken = new URLSearchParams(window.location.search).get('reset');
+    const params = new URLSearchParams(window.location.search);
+    const resetToken = params.get('reset');
+    const verifyToken = params.get('verify');
     const start = async () => {
+      if (verifyToken) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('verify');
+        url.searchParams.delete('verifyType');
+        window.history.replaceState(null, '', url.toString());
+        const { error } = await supabase!.auth.verifyOtp({
+          type: params.get('verifyType') === 'magiclink' ? 'magiclink' : 'signup', token_hash: verifyToken
+        });
+        if (!active) return;
+        if (error) setNotice('That verification link has expired or was already used. Request a new one.');
+      }
       if (resetToken) {
         const url = new URL(window.location.href);
         url.searchParams.delete('reset');
@@ -117,10 +134,13 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
     void start();
     const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
+      if (!active) return;
       setSession(s);
+      if (event === 'SIGNED_OUT') { ++profileRequest.current; setProfile(null); setStatus('signed-out'); }
+      if (event === 'PASSWORD_RECOVERY') { resetPending.current = true; setProfile(null); setStatus('reset'); return; }
       if (event === 'SIGNED_OUT' || ((event === 'SIGNED_IN' || event === 'USER_UPDATED') && !resetPending.current)) {
         // defer: Supabase recommends not awaiting other calls inside this callback
-        window.setTimeout(() => void loadProfile(s), 0);
+        window.setTimeout(() => { if (active) void loadProfile(s); }, 0);
       }
     });
     return () => {
@@ -143,12 +163,23 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim(), password, name: name.trim() })
       });
-      const body = (await res.json().catch(() => ({}))) as { error?: string };
+      const body = (await res.json().catch(() => ({}))) as { error?: string; verificationRequired?: boolean };
       if (!res.ok) return body.error ?? 'Could not create the account. Try again.';
+      if (body.verificationRequired) return null;
     } catch {
       return 'No connection. Check your internet and try again.';
     }
     return signIn(email, password);
+  };
+
+  const resendVerification = async (email: string) => {
+    try {
+      const res = await fetch(`${supabaseUrl}/functions/v1/sign-up`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'resend', email: email.trim() })
+      });
+      return res.ok ? null : 'Could not request verification. Try again.';
+    } catch { return 'No connection. Check your internet and try again.'; }
   };
 
   const forgotPassword = async (email: string) => {
@@ -194,6 +225,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
         signIn,
         signUp,
         signOut,
+        resendVerification,
         notice,
         forgotPassword,
         setNewPassword,

@@ -1,14 +1,17 @@
 import React from 'react';
+import { useSecureNotes } from '../../cloud/secureNotes';
 import { MessageSquareQuote } from 'lucide-react';
 import { ClientProfile } from '../../types';
 import { formatDate } from '../../lib/workouts';
 
 /** Notes the coach chose to share, newest (pinned first). */
 export const CoachNotesCard: React.FC<{ client: ClientProfile }> = ({ client }) => {
-  const notes = (client.coachNotes ?? [])
+  const { notes: secureNotes, error } = useSecureNotes(client);
+  const notes = secureNotes
     .filter((n) => n.shared)
     .sort((a, b) => Number(!!b.pinned) - Number(!!a.pinned) || b.date.localeCompare(a.date))
     .slice(0, 2);
+  if (error) return <p role="status" className="text-sm text-gray-500 mb-4">Shared notes are temporarily unavailable.</p>;
   if (!notes.length) return null;
   return (
     <section className="bg-white rounded-[28px] border border-gray-100 shadow-[0_2px_14px_rgba(0,0,0,0.04)] p-4 sm:p-5 mb-4">
