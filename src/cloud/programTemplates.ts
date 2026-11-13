@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ProgramTemplate } from '../lib/programTemplates';
 import { supabase } from './supabase';
 
@@ -9,31 +9,81 @@ const DEMO_KEY = 'pf.programTemplates.v1';
 export function useProgramTemplates() {
   const [templates, setTemplates] = useState<ProgramTemplate[]>([]);
   const [ready, setReady] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const mountedRef = useRef(true);
+  const requestIdRef = useRef(0);
+  const inFlightRef = useRef(false);
 
-  useEffect(() => {
-    let live = true;
+  const load = useCallback(async () => {
+    const reqId = ++requestIdRef.current;
+    inFlightRef.current = true;
+    setLoading(true);
+
     if (!supabase) {
       try {
         const saved = JSON.parse(localStorage.getItem(DEMO_KEY) ?? '[]') as ProgramTemplate[];
-        if (live) setTemplates(Array.isArray(saved) ? saved : []);
-      } catch { if (live) setTemplates([]); }
-      if (live) setReady(true);
-      return () => { live = false; };
+        if (mountedRef.current && reqId === requestIdRef.current) {
+          setTemplates(Array.isArray(saved) ? saved : []);
+          setError(null);
+          setReady(true);
+        }
+      } catch {
+        if (mountedRef.current && reqId === requestIdRef.current) {
+          setTemplates([]);
+          setError(null);
+          setReady(true);
+        }
+      } finally {
+        if (mountedRef.current && reqId === requestIdRef.current) {
+          inFlightRef.current = false;
+          setLoading(false);
+        }
+      }
+      return;
     }
-    supabase.from('program_templates').select('data').order('created_at', { ascending: false }).then(({ data, error: loadError }) => {
-      if (!live) return;
+
+    try {
+      const { data, error: loadError } = await supabase
+        .from('program_templates')
+        .select('data')
+        .order('created_at', { ascending: false });
+      if (!mountedRef.current || reqId !== requestIdRef.current) return;
       if (loadError) {
         // Feature stays hidden until migration has been approved and applied.
         setReady(false);
         setError(loadError.message);
       } else {
         setTemplates((data ?? []).map((row: { data: ProgramTemplate }) => row.data));
+        setError(null);
         setReady(true);
       }
-    });
-    return () => { live = false; };
+    } catch (err) {
+      if (!mountedRef.current || reqId !== requestIdRef.current) return;
+      setReady(false);
+      setError(err instanceof Error ? err.message : 'Program templates could not load.');
+    } finally {
+      if (mountedRef.current && reqId === requestIdRef.current) {
+        inFlightRef.current = false;
+        setLoading(false);
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    void load();
+    return () => {
+      mountedRef.current = false;
+      inFlightRef.current = false;
+      requestIdRef.current += 1;
+    };
+  }, [load]);
+
+  const reload = useCallback(async () => {
+    if (inFlightRef.current) return;
+    await load();
+  }, [load]);
 
   const save = useCallback(async (template: ProgramTemplate) => {
     if (!ready) throw new Error('Program templates are not enabled.');
@@ -58,5 +108,5 @@ export function useProgramTemplates() {
     setTemplates((prev) => prev.filter((t) => t.id !== id));
   }, [ready, templates]);
 
-  return { templates, ready, error, save, remove };
+  return { templates, ready, loading, error, reload, save, remove };
 }

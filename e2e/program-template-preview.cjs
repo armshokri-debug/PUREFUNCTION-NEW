@@ -69,7 +69,26 @@ async function measureOverflow(page) {
   );
 
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
-  await ctx.route('https://mock.supabase.co/**', mock.handler);
+  let templateGetMode = 'ok';
+  let templateGetCount = 0;
+  await ctx.route('https://mock.supabase.co/**', async (route) => {
+    const req = route.request();
+    const url = new URL(req.url());
+    if (req.method() === 'GET' && url.pathname === '/rest/v1/program_templates') {
+      templateGetCount++;
+      if (templateGetMode === 'fail') {
+        return route.fulfill({
+          status: 500,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify({ message: 'Simulated template load failure' })
+        });
+      }
+      if (templateGetMode === 'delay-ok') {
+        await new Promise((r) => setTimeout(r, 300));
+      }
+    }
+    return mock.handler(route);
+  });
   await ctx.routeWebSocket(/wss:\/\/mock\.supabase\.co\/.*/, mock.wsHandler);
   const page = await ctx.newPage();
   const pageErrors = [];
@@ -284,9 +303,70 @@ async function measureOverflow(page) {
     { id: longTemplate.id, owner_id: coachProfile.id, data: longTemplate, created_at: '2026-11-05T10:00:00.000Z' }
   );
 
+  // ---------------- Retry failed template loading ----------------
+  templateGetMode = 'fail';
+  const retryLogStart = mock.log.length;
+  const retryWorkoutsBefore = JSON.stringify(mock.db.workouts);
+  const retryClientsBefore = JSON.stringify(mock.db.clients);
+  const retryTemplatesBefore = JSON.stringify(mock.db.program_templates);
+
   await page.reload();
   await page.getByRole('button', { name: 'Programs' }).first().click();
+
+  const retryBtn = page.getByRole('button', { name: /Retry|Retrying/ });
+  await retryBtn.waitFor();
+  ok(await page.getByText('Program templates could not load.').isVisible(), 'initial load failure shows error message');
+  ok((await page.getByLabel('Saved template').count()) === 0, 'template interface stays hidden on load failure');
+  const retryBox = await retryBtn.boundingBox();
+  ok(!!retryBox && retryBox.height >= 44, `Retry button height >= 44px (${retryBox ? Math.round(retryBox.height) : 0}px)`);
+
+  // Check error/retry state does not overflow mobile 375px
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.waitForTimeout(150);
+  const retryMobileOverflow = await measureOverflow(page);
+  ok(retryMobileOverflow.pageOverflow <= 0 && retryMobileOverflow.offRight.length === 0, 'retry state has no overflow at 375px');
+  await page.setViewportSize({ width: 1440, height: 900 });
+
+  const retryClickLogStart = mock.log.length;
+
+  // Repeated failure via keyboard Enter still permits retry
+  await retryBtn.focus();
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(200);
+  ok(await page.getByText('Program templates could not load.').isVisible(), 'repeated failure keeps error message');
+  ok(await retryBtn.isEnabled(), 'repeated failure retains usable Retry button');
+
+  // Keyboard Space retry with delayed success: verifies loading feedback and duplicate-click prevention
+  templateGetMode = 'delay-ok';
+  templateGetCount = 0;
+  await retryBtn.focus();
+  await page.keyboard.press('Space');
+  await page.waitForTimeout(50);
+  ok(await page.getByText('Loading program templates…').isVisible(), 'pending retry shows loading feedback');
+  ok(await retryBtn.isDisabled(), 'Retry button is disabled while request is pending');
+  await retryBtn.click({ force: true });
   await page.getByLabel('Saved template').waitFor();
+  ok(templateGetCount === 1, `pending retry prevents duplicate requests (count=${templateGetCount})`);
+  ok((await page.getByText('Program templates could not load.').count()) === 0, 'loading error clears after successful retry');
+
+  const retryRestWriteLogs = mock.log
+    .slice(retryLogStart)
+    .filter(
+      (entry) =>
+        /^(POST|PATCH|PUT|DELETE)\s+\/rest\/v1\//.test(entry) &&
+        !/^POST\s+\/rest\/v1\/rpc\/(pf_head_coach|pf_list_trainers)\b/.test(entry)
+    );
+  const retryClickWriteLogs = mock.log
+    .slice(retryClickLogStart)
+    .filter((entry) => /^(POST|PATCH|PUT|DELETE)\b/.test(entry));
+  ok(
+    retryRestWriteLogs.length === 0 && retryClickWriteLogs.length === 0,
+    `failed load and retry trigger zero data writes (rest=${retryRestWriteLogs.length}, retry=${retryClickWriteLogs.length})`
+  );
+  ok(JSON.stringify(mock.db.workouts) === retryWorkoutsBefore, 'retry leaves client workouts untouched');
+  ok(JSON.stringify(mock.db.clients) === retryClientsBefore, 'retry leaves client profiles untouched');
+  ok(JSON.stringify(mock.db.program_templates) === retryTemplatesBefore, 'retry leaves templates untouched');
+  templateGetMode = 'ok';
 
   const toggle = page.getByRole('button', { name: /Show preview|Hide preview/ });
   ok((await toggle.getAttribute('aria-expanded')) === 'false', 'preview starts collapsed (aria-expanded=false)');

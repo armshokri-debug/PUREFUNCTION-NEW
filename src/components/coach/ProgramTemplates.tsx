@@ -66,7 +66,7 @@ export const ProgramTemplates: React.FC<{
   client: ClientProfile;
   onApply: (template: ProgramTemplate, ids: string[], start: string) => void;
 }> = ({ clients, client, onApply }) => {
-  const { templates, ready, error, save, remove } = useProgramTemplates();
+  const { templates, ready, loading, error, reload, save, remove } = useProgramTemplates();
   const [name, setName] = useState('');
   const [scope, setScope] = useState<'week' | 'program'>('week');
   const [sourceDate, setSourceDate] = useState(todayISO());
@@ -76,7 +76,26 @@ export const ProgramTemplates: React.FC<{
   const [feedback, setFeedback] = useState('');
   const [busy, setBusy] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
-  if (!ready) return <p role="status" className="text-sm text-gray-500 mb-4">{error ? "Program templates could not load. Reload to retry." : "Loading program templates…"}</p>; // Cloud migration not applied: hide feature completely.
+  if (!ready) {
+    if (!error) {
+      return <p role="status" className="text-sm text-gray-500 mb-4">Loading program templates…</p>;
+    }
+    return (
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 mb-6 flex flex-wrap items-center justify-between gap-3">
+        <p role="status" className="text-sm text-gray-600 min-w-0">
+          {loading ? 'Loading program templates…' : 'Program templates could not load.'}
+        </p>
+        <button
+          type="button"
+          disabled={loading}
+          onClick={() => void reload()}
+          className="min-h-[44px] border border-gray-200 rounded-xl px-4 text-sm font-medium text-[#111827] hover:bg-gray-50 disabled:opacity-50"
+        >
+          {loading ? 'Retrying…' : 'Retry'}
+        </button>
+      </div>
+    );
+  }
   const selected = templates.find((t) => t.id === selectedId) ?? templates[0];
   const previewData = selected ? groupTemplateDaysByWeek(selected) : null;
   const previewScopeLabel =
