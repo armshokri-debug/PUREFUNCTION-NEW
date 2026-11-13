@@ -1,7 +1,8 @@
 // Shared by the email Edge Functions. Sends through Resend (https://resend.com).
 // Secrets: RESEND_API_KEY (required), EMAIL_FROM (optional, needs a verified domain),
 // APP_URL (optional).
-export const APP_URL = Deno.env.get('APP_URL') ?? 'https://audiovido.github.io/Purefunction-2/';
+import { resolveAppUrl } from './app-url.ts';
+export const APP_URL = resolveAppUrl(Deno.env.get('APP_URL'));
 const FROM = Deno.env.get('EMAIL_FROM') ?? 'Pure Function <onboarding@resend.dev>';
 
 export const cors = {

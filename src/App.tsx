@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { CoachAccounts } from './components/coach/CoachAccounts';
+import { FoodDiary } from './components/FoodDiary';
+import { PostureReports } from './components/PostureReports';
 import { supabase } from './cloud/supabase';
 import { ProfilePhotoButton } from './components/client/ProfilePhotoButton';
 import { useSession, Profile } from './cloud/Session';
@@ -81,7 +84,7 @@ export default function App() {
   if (status === 'signed-out') return <SignedOut />;
   if (status === 'no-access') return <NoAccessScreen />;
   if (status === 'reset') return <NewPasswordScreen />;
-  return <CloudApp profile={profile!} />;
+  return <CloudApp key={profile!.id} profile={profile!} />;
 }
 
 /** Invite links (?ref=CODE) show the referral form; everyone else sees sign-in. */
@@ -101,9 +104,20 @@ function LocalApp() {
 }
 
 function CloudApp({ profile }: { profile: Profile }) {
+  const { signOut } = useSession();
   const store = useCloudClientsStore(profile);
   if (!store.loaded) return <LoadingScreen label="Loading your data…" />;
-  if (store.loadError) return <LoadingScreen label={`Couldn’t load data: ${store.loadError}`} />;
+  if (store.loadError) return <div className="max-w-md mx-auto p-6 break-words" role="alert">
+    <h1 className="text-xl font-bold mb-3">Data needs a fresh load</h1>
+    <p>{store.loadError}</p>
+    <p className="text-sm my-3">Changes are not confirmed saved. Download a private copy of your unsaved work before reloading.</p>
+    {store.clients.length > 0 && <button className="block min-h-[44px] underline" onClick={() => {
+      const url = URL.createObjectURL(new Blob([JSON.stringify({ saved: false, clients: store.clients }, null, 2)], { type: 'application/json' }));
+      const link = document.createElement('a'); link.href = url; link.download = 'pure-function-unsaved-changes.json'; link.click(); URL.revokeObjectURL(url);
+    }}>Download unsaved changes</button>}
+    <button className="block min-h-[44px] underline" onClick={() => window.location.reload()}>Reload latest data</button>
+    <button className="block min-h-[44px] underline" onClick={() => void signOut()}>Sign out</button>
+  </div>;
   return (
     <ExerciseLibraryProvider>
       <Workspace store={store} profile={profile} />
@@ -167,7 +181,7 @@ function Workspace({ store, profile }: { store: ClientsStore; profile: Profile |
   const { clients, setClients, sync } = store;
   const isClientUser = profile?.role === 'client';
   const [roleState, setRole] = useState<Role>(isClientUser ? 'client' : 'coach');
-  const role: Role = isClientUser ? 'client' : roleState;
+  const role: Role = profile ? profile.role : roleState;
   const [coachTab, setCoachTab] = useState<CoachTab>(() => {
     const saved = readSaved('pf.coachTab');
     return COACH_NAV_ITEMS.some((i) => i.id === saved) ? (saved as CoachTab) : 'clients';
@@ -188,7 +202,7 @@ function Workspace({ store, profile }: { store: ClientsStore; profile: Profile |
 
   const selectedClient: ClientProfile | undefined =
     clients.find((c) => c.id === selectedClientId) || (isClientUser ? undefined : clients[0]);
-  const canPreviewClient = !!selectedClient;
+  const canPreviewClient = !profile && !!selectedClient;
   const unreadCount = useUnreadCount(role, role === 'client' ? selectedClient?.id ?? null : null);
 
   // Cloud: which clients have created their account (for "Not joined · Invite").
@@ -363,7 +377,7 @@ function Workspace({ store, profile }: { store: ClientsStore; profile: Profile |
             )}
 
             {/* Role Toggle Pill (coach can preview the client's view) */}
-            <div className="bg-gray-300/75 p-1 rounded-xl grid grid-cols-1 lg:grid-cols-2 gap-1">
+            {!profile && <div className="bg-gray-300/75 p-1 rounded-xl grid grid-cols-1 lg:grid-cols-2 gap-1">
               <button
                 onClick={() => setRole('coach')}
                 className="py-1.5 rounded-lg text-[10px] lg:text-xs font-semibold transition-colors cursor-pointer bg-white text-[#111827] shadow-2xs"
@@ -379,6 +393,8 @@ function Workspace({ store, profile }: { store: ClientsStore; profile: Profile |
                 Client
               </button>
             </div>
+
+            }
 
             {profile && (
               <div className="px-0 lg:px-2 flex flex-col lg:flex-row items-center lg:justify-between gap-1 lg:gap-2">
@@ -461,7 +477,7 @@ function Workspace({ store, profile }: { store: ClientsStore; profile: Profile |
           )}
 
           {/* Role Switcher in Header */}
-          {!isClientUser && (
+          {!profile && (
           <div className="bg-gray-100 p-0.5 rounded-xl inline-flex items-center">
             <button
               onClick={() => setRole('coach')}
@@ -519,6 +535,7 @@ function Workspace({ store, profile }: { store: ClientsStore; profile: Profile |
                     joinedIds={joinedIds}
                   />
                   {supabase && <ReferralsPanel clients={clients} />}
+                  {supabase && <CoachAccounts />}
                 </>
               )
             )}
@@ -563,6 +580,8 @@ function Workspace({ store, profile }: { store: ClientsStore; profile: Profile |
             ) : clientTab === 'today' ? (
               <>
               <CoachNotesCard client={selectedClient} />
+              <PostureReports clientId={selectedClient.id} />
+              <FoodDiary clientId={selectedClient.id} />
               <NutritionTodayCard client={selectedClient} onUpdateClient={handleUpdateClient} />
               <ClientTodayView
                 client={selectedClient}

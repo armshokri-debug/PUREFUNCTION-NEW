@@ -30,7 +30,7 @@ const today = iso(new Date());
 
 (async () => {
   const mock = createMock({ coachEmail: 'coach@example.com' });
-  const b = await chromium.launch();
+  const b = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {});
   const open = async (viewport) => {
     const ctx = await b.newContext({ viewport });
     await ctx.route('https://mock.supabase.co/**', mock.handler);
@@ -41,6 +41,10 @@ const today = iso(new Date());
     await p.goto(`http://localhost:${PORT}/`);
     return p;
   };
+  const verify = async (p, email) => {
+    const mail = [...mock.db.emails].reverse().find(e => e.kind === 'verify' && e.to === email.toLowerCase());
+    if (mail) await p.goto(`http://localhost:${PORT}/?verify=${mail.token}`);
+  };
   const signUp = async (p, name, email, pw, who = 'client') => {
     await p.getByRole('tab', { name: who === 'coach' ? 'I’m the coach' : 'I’m a client' }).click();
     await p.getByRole('button', { name: who === 'coach' ? 'Create coach account' : 'Set up your account' }).click();
@@ -48,6 +52,8 @@ const today = iso(new Date());
     await p.getByLabel('Email').fill(email);
     await p.getByLabel('Password').fill(pw);
     await p.locator('form button[type=submit]').click();
+    await p.waitForTimeout(300);
+    await verify(p, email);
   };
   const shot = (p, n) => shots && p.screenshot({ path: `${shots}/${n}.png` });
 
@@ -58,8 +64,7 @@ const today = iso(new Date());
   await S.getByRole('tab', { name: 'I’m the coach' }).click();
   ok(await S.getByRole('heading', { name: 'Coach sign in' }).isVisible(), 'separate coach sign-in');
   await signUp(S, 'Eve', 'eve@example.com', 'password123');
-  await S.getByText(/isn’t on your coach’s list/).waitFor({ timeout: 8000 }).catch(() => {});
-  ok(await S.getByText(/isn’t on your coach’s list/).isVisible(), 'unknown email cannot create an account');
+  ok(!mock.db.users.some(u => u.email === 'eve@example.com'), 'unknown email cannot create an account');
   await shot(S, 'cloud-signup-blocked');
 
   /* ---------------- coach ---------------- */
@@ -115,19 +120,37 @@ const today = iso(new Date());
   ok(await C.getByText('Saved', { exact: true }).first().isVisible(), 'sync badge shows Saved');
   await shot(C, 'cloud-coach-builder');
 
+  // Private notes use the secure table and never enter clients.data.
+  await C.getByRole('button', { name: 'Notes', exact: true }).click();
+  await C.getByPlaceholder(/Left knee tight/).fill('Private recovery note');
+  await C.getByRole('button', { name: 'Save note', exact: true }).click();
+  await C.getByText('Private recovery note', { exact: true }).waitFor();
+  ok(mock.db.coach_notes_secure.length === 1, 'coach note persists in secure table');
+  ok(!mock.db.clients.find(c => c.id === ryanRow.id).data.coachNotes, 'private note is absent from client JSON');
+  await C.getByRole('button', { name: 'Exercises', exact: true }).click();
+
   /* ---------------- client ---------------- */
-  const R = await open({ width: 390, height: 844 });
+  const R = await open({ width: 375, height: 812 });
   await R.goto(`http://localhost:${PORT}/?join=ryan%40example.com`);
   await R.getByRole('heading', { name: 'Set up your account' }).waitFor();
   ok((await R.getByLabel('Email').inputValue()) === 'ryan@example.com', 'invite link opens client set-up with the email filled in');
   await R.getByLabel('Your name').fill('Ryan');
   await R.getByLabel('Password').fill('ryanpass1');
   await R.locator('form button[type=submit]').click();
+  await R.waitForTimeout(300);
+  await verify(R, 'ryan@example.com');
   await R.getByRole('heading', { name: /Goblet Squat/ }).first().waitFor({ timeout: 10000 });
   ok(true, 'client signs up with the email the coach added and sees today’s workout');
   ok((await R.getByRole('button', { name: 'Coach' }).count()) === 0, 'client has no coach switch');
   ok((await R.getByText(/Workouts this week/).count()) === 0, 'client cannot see the coach screens');
   await shot(R, 'cloud-client-today');
+  ok(!(await R.getByText('Private recovery note', { exact: true }).count()), 'private coach note is not rendered for client');
+  await R.getByLabel('Food and portion', { exact: true }).fill('Yogurt, one serving');
+  await R.getByLabel('Calories (kcal)', { exact: true }).fill('120');
+  await R.getByLabel('Protein (g)', { exact: true }).fill('15');
+  await R.getByRole('button', { name: 'Save meal', exact: true }).click();
+  await R.getByText(/120 kcal/).waitFor();
+  ok(mock.db.food_entries.length === 1 && mock.db.food_items[0].protein === 15, 'client food diary uses normalized secure RPC');
 
   ok(!(await R.evaluate(() => location.search.includes('join='))), 'invite parameter removed after sign-in');
   // live: coach adds an exercise -> appears on client without reload
@@ -193,6 +216,16 @@ const today = iso(new Date());
   ok(/\/storage\/v1\/object\/sign\/exercise-videos\/.+\?token=/.test(src || ''), 'player uses a short-lived signed link to the private video');
   ok(mock.log.some((l) => l.startsWith('GET /storage/v1/object/sign/exercise-videos/')), 'browser fetched the video through that link');
 
+  // Failed library writes keep the editor open and preserve existing media.
+  await C.getByRole('button', { name: 'New exercise' }).click();
+  await C.getByPlaceholder('e.g. Left AIC Split Squat').fill('Unconfirmed exercise');
+  mock.db.failNextExerciseWrite = true;
+  await C.getByRole('button', { name: 'Save', exact: true }).click();
+  await C.getByText(/Exercise was not saved/).waitFor();
+  ok(!mock.db.exercises.some(e => e.data.name === 'Unconfirmed exercise'), 'failed exercise write is not presented as saved');
+  ok(Object.keys(mock.db.files).length === 1, 'failed edit preserves existing video');
+  await C.getByRole('button', { name: 'Close', exact: true }).click();
+
   /* ---------------- private assessment video for Ryan ---------------- */
   await C.getByRole('button', { name: 'Clients' }).first().click();
   await C.locator('main').getByText('Ryan Lee', { exact: true }).first().click();
@@ -237,6 +270,20 @@ const today = iso(new Date());
   await R.getByText('Workout completed').waitFor({ timeout: 10000 }).catch(() => {});
   ok(await R.getByText('Workout completed').isVisible(), 'client can sign back in');
 
+  // Messaging is exercised through the real UI and active table, never legacy messages.
+  await C.getByRole('button', { name: 'Messages', exact: true }).first().click();
+  await C.getByRole('button', { name: /Ryan Lee/ }).first().click();
+  await R.getByRole('button', { name: 'Chat', exact: true }).click();
+  await R.getByPlaceholder('Message Coach…').fill('Ready for the next session');
+  await R.getByRole('button', { name: 'Send', exact: true }).click();
+  await C.getByText('Ready for the next session', { exact: true }).last().waitFor();
+  ok(mock.db.coach_messages.some(m => m.body === 'Ready for the next session' && !m.from_coach), 'client message persists in active coach_messages table');
+  await C.getByPlaceholder('Message Ryan…').fill('See you at training');
+  await C.getByRole('button', { name: 'Send', exact: true }).click();
+  await R.getByText('See you at training', { exact: true }).waitFor();
+  ok(true, 'coach reply arrives on client device');
+  await R.getByRole('button', { name: 'Today', exact: true }).click();
+
   // forgot password -> email link -> new password
   const F = await open({ width: 390, height: 844 });
   await F.getByRole('button', { name: 'Forgot password?' }).click();
@@ -258,6 +305,56 @@ const today = iso(new Date());
   await F.goto(`http://localhost:${PORT}/?reset=${mail.token}`);
   await F.getByText('reset link has expired').waitFor({ timeout: 8000 }).catch(() => {});
   ok(await F.getByText('reset link has expired').isVisible() || (await F.getByText('Workout completed').isVisible()), 'used reset link is not accepted twice');
+
+  // Cancelling password recovery must not leave future sign-ins stuck.
+  const cancelToken = 'rst-cancel-fixture';
+  mock.db.resetTokens[cancelToken] = mock.db.users.find(u => u.email === 'ryan@example.com').id;
+  const K = await open({ width: 375, height: 812 });
+  await K.goto(`http://localhost:${PORT}/?reset=${cancelToken}`);
+  await K.getByRole('heading', { name: 'Choose a new password', exact: true }).waitFor();
+  await K.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await K.getByLabel('Email', { exact: true }).fill('ryan@example.com');
+  await K.getByLabel('Password', { exact: true }).fill('newpass99');
+  await K.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await K.getByText('Workout completed', { exact: true }).waitFor();
+  ok(true, 'cancelled recovery does not block a later login');
+  K.errors.forEach(e => C.errors.push(e));
+
+  // Second independent coach: real UI against the scoped mock, no production fixture.
+  const O = await open({ width: 768, height: 1024 });
+  await signUp(O, 'Other Coach', 'othercoach@example.com', 'otherpass1', 'coach');
+  await O.getByRole('heading', { name: 'Clients', exact: true }).waitFor();
+  ok(!(await O.getByText('Ryan Lee', { exact: true }).count()), 'second coach cannot see first coach roster');
+  ok((await O.getByRole('button', { name: 'Client', exact: true }).count()) === 0, 'cloud coach cannot switch into client role');
+  const otherToken = mock.db.users.find(u => u.email === 'othercoach@example.com').id;
+  const ownToken = mock.db.users.find(u => u.email === 'ryan@example.com').id;
+  const scopeChecks = await O.evaluate(async ({ otherToken, ownToken, clientId, workoutId }) => {
+    const h = tok => ({ apikey: 'anon', Authorization: 'Bearer tok-' + tok, 'Content-Type': 'application/json' });
+    const foreign = await fetch('https://mock.supabase.co/rest/v1/clients?id=eq.'+clientId, { headers: h(otherToken) });
+    const notes = await fetch('https://mock.supabase.co/rest/v1/coach_notes_secure', { headers: h(ownToken) });
+    const prescription = await fetch('https://mock.supabase.co/rest/v1/workouts?id=eq.'+workoutId, { method: 'PATCH', headers: h(ownToken), body: JSON.stringify({data:{title:'forged'}}) });
+    return { foreign: await foreign.json(), notes: await notes.json(), prescription: prescription.status };
+  }, { otherToken, ownToken, clientId: ryanRow.id, workoutId: w.id });
+  ok(scopeChecks.foreign.length === 0 && scopeChecks.notes.length === 0, 'scoped REST hides foreign client and private notes');
+  ok(mock.db.workouts.find(x => x.id === w.id).data.title !== 'forged', 'direct client PATCH cannot overwrite a prescription');
+  ok(mock.log.some(l => l.startsWith('POST /rest/v1/rpc/save_workout_results_secure')), 'client logging uses secure result RPC');
+  O.errors.forEach(e => C.errors.push(e));
+
+  for (const width of [375, 768, 1024, 1440]) {
+    await R.setViewportSize({ width, height: 900 });
+    ok((await R.evaluate(() => document.documentElement.scrollWidth === innerWidth)), `cloud client layout at ${width}px`);
+  }
+
+  // A stale coach editor must fail closed instead of replacing newer results.
+  await C.getByRole('button', { name: 'Clients', exact: true }).first().click();
+  if (!(await C.getByRole('button', { name: 'Exercises', exact: true }).count())) await C.locator('main').getByText('Ryan Lee', { exact: true }).first().click();
+  await C.getByRole('button', { name: 'Exercises', exact: true }).click();
+  const serverWorkout = mock.db.workouts.find(x => x.id === w.id);
+  const protectedReps = serverWorkout.data.blocks[0].reps;
+  serverWorkout.updated_at = new Date(Date.now() + 10000).toISOString(); // another device, deliberately no event
+  await C.locator('input[placeholder="8-10"]').first().fill('12');
+  await C.getByRole('heading', { name: 'Data needs a fresh load', exact: true }).waitFor();
+  ok(serverWorkout.data.blocks[0].reps === protectedReps, 'stale editor cannot overwrite a newer workout version');
 
   // layout
   for (const [n, p] of [['client', R], ['stranger', S], ['reset', F]]) {

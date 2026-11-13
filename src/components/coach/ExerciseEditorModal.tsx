@@ -18,8 +18,8 @@ import { ExerciseVideoPlayer } from '../ExerciseMedia';
 interface Props {
   /** Existing exercise to edit, or null to create a new one. */
   exercise: Exercise | null;
-  onSave: (exercise: Exercise) => void;
-  onDelete?: (id: string) => void;
+  onSave: (exercise: Exercise) => Promise<void>;
+  onDelete?: (id: string) => Promise<void>;
   onClose: () => void;
 }
 
@@ -122,7 +122,9 @@ export const ExerciseEditorModal: React.FC<Props> = ({ exercise, onSave, onDelet
       };
     }
 
-    onSave({
+    setSaving(true);
+    try {
+    await onSave({
       ...(exercise ?? { isCustom: true, source: 'coach' }),
       id,
       name: name.trim(),
@@ -142,6 +144,8 @@ export const ExerciseEditorModal: React.FC<Props> = ({ exercise, onSave, onDelet
     clearPending();
     setSaving(false);
     onClose();
+    } catch { setFormError("Exercise was not saved. Your existing exercise and video are unchanged."); }
+    finally { setSaving(false); }
   };
 
   const shownVideo: ExerciseVideo | undefined = pendingFile ? undefined : video;
@@ -350,7 +354,7 @@ export const ExerciseEditorModal: React.FC<Props> = ({ exercise, onSave, onDelet
         <div className="sticky bottom-0 bg-white border-t border-gray-100 px-5 sm:px-6 py-4 flex items-center justify-between gap-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
           {!isNew && exercise?.isCustom && onDelete ? (
             confirmDelete ? (
-              <button onClick={() => { onDelete(exercise.id); onClose(); }} className="text-sm font-semibold text-red-600 cursor-pointer">
+              <button disabled={saving} onClick={async () => { setSaving(true); try { await onDelete(exercise.id); onClose(); } catch { setFormError('Exercise was not removed. Try again.'); } finally { setSaving(false); } }} className="text-sm font-semibold text-red-600 cursor-pointer">
                 Tap again to delete
               </button>
             ) : (

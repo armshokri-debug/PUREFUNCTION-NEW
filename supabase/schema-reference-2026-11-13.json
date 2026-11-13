@@ -1,0 +1,5915 @@
+{
+  "capturedAt": "2026-11-13",
+  "project": "rugwzvztweiffprkxfdc",
+  "scope": "Catalog only; no user rows, credentials or storage objects. Not a complete database backup.",
+  "grants": [
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "program_templates",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_notes_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_public_reports",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "signup_verification_resends",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "signup_verification_resends",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "signup_verification_resends",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "signup_verification_resends",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "signup_verification_resends",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "signup_verification_resends",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "signup_verification_resends",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referral_codes",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "referrals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "credit_redemptions",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "clients",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "workouts",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "exercises",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_entries",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "food_items",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "favorite_meals",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "posture_reviews_secure",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_messages",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "service_role",
+      "grantor": "postgres",
+      "table_name": "coach_client_assignments",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    }
+  ],
+  "columns": [
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_allowlist",
+      "column_name": "email",
+      "is_nullable": "NO",
+      "table_schema": "private",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "settings",
+      "column_name": "key",
+      "is_nullable": "NO",
+      "table_schema": "private",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "settings",
+      "column_name": "value",
+      "is_nullable": "NO",
+      "table_schema": "private",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "clients",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "clients",
+      "column_name": "email",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "''::text"
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "clients",
+      "column_name": "data",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "clients",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "clients",
+      "column_name": "coach_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "coach_client_assignments",
+      "column_name": "coach_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_client_assignments",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "coach_messages",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_messages",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "coach_messages",
+      "column_name": "from_coach",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_messages",
+      "column_name": "body",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "''::text"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_messages",
+      "column_name": "attachment_path",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_messages",
+      "column_name": "attachment_type",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "coach_messages",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "coach_messages",
+      "column_name": "read_at",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_notes_secure",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_notes_secure",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_notes_secure",
+      "column_name": "date",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "''::text"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "coach_notes_secure",
+      "column_name": "text",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "''::text"
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "coach_notes_secure",
+      "column_name": "shared",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "false"
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "coach_notes_secure",
+      "column_name": "pinned",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "false"
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "coach_notes_secure",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "credit_redemptions",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "credit_redemptions",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "numeric",
+      "data_type": "numeric",
+      "table_name": "credit_redemptions",
+      "column_name": "amount",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "credit_redemptions",
+      "column_name": "note",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "''::text"
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "credit_redemptions",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "exercises",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "exercises",
+      "column_name": "data",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "exercises",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "favorite_meals",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "favorite_meals",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "favorite_meals",
+      "column_name": "name",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "favorite_meals",
+      "column_name": "items",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "favorite_meals",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "food_entries",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_entries",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "date",
+      "data_type": "date",
+      "table_name": "food_entries",
+      "column_name": "date",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_entries",
+      "column_name": "description",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "food_entries",
+      "column_name": "idempotency_key",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_entries",
+      "column_name": "status",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "food_entries",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "food_items",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "food_items",
+      "column_name": "entry_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_items",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_items",
+      "column_name": "name",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "numeric",
+      "data_type": "numeric",
+      "table_name": "food_items",
+      "column_name": "quantity",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_items",
+      "column_name": "unit",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "numeric",
+      "data_type": "numeric",
+      "table_name": "food_items",
+      "column_name": "grams",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_items",
+      "column_name": "state",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "numeric",
+      "data_type": "numeric",
+      "table_name": "food_items",
+      "column_name": "kcal",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "numeric",
+      "data_type": "numeric",
+      "table_name": "food_items",
+      "column_name": "protein",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_items",
+      "column_name": "source",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_items",
+      "column_name": "sourceId",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_items",
+      "column_name": "assumptions",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "''::text"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "food_items",
+      "column_name": "version",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "'food-v1'::text"
+    },
+    {
+      "udt_name": "numeric",
+      "data_type": "numeric",
+      "table_name": "food_items",
+      "column_name": "kcalPerGram",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "numeric",
+      "data_type": "numeric",
+      "table_name": "food_items",
+      "column_name": "proteinPerGram",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "messages",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "messages",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "messages",
+      "column_name": "sender",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "messages",
+      "column_name": "body",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "messages",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "messages",
+      "column_name": "read_at",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "posture_public_reports",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "posture_public_reports",
+      "column_name": "assessment_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "posture_public_reports",
+      "column_name": "data",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "posture_public_reports",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "posture_reviews_secure",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "posture_reviews_secure",
+      "column_name": "assessment_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "posture_reviews_secure",
+      "column_name": "data",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "posture_reviews_secure",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "profiles",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "profiles",
+      "column_name": "role",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "profiles",
+      "column_name": "display_name",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "''::text"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "profiles",
+      "column_name": "client_id",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "profiles",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "program_templates",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "program_templates",
+      "column_name": "owner_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "auth.uid()"
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "program_templates",
+      "column_name": "data",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "program_templates",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "referral_codes",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "referral_codes",
+      "column_name": "code",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "referral_codes",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "referrals",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "referrals",
+      "column_name": "referrer_client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "referrals",
+      "column_name": "name",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "referrals",
+      "column_name": "email",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "referrals",
+      "column_name": "location",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "''::text"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "referrals",
+      "column_name": "note",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "''::text"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "referrals",
+      "column_name": "status",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "'invited'::text"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "referrals",
+      "column_name": "referred_client_id",
+      "is_nullable": "YES",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "numeric",
+      "data_type": "numeric",
+      "table_name": "referrals",
+      "column_name": "credit",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "0"
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "referrals",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "referrals",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "signup_verification_resends",
+      "column_name": "email_digest",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "_timestamptz",
+      "data_type": "ARRAY",
+      "table_name": "signup_verification_resends",
+      "column_name": "attempts",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "'{}'::timestamp with time zone[]"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "workouts",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "workouts",
+      "column_name": "client_id",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "date",
+      "data_type": "date",
+      "table_name": "workouts",
+      "column_name": "date",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "workouts",
+      "column_name": "data",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "workouts",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "table_schema": "public",
+      "column_default": "now()"
+    }
+  ],
+  "policies": [
+    {
+      "cmd": "SELECT",
+      "qual": "( SELECT private.has_profile() AS has_profile)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "exercises",
+      "permissive": "PERMISSIVE",
+      "policyname": "exercises read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "exercises",
+      "permissive": "PERMISSIVE",
+      "policyname": "exercises insert",
+      "schemaname": "public",
+      "with_check": "( SELECT private.is_coach() AS is_coach)"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(( SELECT private.is_coach() AS is_coach) OR (client_id = ( SELECT private.my_client_id() AS my_client_id)))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "messages",
+      "permissive": "PERMISSIVE",
+      "policyname": "messages read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "( SELECT private.is_coach() AS is_coach)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "exercises",
+      "permissive": "PERMISSIVE",
+      "policyname": "exercises update",
+      "schemaname": "public",
+      "with_check": "( SELECT private.is_coach() AS is_coach)"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "( SELECT private.is_coach() AS is_coach)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "exercises",
+      "permissive": "PERMISSIVE",
+      "policyname": "exercises delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((bucket_id = 'exercise-videos'::text) AND ( SELECT private.has_profile() AS has_profile))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "exercise videos read",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "exercise videos upload",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'exercise-videos'::text) AND ( SELECT private.is_coach() AS is_coach))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((bucket_id = 'exercise-videos'::text) AND ( SELECT private.is_coach() AS is_coach))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "exercise videos update",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'exercise-videos'::text) AND ( SELECT private.is_coach() AS is_coach))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((bucket_id = 'exercise-videos'::text) AND ( SELECT private.is_coach() AS is_coach))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "exercise videos delete",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "messages",
+      "permissive": "PERMISSIVE",
+      "policyname": "messages insert",
+      "schemaname": "public",
+      "with_check": "((( SELECT private.is_coach() AS is_coach) AND (sender = 'coach'::text)) OR ((client_id = ( SELECT private.my_client_id() AS my_client_id)) AND (sender = 'client'::text)))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "(( SELECT private.is_coach() AS is_coach) OR (client_id = ( SELECT private.my_client_id() AS my_client_id)))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "messages",
+      "permissive": "PERMISSIVE",
+      "policyname": "messages update",
+      "schemaname": "public",
+      "with_check": "(( SELECT private.is_coach() AS is_coach) OR (client_id = ( SELECT private.my_client_id() AS my_client_id)))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "( SELECT private.is_coach() AS is_coach)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "messages",
+      "permissive": "PERMISSIVE",
+      "policyname": "messages delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(( SELECT private.is_coach() AS is_coach) AND (owner_id = auth.uid()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "program_templates",
+      "permissive": "PERMISSIVE",
+      "policyname": "coach templates read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "program_templates",
+      "permissive": "PERMISSIVE",
+      "policyname": "coach templates insert",
+      "schemaname": "public",
+      "with_check": "(( SELECT private.is_coach() AS is_coach) AND (owner_id = auth.uid()))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "(( SELECT private.is_coach() AS is_coach) AND (owner_id = auth.uid()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "program_templates",
+      "permissive": "PERMISSIVE",
+      "policyname": "coach templates delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(coach_id = ( SELECT auth.uid() AS uid))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "coach_client_assignments",
+      "permissive": "PERMISSIVE",
+      "policyname": "assignment own read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "(private.can_manage_client(id) OR (id = private.my_client_id()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "clients",
+      "permissive": "PERMISSIVE",
+      "policyname": "clients scoped update",
+      "schemaname": "public",
+      "with_check": "(private.can_manage_client(id) OR (id = private.my_client_id()))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "private.can_manage_client(id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "clients",
+      "permissive": "PERMISSIVE",
+      "policyname": "clients scoped delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(private.can_manage_client(client_id) OR (client_id = private.my_client_id()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "workouts",
+      "permissive": "PERMISSIVE",
+      "policyname": "workouts scoped read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "workouts",
+      "permissive": "PERMISSIVE",
+      "policyname": "workouts coach insert",
+      "schemaname": "public",
+      "with_check": "private.can_manage_client(client_id)"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "private.can_manage_client(client_id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "workouts",
+      "permissive": "PERMISSIVE",
+      "policyname": "workouts coach update",
+      "schemaname": "public",
+      "with_check": "private.can_manage_client(client_id)"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "private.can_manage_client(client_id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "workouts",
+      "permissive": "PERMISSIVE",
+      "policyname": "workouts coach delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "private.can_see_profile(id, client_id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "profiles",
+      "permissive": "PERMISSIVE",
+      "policyname": "profiles scoped read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(private.can_manage_client(client_id) OR (client_id = private.my_client_id()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "coach_messages",
+      "permissive": "PERMISSIVE",
+      "policyname": "coach messages scoped read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "coach_messages",
+      "permissive": "PERMISSIVE",
+      "policyname": "coach messages scoped insert",
+      "schemaname": "public",
+      "with_check": "((private.can_manage_client(client_id) AND from_coach) OR ((client_id = private.my_client_id()) AND (NOT from_coach)))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((private.can_manage_client(client_id) AND (NOT from_coach)) OR ((client_id = private.my_client_id()) AND from_coach))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "coach_messages",
+      "permissive": "PERMISSIVE",
+      "policyname": "coach messages scoped update",
+      "schemaname": "public",
+      "with_check": "((private.can_manage_client(client_id) AND (NOT from_coach)) OR ((client_id = private.my_client_id()) AND from_coach))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((bucket_id = 'message-media'::text) AND (private.can_manage_client((storage.foldername(name))[1]) OR ((storage.foldername(name))[1] = private.my_client_id())))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "message media scoped read",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "message media scoped upload",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'message-media'::text) AND (private.can_manage_client((storage.foldername(name))[1]) OR ((storage.foldername(name))[1] = private.my_client_id())))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(private.can_manage_client(client_id) OR (client_id = private.my_client_id()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "referral_codes",
+      "permissive": "PERMISSIVE",
+      "policyname": "referral codes scoped read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(private.can_manage_client(referrer_client_id) OR (referrer_client_id = private.my_client_id()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "referrals",
+      "permissive": "PERMISSIVE",
+      "policyname": "referrals scoped read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "private.can_manage_client(referrer_client_id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "referrals",
+      "permissive": "PERMISSIVE",
+      "policyname": "referrals scoped update",
+      "schemaname": "public",
+      "with_check": "private.can_manage_client(referrer_client_id)"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "private.can_manage_client(referrer_client_id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "referrals",
+      "permissive": "PERMISSIVE",
+      "policyname": "referrals scoped delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(private.can_manage_client(client_id) OR (client_id = private.my_client_id()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "credit_redemptions",
+      "permissive": "PERMISSIVE",
+      "policyname": "redemptions scoped read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "credit_redemptions",
+      "permissive": "PERMISSIVE",
+      "policyname": "redemptions scoped insert",
+      "schemaname": "public",
+      "with_check": "private.can_manage_client(client_id)"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "private.can_manage_client(client_id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "credit_redemptions",
+      "permissive": "PERMISSIVE",
+      "policyname": "redemptions scoped delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((bucket_id = 'client-videos'::text) AND (private.can_manage_client((storage.foldername(name))[1]) OR ((storage.foldername(name))[1] = private.my_client_id())))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "client videos scoped read",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "client videos scoped upload",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'client-videos'::text) AND private.can_manage_client((storage.foldername(name))[1]))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((bucket_id = 'client-videos'::text) AND private.can_manage_client((storage.foldername(name))[1]))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "client videos scoped update",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'client-videos'::text) AND private.can_manage_client((storage.foldername(name))[1]))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((bucket_id = 'client-videos'::text) AND private.can_manage_client((storage.foldername(name))[1]))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "client videos scoped delete",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((bucket_id = 'inbody-printouts'::text) AND (private.can_manage_client((storage.foldername(name))[1]) OR ((storage.foldername(name))[1] = private.my_client_id())))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "inbody scoped read",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "inbody scoped upload",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'inbody-printouts'::text) AND private.can_manage_client((storage.foldername(name))[1]))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((bucket_id = 'inbody-printouts'::text) AND private.can_manage_client((storage.foldername(name))[1]))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "inbody scoped update",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'inbody-printouts'::text) AND private.can_manage_client((storage.foldername(name))[1]))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((bucket_id = 'inbody-printouts'::text) AND private.can_manage_client((storage.foldername(name))[1]))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "inbody scoped delete",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(private.can_manage_client(client_id) OR (shared AND (client_id = private.my_client_id())))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "coach_notes_secure",
+      "permissive": "PERMISSIVE",
+      "policyname": "notes scoped read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "coach_notes_secure",
+      "permissive": "PERMISSIVE",
+      "policyname": "notes coach insert",
+      "schemaname": "public",
+      "with_check": "private.can_manage_client(client_id)"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "private.can_manage_client(client_id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "coach_notes_secure",
+      "permissive": "PERMISSIVE",
+      "policyname": "notes coach update",
+      "schemaname": "public",
+      "with_check": "private.can_manage_client(client_id)"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "private.can_manage_client(client_id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "coach_notes_secure",
+      "permissive": "PERMISSIVE",
+      "policyname": "notes coach delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((client_id = private.my_client_id()) OR private.can_manage_client(client_id))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "food_entries",
+      "permissive": "PERMISSIVE",
+      "policyname": "food_entries_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "(client_id = private.my_client_id())",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "food_entries",
+      "permissive": "PERMISSIVE",
+      "policyname": "food_entries_client_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((client_id = private.my_client_id()) OR private.can_manage_client(client_id))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "food_items",
+      "permissive": "PERMISSIVE",
+      "policyname": "food_items_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((client_id = private.my_client_id()) OR private.can_manage_client(client_id))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "favorite_meals",
+      "permissive": "PERMISSIVE",
+      "policyname": "favorite_meals_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "favorite_meals",
+      "permissive": "PERMISSIVE",
+      "policyname": "favorite_meals_client_insert",
+      "schemaname": "public",
+      "with_check": "(client_id = private.my_client_id())"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "(client_id = private.my_client_id())",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "favorite_meals",
+      "permissive": "PERMISSIVE",
+      "policyname": "favorite_meals_client_delete",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "private.can_manage_client(client_id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "posture_reviews_secure",
+      "permissive": "PERMISSIVE",
+      "policyname": "posture_review_coach_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "posture_reviews_secure",
+      "permissive": "PERMISSIVE",
+      "policyname": "posture_review_coach_insert",
+      "schemaname": "public",
+      "with_check": "(private.can_manage_client(client_id) AND (assessment_id = 'draft'::text))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "(private.can_manage_client(client_id) AND (assessment_id = 'draft'::text))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "posture_reviews_secure",
+      "permissive": "PERMISSIVE",
+      "policyname": "posture_review_coach_edit",
+      "schemaname": "public",
+      "with_check": "(private.can_manage_client(client_id) AND (assessment_id = 'draft'::text))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((client_id = private.my_client_id()) OR private.can_manage_client(client_id))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "posture_public_reports",
+      "permissive": "PERMISSIVE",
+      "policyname": "posture_public_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((private.basic_is_coach() AND (coach_id = auth.uid())) OR (id = private.my_client_id()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "clients",
+      "permissive": "PERMISSIVE",
+      "policyname": "clients scoped read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "clients",
+      "permissive": "PERMISSIVE",
+      "policyname": "clients coach insert",
+      "schemaname": "public",
+      "with_check": "(private.basic_is_coach() AND (coach_id = auth.uid()))"
+    }
+  ],
+  "triggers": [
+    {
+      "table": "clients",
+      "schema": "public",
+      "definition": "CREATE TRIGGER clients_guard BEFORE UPDATE ON public.clients FOR EACH ROW EXECUTE FUNCTION private.guard_client_email()"
+    },
+    {
+      "table": "workouts",
+      "schema": "public",
+      "definition": "CREATE TRIGGER workouts_touch BEFORE UPDATE ON public.workouts FOR EACH ROW EXECUTE FUNCTION private.touch_updated_at()"
+    },
+    {
+      "table": "exercises",
+      "schema": "public",
+      "definition": "CREATE TRIGGER exercises_touch BEFORE UPDATE ON public.exercises FOR EACH ROW EXECUTE FUNCTION private.touch_updated_at()"
+    },
+    {
+      "table": "users",
+      "schema": "auth",
+      "definition": "CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION private.on_auth_user_created()"
+    },
+    {
+      "table": "clients",
+      "schema": "public",
+      "definition": "CREATE TRIGGER clients_link_after_write AFTER INSERT OR UPDATE OF email ON public.clients FOR EACH ROW EXECUTE FUNCTION private.on_client_email_set()"
+    },
+    {
+      "table": "messages",
+      "schema": "public",
+      "definition": "CREATE TRIGGER messages_guard BEFORE UPDATE ON public.messages FOR EACH ROW EXECUTE FUNCTION private.guard_message_update()"
+    },
+    {
+      "table": "clients",
+      "schema": "public",
+      "definition": "CREATE TRIGGER clients_referral_match AFTER INSERT OR UPDATE OF email ON public.clients FOR EACH ROW EXECUTE FUNCTION private.on_client_referral_match()"
+    },
+    {
+      "table": "coach_messages",
+      "schema": "public",
+      "definition": "CREATE TRIGGER coach_messages_guard BEFORE UPDATE ON public.coach_messages FOR EACH ROW EXECUTE FUNCTION private.guard_coach_message_update()"
+    },
+    {
+      "table": "clients",
+      "schema": "public",
+      "definition": "CREATE TRIGGER t8b_assign_new_client AFTER INSERT ON public.clients FOR EACH ROW EXECUTE FUNCTION private.assign_new_client()"
+    },
+    {
+      "table": "clients",
+      "schema": "public",
+      "definition": "CREATE TRIGGER t8b_reject_inline_notes BEFORE INSERT OR UPDATE ON public.clients FOR EACH ROW EXECUTE FUNCTION private.reject_inline_notes()"
+    },
+    {
+      "table": "clients",
+      "schema": "public",
+      "definition": "CREATE TRIGGER t8b_guard_client_data BEFORE UPDATE ON public.clients FOR EACH ROW EXECUTE FUNCTION private.guard_client_data()"
+    },
+    {
+      "table": "posture_reviews_secure",
+      "schema": "public",
+      "definition": "CREATE TRIGGER posture_freeze_guard BEFORE DELETE OR UPDATE ON public.posture_reviews_secure FOR EACH ROW EXECUTE FUNCTION private.guard_posture_frozen()"
+    },
+    {
+      "table": "clients",
+      "schema": "public",
+      "definition": "CREATE TRIGGER basic_owner_on_insert BEFORE INSERT ON public.clients FOR EACH ROW EXECUTE FUNCTION private.basic_set_client_owner()"
+    },
+    {
+      "table": "clients",
+      "schema": "public",
+      "definition": "CREATE TRIGGER basic_owner_on_update BEFORE UPDATE ON public.clients FOR EACH ROW EXECUTE FUNCTION private.basic_owner_immutable()"
+    }
+  ],
+  "constraints": [
+    {
+      "name": "coach_messages_body_check",
+      "table": "coach_messages",
+      "schema": "public",
+      "definition": "CHECK ((char_length(body) <= 4000))"
+    },
+    {
+      "name": "coach_client_assignments_coach_id_fkey",
+      "table": "coach_client_assignments",
+      "schema": "public",
+      "definition": "FOREIGN KEY (coach_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "coach_client_assignments_client_id_fkey",
+      "table": "coach_client_assignments",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "coach_allowlist_pkey",
+      "table": "coach_allowlist",
+      "schema": "private",
+      "definition": "PRIMARY KEY (email)"
+    },
+    {
+      "name": "coach_notes_secure_pkey",
+      "table": "coach_notes_secure",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "settings_pkey",
+      "table": "settings",
+      "schema": "private",
+      "definition": "PRIMARY KEY (key)"
+    },
+    {
+      "name": "profiles_role_check",
+      "table": "profiles",
+      "schema": "public",
+      "definition": "CHECK ((role = ANY (ARRAY['coach'::text, 'client'::text])))"
+    },
+    {
+      "name": "profiles_pkey",
+      "table": "profiles",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "profiles_id_fkey",
+      "table": "profiles",
+      "schema": "public",
+      "definition": "FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "clients_pkey",
+      "table": "clients",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "workouts_pkey",
+      "table": "workouts",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "workouts_client_id_date_key",
+      "table": "workouts",
+      "schema": "public",
+      "definition": "UNIQUE (client_id, date)"
+    },
+    {
+      "name": "workouts_client_id_fkey",
+      "table": "workouts",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "exercises_pkey",
+      "table": "exercises",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "coach_notes_secure_client_id_fkey",
+      "table": "coach_notes_secure",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "signup_verification_resends_pkey",
+      "table": "signup_verification_resends",
+      "schema": "public",
+      "definition": "PRIMARY KEY (email_digest)"
+    },
+    {
+      "name": "favorite_meals_client_id_fkey",
+      "table": "favorite_meals",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "messages_sender_check",
+      "table": "messages",
+      "schema": "public",
+      "definition": "CHECK ((sender = ANY (ARRAY['coach'::text, 'client'::text])))"
+    },
+    {
+      "name": "messages_body_check",
+      "table": "messages",
+      "schema": "public",
+      "definition": "CHECK (((length(body) >= 1) AND (length(body) <= 4000)))"
+    },
+    {
+      "name": "messages_pkey",
+      "table": "messages",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "messages_client_id_fkey",
+      "table": "messages",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "referral_codes_pkey",
+      "table": "referral_codes",
+      "schema": "public",
+      "definition": "PRIMARY KEY (client_id)"
+    },
+    {
+      "name": "referral_codes_code_key",
+      "table": "referral_codes",
+      "schema": "public",
+      "definition": "UNIQUE (code)"
+    },
+    {
+      "name": "referral_codes_client_id_fkey",
+      "table": "referral_codes",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "referrals_name_check",
+      "table": "referrals",
+      "schema": "public",
+      "definition": "CHECK (((char_length(name) >= 1) AND (char_length(name) <= 120)))"
+    },
+    {
+      "name": "referrals_email_check",
+      "table": "referrals",
+      "schema": "public",
+      "definition": "CHECK (((char_length(email) >= 3) AND (char_length(email) <= 200)))"
+    },
+    {
+      "name": "referrals_location_check",
+      "table": "referrals",
+      "schema": "public",
+      "definition": "CHECK ((char_length(location) <= 120))"
+    },
+    {
+      "name": "referrals_note_check",
+      "table": "referrals",
+      "schema": "public",
+      "definition": "CHECK ((char_length(note) <= 1000))"
+    },
+    {
+      "name": "referrals_status_check",
+      "table": "referrals",
+      "schema": "public",
+      "definition": "CHECK ((status = ANY (ARRAY['invited'::text, 'signed_up'::text, 'paying'::text, 'declined'::text])))"
+    },
+    {
+      "name": "referrals_credit_check",
+      "table": "referrals",
+      "schema": "public",
+      "definition": "CHECK ((credit >= (0)::numeric))"
+    },
+    {
+      "name": "referrals_pkey",
+      "table": "referrals",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "referrals_referrer_client_id_fkey",
+      "table": "referrals",
+      "schema": "public",
+      "definition": "FOREIGN KEY (referrer_client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "referrals_referred_client_id_fkey",
+      "table": "referrals",
+      "schema": "public",
+      "definition": "FOREIGN KEY (referred_client_id) REFERENCES clients(id) ON DELETE SET NULL"
+    },
+    {
+      "name": "credit_redemptions_amount_check",
+      "table": "credit_redemptions",
+      "schema": "public",
+      "definition": "CHECK ((amount > (0)::numeric))"
+    },
+    {
+      "name": "credit_redemptions_pkey",
+      "table": "credit_redemptions",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "credit_redemptions_client_id_fkey",
+      "table": "credit_redemptions",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "coach_client_assignments_pkey",
+      "table": "coach_client_assignments",
+      "schema": "public",
+      "definition": "PRIMARY KEY (coach_id, client_id)"
+    },
+    {
+      "name": "coach_messages_attachment_type_check",
+      "table": "coach_messages",
+      "schema": "public",
+      "definition": "CHECK ((attachment_type = ANY (ARRAY['image'::text, 'video'::text])))"
+    },
+    {
+      "name": "coach_messages_pkey",
+      "table": "coach_messages",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "coach_messages_client_id_fkey",
+      "table": "coach_messages",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "program_templates_pkey",
+      "table": "program_templates",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "program_templates_owner_id_fkey",
+      "table": "program_templates",
+      "schema": "public",
+      "definition": "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "food_entries_description_check",
+      "table": "food_entries",
+      "schema": "public",
+      "definition": "CHECK (((length(description) >= 1) AND (length(description) <= 2000)))"
+    },
+    {
+      "name": "food_entries_status_check",
+      "table": "food_entries",
+      "schema": "public",
+      "definition": "CHECK ((status = ANY (ARRAY['estimate'::text, 'confirmed'::text, 'incomplete'::text])))"
+    },
+    {
+      "name": "food_entries_pkey",
+      "table": "food_entries",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "food_entries_client_id_idempotency_key_key",
+      "table": "food_entries",
+      "schema": "public",
+      "definition": "UNIQUE (client_id, idempotency_key)"
+    },
+    {
+      "name": "food_entries_id_client_id_key",
+      "table": "food_entries",
+      "schema": "public",
+      "definition": "UNIQUE (id, client_id)"
+    },
+    {
+      "name": "food_entries_client_id_fkey",
+      "table": "food_entries",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "food_items_name_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK (((length(name) >= 1) AND (length(name) <= 200)))"
+    },
+    {
+      "name": "food_items_quantity_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK (((quantity > (0)::numeric) AND (quantity < (100000)::numeric)))"
+    },
+    {
+      "name": "food_items_unit_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK ((unit = ANY (ARRAY['g'::text, 'oz'::text, 'cup'::text, 'tbsp'::text, 'piece'::text, 'serving'::text])))"
+    },
+    {
+      "name": "food_items_grams_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK ((grams >= (0)::numeric))"
+    },
+    {
+      "name": "food_items_state_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK ((state = ANY (ARRAY['raw'::text, 'cooked'::text, 'unknown'::text])))"
+    },
+    {
+      "name": "food_items_kcal_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK ((kcal >= (0)::numeric))"
+    },
+    {
+      "name": "food_items_protein_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK ((protein >= (0)::numeric))"
+    },
+    {
+      "name": "food_items_source_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK ((source = ANY (ARRAY['label'::text, 'restaurant'::text, 'USDA'::text, 'generic'::text, 'manual'::text])))"
+    },
+    {
+      "name": "food_items_kcalPerGram_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK ((\"kcalPerGram\" >= (0)::numeric))"
+    },
+    {
+      "name": "food_items_proteinPerGram_check",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "CHECK ((\"proteinPerGram\" >= (0)::numeric))"
+    },
+    {
+      "name": "food_items_pkey",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "food_items_entry_id_client_id_fkey",
+      "table": "food_items",
+      "schema": "public",
+      "definition": "FOREIGN KEY (entry_id, client_id) REFERENCES food_entries(id, client_id) ON DELETE CASCADE"
+    },
+    {
+      "name": "favorite_meals_name_check",
+      "table": "favorite_meals",
+      "schema": "public",
+      "definition": "CHECK (((length(name) >= 1) AND (length(name) <= 300)))"
+    },
+    {
+      "name": "favorite_meals_items_check",
+      "table": "favorite_meals",
+      "schema": "public",
+      "definition": "CHECK ((jsonb_typeof(items) = 'array'::text))"
+    },
+    {
+      "name": "favorite_meals_pkey",
+      "table": "favorite_meals",
+      "schema": "public",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "posture_reviews_secure_data_check",
+      "table": "posture_reviews_secure",
+      "schema": "public",
+      "definition": "CHECK ((jsonb_typeof(data) = 'object'::text))"
+    },
+    {
+      "name": "posture_reviews_secure_pkey",
+      "table": "posture_reviews_secure",
+      "schema": "public",
+      "definition": "PRIMARY KEY (client_id, assessment_id)"
+    },
+    {
+      "name": "posture_reviews_secure_client_id_fkey",
+      "table": "posture_reviews_secure",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "posture_public_reports_data_check",
+      "table": "posture_public_reports",
+      "schema": "public",
+      "definition": "CHECK ((jsonb_typeof(data) = 'object'::text))"
+    },
+    {
+      "name": "posture_public_reports_pkey",
+      "table": "posture_public_reports",
+      "schema": "public",
+      "definition": "PRIMARY KEY (client_id, assessment_id)"
+    },
+    {
+      "name": "posture_public_reports_client_id_fkey",
+      "table": "posture_public_reports",
+      "schema": "public",
+      "definition": "FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE"
+    },
+    {
+      "name": "clients_basic_coach_fk",
+      "table": "clients",
+      "schema": "public",
+      "definition": "FOREIGN KEY (coach_id) REFERENCES profiles(id)"
+    }
+  ],
+  "functions": [
+    {
+      "schema": "private",
+      "proname": "assign_new_client",
+      "definition": "CREATE OR REPLACE FUNCTION private.assign_new_client()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nBEGIN\n  IF new.coach_id IS DISTINCT FROM auth.uid() THEN\n    RAISE EXCEPTION 'Client owner mismatch' USING ERRCODE='42501';\n  END IF;\n  INSERT INTO public.coach_client_assignments(coach_id,client_id)\n    VALUES(new.coach_id,new.id);\n  RETURN new;\nEND;$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "basic_is_coach",
+      "definition": "CREATE OR REPLACE FUNCTION private.basic_is_coach()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  SELECT EXISTS (\n    SELECT 1 FROM public.profiles p JOIN auth.users u ON u.id=p.id\n    JOIN private.coach_allowlist a ON a.email=lower(u.email)\n    WHERE p.id=auth.uid() AND p.role='coach' AND u.email_confirmed_at IS NOT NULL\n  );\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "basic_owner_immutable",
+      "definition": "CREATE OR REPLACE FUNCTION private.basic_owner_immutable()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nBEGIN\n  IF new.coach_id IS DISTINCT FROM old.coach_id THEN\n    RAISE EXCEPTION 'Client owner is immutable' USING ERRCODE='42501';\n  END IF;\n  RETURN new;\nEND;$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "basic_set_client_owner",
+      "definition": "CREATE OR REPLACE FUNCTION private.basic_set_client_owner()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nBEGIN\n  IF NOT private.basic_is_coach() THEN RAISE EXCEPTION 'Verified coach required' USING ERRCODE='42501'; END IF;\n  IF new.coach_id IS NOT NULL AND new.coach_id IS DISTINCT FROM auth.uid() THEN\n    RAISE EXCEPTION 'Cannot create a client for another coach' USING ERRCODE='42501';\n  END IF;\n  new.coach_id := auth.uid();\n  RETURN new;\nEND;$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "can_manage_client",
+      "definition": "CREATE OR REPLACE FUNCTION private.can_manage_client(p_client_id text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  SELECT private.basic_is_coach() AND EXISTS (\n    SELECT 1 FROM public.clients c WHERE c.id=p_client_id AND c.coach_id=auth.uid()\n  );\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "can_see_profile",
+      "definition": "CREATE OR REPLACE FUNCTION private.can_see_profile(p_id uuid, p_client_id text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n SELECT p_id=auth.uid() OR\n   (p_client_id IS NOT NULL AND private.can_manage_client(p_client_id));\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "email_key",
+      "definition": "CREATE OR REPLACE FUNCTION private.email_key(e text)\n RETURNS text\n LANGUAGE sql\n IMMUTABLE\n SET search_path TO ''\nAS $function$\n  select case\n    when split_part(lower(trim(e)), '@', 2) in ('gmail.com', 'googlemail.com')\n      then replace(split_part(split_part(lower(trim(e)), '@', 1), '+', 1), '.', '') || '@gmail.com'\n    else lower(trim(e))\n  end;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "guard_client_data",
+      "definition": "CREATE OR REPLACE FUNCTION private.guard_client_data()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nDECLARE old_safe jsonb; new_safe jsonb;\n        old_coach jsonb; new_coach jsonb; rec jsonb;\n        new_records jsonb;\nBEGIN\n IF NOT private.can_manage_client(old.id) THEN\n  IF new.email IS DISTINCT FROM old.email OR new.id IS DISTINCT FROM old.id THEN\n    RAISE EXCEPTION 'Client identity is coach-owned' USING ERRCODE='42501';\n  END IF;\n  old_safe := old.data - 'photoUrl' - 'nutrition' - 'manualRecords';\n  new_safe := new.data - 'photoUrl' - 'nutrition' - 'manualRecords';\n  IF old_safe IS DISTINCT FROM new_safe OR\n    (coalesce(old.data->'nutrition','{}'::jsonb) - 'log') IS DISTINCT FROM\n    (coalesce(new.data->'nutrition','{}'::jsonb) - 'log') THEN\n   RAISE EXCEPTION 'Coach-owned profile or assessment cannot be changed' USING ERRCODE='42501';\n  END IF;\n  IF (new.data ? 'manualRecords') AND\n     jsonb_typeof(new.data->'manualRecords') <> 'array' THEN\n   RAISE EXCEPTION 'Invalid manual records' USING ERRCODE='22023';\n  END IF;\n  new_records := CASE WHEN jsonb_typeof(new.data->'manualRecords')='array'\n                      THEN new.data->'manualRecords' ELSE '[]'::jsonb END;\n  IF jsonb_array_length(new_records) > 500 THEN\n   RAISE EXCEPTION 'Too many manual records' USING ERRCODE='22023';\n  END IF;\n  -- Coach-created records must survive unchanged, including attribution and IDs.\n  SELECT coalesce(jsonb_agg(r.value ORDER BY r.value->>'id'),'[]'::jsonb)\n   INTO old_coach FROM jsonb_array_elements(\n    CASE WHEN jsonb_typeof(old.data->'manualRecords')='array'\n         THEN old.data->'manualRecords' ELSE '[]'::jsonb END) r\n   WHERE r.value->>'addedBy' IS DISTINCT FROM 'client';\n  SELECT coalesce(jsonb_agg(r.value ORDER BY r.value->>'id'),'[]'::jsonb)\n   INTO new_coach FROM jsonb_array_elements(new_records) r\n   WHERE r.value->>'addedBy' IS DISTINCT FROM 'client';\n  IF old_coach IS DISTINCT FROM new_coach THEN\n   RAISE EXCEPTION 'Coach-created records cannot be edited or deleted' USING ERRCODE='42501';\n  END IF;\n  -- No duplicate IDs or malformed client records (prevents collisions with coach IDs).\n  IF EXISTS (SELECT 1 FROM jsonb_array_elements(new_records) r\n    WHERE jsonb_typeof(r.value) <> 'object' OR nullif(r.value->>'id','') IS NULL\n       OR length(r.value->>'id') > 120) OR\n     (SELECT count(*) FROM jsonb_array_elements(new_records)) <>\n     (SELECT count(DISTINCT r.value->>'id') FROM jsonb_array_elements(new_records) r) THEN\n   RAISE EXCEPTION 'Invalid or duplicate manual record IDs' USING ERRCODE='22023';\n  END IF;\n  FOR rec IN SELECT value FROM jsonb_array_elements(new_records)\n    WHERE value->>'addedBy'='client' LOOP\n   IF (rec - 'id' - 'exerciseId' - 'name' - 'kg' - 'reps' - 'date' - 'note' - 'addedBy') <> '{}'::jsonb\n      OR jsonb_typeof(rec->'name') <> 'string' OR length(trim(rec->>'name')) NOT BETWEEN 1 AND 200\n      OR jsonb_typeof(rec->'kg') <> 'number' OR (rec->>'kg')::numeric NOT BETWEEN 0 AND 10000\n      OR jsonb_typeof(rec->'reps') <> 'number' OR (rec->>'reps')::numeric NOT BETWEEN 1 AND 100\n      OR (rec->>'reps')::numeric <> trunc((rec->>'reps')::numeric)\n      OR (rec ? 'date' AND (jsonb_typeof(rec->'date') <> 'string' OR rec->>'date' !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))\n      OR (rec ? 'note' AND (jsonb_typeof(rec->'note') <> 'string' OR length(rec->>'note') > 2000))\n      OR (rec ? 'exerciseId' AND (jsonb_typeof(rec->'exerciseId') <> 'string' OR length(rec->>'exerciseId') > 200)) THEN\n    RAISE EXCEPTION 'Invalid client manual record' USING ERRCODE='22023';\n   END IF;\n  END LOOP;\n END IF;\n RETURN new;\nEND;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "guard_client_email",
+      "definition": "CREATE OR REPLACE FUNCTION private.guard_client_email()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if not private.is_coach() and new.email is distinct from old.email then\n    raise exception 'Only the coach can change a client''s email';\n  end if;\n  new.updated_at := now();\n  return new;\nend;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "guard_coach_message_update",
+      "definition": "CREATE OR REPLACE FUNCTION private.guard_coach_message_update()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  if new.body is distinct from old.body or new.client_id is distinct from old.client_id\n     or new.from_coach is distinct from old.from_coach or new.attachment_path is distinct from old.attachment_path then\n    raise exception 'Messages cannot be edited';\n  end if;\n  return new;\nend;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "guard_message_update",
+      "definition": "CREATE OR REPLACE FUNCTION private.guard_message_update()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if new.body is distinct from old.body or new.sender is distinct from old.sender\n     or new.client_id is distinct from old.client_id or new.created_at is distinct from old.created_at then\n    raise exception 'Messages can''t be edited';\n  end if;\n  if new.read_at is distinct from old.read_at\n     and ((old.sender = 'coach') = private.is_coach()) then\n    raise exception 'Only the receiver marks a message read';\n  end if;\n  return new;\nend;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "guard_posture_frozen",
+      "definition": "CREATE OR REPLACE FUNCTION private.guard_posture_frozen()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nBEGIN\n IF old.assessment_id <> 'draft' THEN RAISE EXCEPTION 'Historical posture report is immutable'; END IF;\n RETURN new;\nEND;$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "has_profile",
+      "definition": "CREATE OR REPLACE FUNCTION private.has_profile()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select exists (select 1 from public.profiles where id = auth.uid());\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "is_coach",
+      "definition": "CREATE OR REPLACE FUNCTION private.is_coach()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$ SELECT private.basic_is_coach(); $function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "link_user",
+      "definition": "CREATE OR REPLACE FUNCTION private.link_user(uid uuid, user_email text, user_name text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nDECLARE cid text; cname text;\nBEGIN\n IF EXISTS (SELECT 1 FROM public.profiles WHERE id=uid) THEN RETURN; END IF;\n IF EXISTS (SELECT 1 FROM private.coach_allowlist a WHERE a.email=lower(user_email)) THEN\n   INSERT INTO public.profiles(id,role,display_name)\n     VALUES(uid,'coach',coalesce(nullif(user_name,''),split_part(user_email,'@',1)));\n   RETURN;\n END IF;\n SELECT c.id,c.data->>'name' INTO cid,cname FROM public.clients c\n WHERE lower(c.email)=lower(user_email) LIMIT 1;\n IF cid IS NOT NULL THEN\n   INSERT INTO public.profiles(id,role,display_name,client_id)\n     VALUES(uid,'client',coalesce(cname,split_part(user_email,'@',1)),cid);\n END IF;\nEND;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "my_client_id",
+      "definition": "CREATE OR REPLACE FUNCTION private.my_client_id()\n RETURNS text\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n SELECT p.client_id FROM public.profiles p\n JOIN auth.users u ON u.id=p.id\n JOIN public.clients c ON c.id=p.client_id\n WHERE p.id=auth.uid() AND p.role='client'\n AND lower(c.email)=lower(u.email) AND u.email_confirmed_at IS NOT NULL;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "on_auth_user_created",
+      "definition": "CREATE OR REPLACE FUNCTION private.on_auth_user_created()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  perform private.link_user(new.id, new.email, new.raw_user_meta_data->>'display_name');\n  return new;\nend;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "on_client_email_set",
+      "definition": "CREATE OR REPLACE FUNCTION private.on_client_email_set()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  u record;\nbegin\n  if new.email <> '' then\n    for u in select id, email from auth.users where private.email_key(email) = private.email_key(new.email) loop\n      perform private.link_user(u.id, u.email, null);\n    end loop;\n  end if;\n  return new;\nend;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "on_client_referral_match",
+      "definition": "CREATE OR REPLACE FUNCTION private.on_client_referral_match()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if new.email <> '' then\n    update public.referrals\n    set status = 'signed_up', referred_client_id = new.id, updated_at = now()\n    where lower(email) = lower(new.email) and status = 'invited';\n  end if;\n  return new;\nend;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "reject_inline_notes",
+      "definition": "CREATE OR REPLACE FUNCTION private.reject_inline_notes()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nBEGIN\n IF new.data ? 'coachNotes' THEN\n  RAISE EXCEPTION 'Use coach_notes_secure; inline notes are forbidden' USING ERRCODE='42501';\n END IF;\n RETURN new;\nEND;\n$function$\n"
+    },
+    {
+      "schema": "private",
+      "proname": "touch_updated_at",
+      "definition": "CREATE OR REPLACE FUNCTION private.touch_updated_at()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  new.updated_at := now();\n  return new;\nend;\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "cron_secret_ok",
+      "definition": "CREATE OR REPLACE FUNCTION public.cron_secret_ok(s text)\n RETURNS boolean\n LANGUAGE sql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select exists (select 1 from vault.decrypted_secrets where name = 'cron_secret' and decrypted_secret = s);\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "is_existing_signup_account",
+      "definition": "CREATE OR REPLACE FUNCTION public.is_existing_signup_account(p_email text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  SELECT EXISTS (SELECT 1 FROM auth.users u WHERE lower(u.email) = lower(trim(p_email)));\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "my_referral_code",
+      "definition": "CREATE OR REPLACE FUNCTION public.my_referral_code()\n RETURNS text\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  cid text := private.my_client_id();\n  c text;\nbegin\n  if cid is null then\n    return null;\n  end if;\n  select code into c from public.referral_codes where client_id = cid;\n  if c is null then\n    loop\n      c := lower(substr(replace(gen_random_uuid()::text, '-', ''), 1, 8));\n      begin\n        insert into public.referral_codes (client_id, code) values (cid, c);\n        exit;\n      exception when unique_violation then\n      end;\n    end loop;\n  end if;\n  return c;\nend;\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "pf_head_coach",
+      "definition": "CREATE OR REPLACE FUNCTION public.pf_head_coach()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n SELECT EXISTS(SELECT 1 FROM public.profiles p JOIN auth.users u ON u.id=p.id\n JOIN private.settings s ON s.key='coach_email' AND lower(s.value)=lower(u.email)\n WHERE p.id=auth.uid() AND p.role='coach' AND u.email_confirmed_at IS NOT NULL);\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "pf_list_trainers",
+      "definition": "CREATE OR REPLACE FUNCTION public.pf_list_trainers()\n RETURNS TABLE(email text, coach_id uuid, display_name text, verified boolean)\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nBEGIN\n IF NOT public.pf_head_coach() THEN RAISE EXCEPTION 'Head coach only' USING ERRCODE='42501'; END IF;\n RETURN QUERY SELECT a.email,p.id,coalesce(p.display_name,''),u.email_confirmed_at IS NOT NULL\n FROM private.coach_allowlist a LEFT JOIN auth.users u ON lower(u.email)=a.email\n LEFT JOIN public.profiles p ON p.id=u.id AND p.role='coach'\n ORDER BY a.email;\nEND;$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "pf_manage_trainer",
+      "definition": "CREATE OR REPLACE FUNCTION public.pf_manage_trainer(p_action text, p_email text, p_client_id text DEFAULT NULL::text)\n RETURNS boolean\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nDECLARE addr text:=lower(trim(p_email));\nBEGIN\n  IF NOT public.pf_head_coach() THEN RAISE EXCEPTION 'Head coach only' USING ERRCODE='42501'; END IF;\n  IF p_action IS DISTINCT FROM 'invite' THEN\n    RAISE EXCEPTION 'Client assignments are automatic and cannot be transferred' USING ERRCODE='42501';\n  END IF;\n  IF addr !~ '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$' OR length(addr)>254 THEN\n    RAISE EXCEPTION 'Invalid email' USING ERRCODE='22023';\n  END IF;\n  INSERT INTO private.coach_allowlist(email) VALUES(addr) ON CONFLICT DO NOTHING;\n  RETURN true;\nEND;$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "pf_publish_posture_review",
+      "definition": "CREATE OR REPLACE FUNCTION public.pf_publish_posture_review(p_client_id text, p_assessment_id text)\n RETURNS boolean\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nDECLARE doc jsonb; clean jsonb; chosen jsonb;\nBEGIN\n IF NOT private.can_manage_client(p_client_id) THEN RAISE EXCEPTION 'Not assigned' USING ERRCODE='42501'; END IF;\n IF p_assessment_id IS NULL OR p_assessment_id NOT LIKE 'as-%' OR NOT EXISTS (\n   SELECT 1 FROM public.clients c, jsonb_array_elements(coalesce(c.data->'assessments','[]'::jsonb)) a\n   WHERE c.id=p_client_id AND a->>'id'=p_assessment_id) THEN\n   RAISE EXCEPTION 'Save dated assessment first'; END IF;\n SELECT data INTO doc FROM public.posture_reviews_secure WHERE client_id=p_client_id AND assessment_id='draft';\n IF doc IS NULL OR doc->>'summaryApprovedByCoach' <> 'true' OR trim(coalesce(doc->>'summary',''))='' THEN\n  RAISE EXCEPTION 'Coach-approved summary required'; END IF;\n INSERT INTO public.posture_reviews_secure(client_id,assessment_id,data)\n VALUES(p_client_id,p_assessment_id,doc) ON CONFLICT DO NOTHING;\n SELECT data INTO chosen FROM public.posture_reviews_secure WHERE client_id=p_client_id AND assessment_id=p_assessment_id;\n IF chosen->>'summaryApprovedByCoach' <> 'true' THEN RAISE EXCEPTION 'Historical snapshot is not approved'; END IF;\n -- Explicit client whitelist. NEVER include private interpretation, conflicts, reviewer notes, rule internals.\n SELECT coalesce(jsonb_agg(o),'[]'::jsonb) INTO clean FROM jsonb_array_elements(coalesce(chosen->'observations','[]'::jsonb)) o\n WHERE o->>'confirmed'='true';\n INSERT INTO public.posture_public_reports(client_id,assessment_id,data)\n VALUES(p_client_id,p_assessment_id,jsonb_build_object(\n  'recordedAt',chosen->>'recordedAt','measurements',coalesce(chosen->'measurements','[]'::jsonb),\n  'observations',clean,'summary',chosen->>'summary','summaryApprovedByCoach',true,\n  'visualSettings',coalesce(chosen->'visualSettings','{}'::jsonb))) ON CONFLICT DO NOTHING;\n RETURN true;\nEND;$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "pf_save_food_entry",
+      "definition": "CREATE OR REPLACE FUNCTION public.pf_save_food_entry(p_client_id text, p_existing_id uuid, p_date date, p_description text, p_key uuid, p_status text, p_items jsonb)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nDECLARE eid uuid; item jsonb;\nBEGIN\n IF auth.uid() IS NULL OR p_client_id IS DISTINCT FROM private.my_client_id() THEN\n  RAISE EXCEPTION 'Own food records only' USING ERRCODE='42501'; END IF;\n IF p_date IS NULL OR p_date > current_date + 1 OR p_description IS NULL OR length(trim(p_description)) NOT BETWEEN 1 AND 2000 THEN\n  RAISE EXCEPTION 'Invalid entry' USING ERRCODE='22023'; END IF;\n IF p_status NOT IN ('estimate','confirmed','incomplete') OR jsonb_typeof(p_items)<>'array' OR\n   jsonb_array_length(p_items) NOT BETWEEN 1 AND 30 THEN RAISE EXCEPTION 'Invalid meal items'; END IF;\n IF p_existing_id IS NOT NULL THEN\n   SELECT id INTO eid FROM public.food_entries WHERE id=p_existing_id AND client_id=p_client_id FOR UPDATE;\n   IF eid IS NULL THEN RAISE EXCEPTION 'Meal not found or access denied' USING ERRCODE='42501'; END IF;\n ELSE\n   SELECT id INTO eid FROM public.food_entries WHERE client_id=p_client_id AND idempotency_key=p_key FOR UPDATE;\n END IF;\n IF eid IS NULL THEN\n   INSERT INTO public.food_entries(client_id,date,description,idempotency_key,status)\n     VALUES(p_client_id,p_date,trim(p_description),p_key,p_status) RETURNING id INTO eid;\n ELSE\n   UPDATE public.food_entries SET date=p_date,description=trim(p_description),status=p_status WHERE id=eid;\n END IF;\n DELETE FROM public.food_items WHERE entry_id=eid AND client_id=p_client_id;\n FOR item IN SELECT value FROM jsonb_array_elements(p_items) LOOP\n   IF length(trim(coalesce(item->>'name',''))) NOT BETWEEN 1 AND 200\n      OR coalesce((item->>'quantity')::numeric,0) <= 0 THEN RAISE EXCEPTION 'Invalid food'; END IF;\n   INSERT INTO public.food_items(entry_id,client_id,name,quantity,unit,grams,state,kcal,protein,source,\"sourceId\",assumptions,version,\"kcalPerGram\",\"proteinPerGram\")\n   VALUES(eid,p_client_id,trim(item->>'name'),(item->>'quantity')::numeric,item->>'unit',\n     NULLIF(item->>'grams','')::numeric,coalesce(item->>'state','unknown'),\n     NULLIF(item->>'kcal','')::numeric,NULLIF(item->>'protein','')::numeric,\n     coalesce(item->>'source','manual'),item->>'sourceId',coalesce(item->>'assumptions',''),\n     coalesce(item->>'version','food-v1'),NULLIF(item->>'kcalPerGram','')::numeric,NULLIF(item->>'proteinPerGram','')::numeric);\n END LOOP;\n RETURN eid;\nEND;$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "pf_trainer_is_allowed",
+      "definition": "CREATE OR REPLACE FUNCTION public.pf_trainer_is_allowed(p_email text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n SELECT public.pf_head_coach() AND EXISTS(SELECT 1 FROM private.coach_allowlist WHERE email=lower(trim(p_email)));\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "referral_credit_amount",
+      "definition": "CREATE OR REPLACE FUNCTION public.referral_credit_amount()\n RETURNS numeric\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select coalesce(nullif(value, '')::numeric, 0) from private.settings where key = 'referral_credit';\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "referral_inviter",
+      "definition": "CREATE OR REPLACE FUNCTION public.referral_inviter(p_code text)\n RETURNS text\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select split_part(coalesce(c.data->>'name', ''), ' ', 1)\n  from public.referral_codes r join public.clients c on c.id = r.client_id\n  where r.code = lower(trim(p_code));\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "reserve_signup_verification",
+      "definition": "CREATE OR REPLACE FUNCTION public.reserve_signup_verification(p_email text)\n RETURNS boolean\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nDECLARE\n  addr text := lower(trim(p_email));\n  digest text;\n  recent timestamptz[];\nBEGIN\n  IF addr IS NULL OR char_length(addr) > 254 OR addr !~ '^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$' THEN\n    RETURN false;\n  END IF;\n  -- Even a service-role call must not create a link for missing/confirmed accounts.\n  IF NOT EXISTS (\n    SELECT 1 FROM auth.users u\n    WHERE lower(u.email) = addr AND u.email_confirmed_at IS NULL\n  ) THEN RETURN false; END IF;\n  digest := encode(pg_catalog.sha256(pg_catalog.convert_to(addr, 'UTF8')), 'hex');\n  PERFORM pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(digest, 0));\n  SELECT coalesce(array_agg(t) FILTER (WHERE t > now() - interval '1 hour'), ARRAY[]::timestamptz[])\n    INTO recent\n    FROM public.signup_verification_resends s,\n         unnest(s.attempts) AS t\n   WHERE s.email_digest = digest;\n  recent := coalesce(recent, ARRAY[]::timestamptz[]);\n  IF coalesce(array_length(recent, 1), 0) >= 3 THEN RETURN false; END IF;\n  INSERT INTO public.signup_verification_resends (email_digest, attempts)\n    VALUES (digest, array_append(recent, now()))\n    ON CONFLICT (email_digest) DO UPDATE SET attempts = excluded.attempts;\n  RETURN true;\nEND;\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "save_workout_results_secure",
+      "definition": "CREATE OR REPLACE FUNCTION public.save_workout_results_secure(p_workout_id text, p_client_id text, p_expected_version timestamp with time zone, p_results jsonb)\n RETURNS TABLE(updated_version timestamp with time zone)\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nDECLARE w public.workouts%ROWTYPE; b jsonb; patch jsonb; next_blocks jsonb := '[]'::jsonb;\n        touched jsonb := '[]'::jsonb; current_ids text[]; wanted_ids text[];\nBEGIN\n IF auth.uid() IS NULL OR p_client_id IS DISTINCT FROM private.my_client_id() THEN\n  RAISE EXCEPTION 'Not your client' USING ERRCODE='42501'; END IF;\n SELECT * INTO w FROM public.workouts WHERE id=p_workout_id AND client_id=p_client_id FOR UPDATE;\n IF NOT FOUND THEN RAISE EXCEPTION 'Workout not found' USING ERRCODE='42501'; END IF;\n IF w.updated_at IS DISTINCT FROM p_expected_version THEN\n  RAISE EXCEPTION 'VERSION_CONFLICT' USING ERRCODE='40001'; END IF;\n IF jsonb_typeof(p_results) IS DISTINCT FROM 'object' OR\n    (p_results - 'blocks' - 'status' - 'completedAt' - 'sessionRpe' - 'clientFeedback') <> '{}'::jsonb THEN\n   RAISE EXCEPTION 'Invalid result fields' USING ERRCODE='42501'; END IF;\n IF NOT (p_results ? 'status') OR NOT (p_results ? 'blocks') THEN\n   RAISE EXCEPTION 'Missing required results' USING ERRCODE='22023'; END IF;\n IF (p_results ? 'clientFeedback') AND p_results->'clientFeedback' <> 'null'::jsonb AND\n   (jsonb_typeof(p_results->'clientFeedback') IS DISTINCT FROM 'string' OR\n    length(p_results->>'clientFeedback') > 4000) THEN\n   RAISE EXCEPTION 'Invalid feedback' USING ERRCODE='22023'; END IF;\n IF (p_results ? 'completedAt') AND p_results->'completedAt' <> 'null'::jsonb AND\n    jsonb_typeof(p_results->'completedAt') IS DISTINCT FROM 'string' THEN\n   RAISE EXCEPTION 'Invalid completion date' USING ERRCODE='22023'; END IF;\n IF jsonb_typeof(p_results->'blocks') IS DISTINCT FROM 'array' THEN\n   RAISE EXCEPTION 'Blocks must be an array' USING ERRCODE='22023'; END IF;\n IF (p_results ? 'status') AND (p_results->>'status') NOT IN ('planned','completed','missed') THEN\n   RAISE EXCEPTION 'Invalid status' USING ERRCODE='22023'; END IF;\n IF (p_results ? 'sessionRpe') AND p_results->'sessionRpe' <> 'null'::jsonb AND\n    (jsonb_typeof(p_results->'sessionRpe') <> 'number' OR (p_results->>'sessionRpe')::numeric NOT BETWEEN 1 AND 10) THEN\n   RAISE EXCEPTION 'Invalid RPE' USING ERRCODE='22023'; END IF;\n SELECT array_agg(e->>'id' ORDER BY e->>'id') INTO current_ids FROM jsonb_array_elements(w.data->'blocks') e;\n SELECT array_agg(e->>'id' ORDER BY e->>'id') INTO wanted_ids FROM jsonb_array_elements(p_results->'blocks') e;\n IF current_ids IS DISTINCT FROM wanted_ids THEN\n   RAISE EXCEPTION 'Block ids mismatch' USING ERRCODE='42501'; END IF;\n FOR b IN SELECT value FROM jsonb_array_elements(w.data->'blocks') LOOP\n   SELECT value INTO patch FROM jsonb_array_elements(p_results->'blocks') WHERE value->>'id'=b->>'id';\n   IF jsonb_typeof(patch) <> 'object' OR\n      (patch - 'id' - 'loggedSets' - 'rpe' - 'pain' - 'clientNote') <> '{}'::jsonb THEN\n     RAISE EXCEPTION 'Only client result fields allowed' USING ERRCODE='42501'; END IF;\n   IF NOT (patch ? 'loggedSets') OR jsonb_typeof(patch->'loggedSets') <> 'array' OR\n     jsonb_array_length(patch->'loggedSets') <> jsonb_array_length(b->'loggedSets') THEN\n     RAISE EXCEPTION 'Set shape changed' USING ERRCODE='42501'; END IF;\n   -- All prescribed set numbers must match, and each set has only the logging fields.\n   IF EXISTS (\n    SELECT 1 FROM jsonb_array_elements(patch->'loggedSets') s\n    WHERE (s.value - 'setNumber' - 'kg' - 'reps' - 'completed') <> '{}'::jsonb\n       OR NOT EXISTS (SELECT 1 FROM jsonb_array_elements(b->'loggedSets') orig\n                      WHERE orig->'setNumber'=s.value->'setNumber')\n   ) THEN RAISE EXCEPTION 'Invalid set result' USING ERRCODE='42501'; END IF;\n   IF EXISTS (\n     SELECT 1 FROM jsonb_array_elements(patch->'loggedSets') item\n     WHERE NOT (item.value ? 'setNumber') OR NOT (item.value ? 'kg') OR\n           NOT (item.value ? 'reps') OR NOT (item.value ? 'completed') OR\n           jsonb_typeof(item.value->'completed') IS DISTINCT FROM 'boolean'\n       OR jsonb_typeof(item.value->'setNumber') IS DISTINCT FROM 'number'\n       OR (item.value->'kg' <> 'null'::jsonb AND\n          (jsonb_typeof(item.value->'kg') IS DISTINCT FROM 'number' OR\n           (item.value->>'kg')::numeric NOT BETWEEN 0 AND 100000))\n       OR (item.value->'reps' <> 'null'::jsonb AND\n          (jsonb_typeof(item.value->'reps') IS DISTINCT FROM 'number' OR\n           (item.value->>'reps')::numeric NOT BETWEEN 0 AND 100000))\n   ) THEN RAISE EXCEPTION 'Invalid result values' USING ERRCODE='22023'; END IF;\n   IF (patch ? 'rpe') AND patch->'rpe' <> 'null'::jsonb AND\n      (jsonb_typeof(patch->'rpe') IS DISTINCT FROM 'number' OR\n       (patch->>'rpe')::numeric NOT BETWEEN 0 AND 10) THEN\n     RAISE EXCEPTION 'Invalid exercise RPE' USING ERRCODE='22023'; END IF;\n   IF (patch ? 'clientNote') AND patch->'clientNote' <> 'null'::jsonb AND\n      (jsonb_typeof(patch->'clientNote') IS DISTINCT FROM 'string' OR\n       length(patch->>'clientNote') > 4000) THEN\n     RAISE EXCEPTION 'Invalid client note' USING ERRCODE='22023'; END IF;\n   IF (patch ? 'pain') AND jsonb_typeof(patch->'pain') IS DISTINCT FROM 'boolean' THEN\n     RAISE EXCEPTION 'Invalid pain field' USING ERRCODE='22023'; END IF;\n   b := (b - 'loggedSets' - 'rpe' - 'pain' - 'clientNote') ||\n      (patch - 'id');\n   next_blocks := next_blocks || jsonb_build_array(b);\n END LOOP;\n UPDATE public.workouts SET data = (w.data - 'blocks' - 'status' - 'completedAt' - 'sessionRpe' - 'clientFeedback') ||\n   (p_results - 'blocks') || jsonb_build_object('blocks',next_blocks), updated_at=clock_timestamp()\n WHERE id=w.id RETURNING updated_at INTO updated_version;\n RETURN NEXT;\nEND;\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "set_referral_status",
+      "definition": "CREATE OR REPLACE FUNCTION public.set_referral_status(p_id uuid, p_status text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nDECLARE amount numeric; cid text;\nBEGIN\n SELECT referrer_client_id INTO cid FROM public.referrals WHERE id=p_id;\n IF cid IS NULL OR NOT private.can_manage_client(cid) THEN\n  RAISE EXCEPTION 'Access denied' USING ERRCODE='42501'; END IF;\n IF p_status NOT IN ('invited','signed_up','paying','declined') THEN\n  RAISE EXCEPTION 'Unknown status' USING ERRCODE='22023'; END IF;\n SELECT coalesce(nullif(value,'')::numeric,0) INTO amount FROM private.settings WHERE key='referral_credit';\n UPDATE public.referrals SET status=p_status,\n  credit=CASE WHEN p_status='paying' THEN CASE WHEN credit>0 THEN credit ELSE coalesce(amount,0) END ELSE 0 END,\n  updated_at=now() WHERE id=p_id;\nEND;\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "signup_role",
+      "definition": "CREATE OR REPLACE FUNCTION public.signup_role(p_email text)\n RETURNS text\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n SELECT CASE\n  WHEN EXISTS (SELECT 1 FROM private.coach_allowlist a WHERE a.email=lower(trim(p_email))) THEN 'coach'\n  WHEN EXISTS (SELECT 1 FROM public.clients c WHERE c.email<>'' AND lower(c.email)=lower(trim(p_email))) THEN 'client'\n  ELSE NULL\n END;\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "submit_referral",
+      "definition": "CREATE OR REPLACE FUNCTION public.submit_referral(p_code text, p_name text, p_email text, p_location text, p_note text)\n RETURNS boolean\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  cid text;\n  e text := lower(trim(p_email));\nbegin\n  select client_id into cid from public.referral_codes where code = lower(trim(p_code));\n  if cid is null then\n    raise exception 'Invalid invite link';\n  end if;\n  if e !~ '^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$' then\n    raise exception 'Please enter a valid email';\n  end if;\n  if (select count(*) from public.referrals where referrer_client_id = cid and created_at > now() - interval '1 day') >= 20 then\n    raise exception 'Too many invites today, please try again tomorrow';\n  end if;\n  insert into public.referrals (referrer_client_id, name, email, location, note)\n  values (cid, left(trim(p_name), 120), e, left(trim(coalesce(p_location, '')), 120), left(trim(coalesce(p_note, '')), 1000))\n  on conflict (referrer_client_id, lower(email)) do nothing;\n  return true;\nend;\n$function$\n"
+    }
+  ]
+}

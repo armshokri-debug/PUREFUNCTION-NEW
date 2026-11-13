@@ -9,3 +9,5 @@ coverage/
 
 # AI Studio scratch files
 .aistudio/
+
+dist-cloud/

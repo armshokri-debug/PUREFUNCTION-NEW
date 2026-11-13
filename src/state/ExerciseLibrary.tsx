@@ -2,10 +2,8 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import { Exercise } from '../types';
 import { EXERCISES_LIBRARY } from '../data/mockData';
 import { usePersistentState } from '../lib/storage';
-import { deleteVideoFile } from '../lib/videoStore';
 import { useSession } from '../cloud/Session';
 import { stableStringify, supabase } from '../cloud/supabase';
-import { deleteExerciseVideo } from '../cloud/videos';
 
 /**
  * Exercise library = Pure Function core set + the imported 1,200+ catalog
@@ -23,8 +21,8 @@ interface ExerciseLibraryValue {
   exercises: Exercise[];
   catalogLoaded: boolean;
   getExercise: (id: string) => Exercise | undefined;
-  saveExercise: (exercise: Exercise) => void;
-  deleteExercise: (id: string) => void;
+  saveExercise: (exercise: Exercise) => Promise<void>;
+  deleteExercise: (id: string) => Promise<void>;
 }
 
 const CORE: Exercise[] = EXERCISES_LIBRARY.map((e) => ({ ...e, source: 'pf' as const }));
@@ -147,32 +145,27 @@ export const ExerciseLibraryProvider: React.FC<{ children: React.ReactNode }> = 
     return m;
   }, [exercises, aliases]);
 
-  const saveExercise = (exercise: Exercise) => {
-    const previous = byId.get(exercise.id);
-    if (previous?.video && previous.video.src !== exercise.video?.src) {
-      if (previous.video.kind === 'file') void deleteVideoFile(previous.video.src);
-      if (previous.video.kind === 'storage') void deleteExerciseVideo(previous.video.src);
-    }
-    setCoach((c) => ({ edits: { ...c.edits, [exercise.id]: exercise } }));
+  const saveExercise = async (exercise: Exercise) => {
     if (cloud && supabase) {
-      void supabase
-        .from('exercises')
-        .upsert({ id: exercise.id, data: exercise }, { onConflict: 'id' })
-        .then(({ error }) => error && console.error('[exercises] save failed:', error.message));
+      const { data, error } = await supabase.from('exercises')
+        .upsert({ id: exercise.id, data: exercise }, { onConflict: 'id' }).select('id');
+      if (error || !data?.length) throw new Error('Exercise was not saved. Check your connection and access.');
     }
+    // Keep replaced media: existing assessments/workouts may still reference it.
+    setCoach((c) => ({ edits: { ...c.edits, [exercise.id]: exercise } }));
   };
 
-  const deleteExercise = (id: string) => {
+  const deleteExercise = async (id: string) => {
     const ex = byId.get(id);
-    if (!ex?.isCustom) return; // built-in exercises can't be deleted
-    if (ex.video?.kind === 'file') void deleteVideoFile(ex.video.src);
-    if (ex.video?.kind === 'storage') void deleteExerciseVideo(ex.video.src);
+    if (!ex?.isCustom) return;
+    if (cloud && supabase) {
+      const { data, error } = await supabase.from('exercises').delete().eq('id', id).select('id');
+      if (error || !data?.length) throw new Error('Exercise was not removed. Check your connection and access.');
+    }
+    // Media deletion is a separate maintenance decision, never implicit in a catalog edit.
     setCoach((c) => {
-      const edits = { ...c.edits };
-      delete edits[id];
-      return { edits };
+      const edits = { ...c.edits }; delete edits[id]; return { edits };
     });
-    if (cloud && supabase) void supabase.from('exercises').delete().eq('id', id);
   };
 
   return (

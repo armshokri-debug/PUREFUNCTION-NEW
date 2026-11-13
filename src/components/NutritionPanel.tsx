@@ -1,4 +1,5 @@
 import React from 'react';
+import { FoodDiary } from './FoodDiary';
 import { ClientProfile, NutritionLogDay, NutritionPlan } from '../types';
 import { addDays, dayShort, formatDate, todayISO } from '../lib/workouts';
 
@@ -27,7 +28,8 @@ export const NutritionPanel: React.FC<{ client: ClientProfile; onUpdateClient: (
   const logOf = (d: string) => plan.log?.find((x) => x.date === d);
 
   return (
-    <div className="grid gap-5 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+      <div className="min-w-0 lg:col-span-2"><FoodDiary clientId={client.id} readOnly /></div>
       <section className={card}>
         <h3 className="text-sm font-bold text-[#111827] mb-3">Daily targets</h3>
         <div className="grid grid-cols-2 gap-3">
