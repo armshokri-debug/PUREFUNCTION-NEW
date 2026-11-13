@@ -44,6 +44,7 @@ Read-only integrity checks found four client records, eleven workouts, no ownerl
 - Show unavailable template/data states rather than silently hiding them.
 - Remove the competing Pages workflow which published the repository directly. Deploy built output only after validation.
 - Pin browser CI to supported Ubuntu 24.04, add responsive/cloud/library/PWA checks and fix test mocks to reflect independent coach ownership and verified signup.
+- Await exercise-library persistence before closing the editor; failed writes retain the form and existing uploaded media. Replaced media is not automatically deleted.
 - Upgrade vulnerable development test dependencies; npm audit returned zero findings after the upgrade.
 
 ## Security verification

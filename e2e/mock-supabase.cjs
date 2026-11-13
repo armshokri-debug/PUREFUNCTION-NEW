@@ -273,6 +273,7 @@ module.exports = function createMock({ coachEmail = 'coach@example.com', otherCo
         return json(route, 200, out);
       }
       if (method === 'POST') {
+        if (table === 'exercises' && db.failNextExerciseWrite) { db.failNextExerciseWrite = false; return json(route, 503, { message: 'Simulated write failure' }); }
         const body = JSON.parse(req.postData() || '[]');
         const arr = Array.isArray(body) ? body : [body];
         for (const r of arr) {

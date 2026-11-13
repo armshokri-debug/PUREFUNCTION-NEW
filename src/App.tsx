@@ -104,13 +104,19 @@ function LocalApp() {
 }
 
 function CloudApp({ profile }: { profile: Profile }) {
+  const { signOut } = useSession();
   const store = useCloudClientsStore(profile);
   if (!store.loaded) return <LoadingScreen label="Loading your data…" />;
   if (store.loadError) return <div className="max-w-md mx-auto p-6 break-words" role="alert">
     <h1 className="text-xl font-bold mb-3">Data needs a fresh load</h1>
     <p>{store.loadError}</p>
-    <p className="text-sm my-3">Changes are not confirmed saved. Keep this tab open if you need to copy your work before reloading.</p>
-    <button className="min-h-[44px] underline" onClick={() => window.location.reload()}>Reload latest data</button>
+    <p className="text-sm my-3">Changes are not confirmed saved. Download a private copy of your unsaved work before reloading.</p>
+    {store.clients.length > 0 && <button className="block min-h-[44px] underline" onClick={() => {
+      const url = URL.createObjectURL(new Blob([JSON.stringify({ saved: false, clients: store.clients }, null, 2)], { type: 'application/json' }));
+      const link = document.createElement('a'); link.href = url; link.download = 'pure-function-unsaved-changes.json'; link.click(); URL.revokeObjectURL(url);
+    }}>Download unsaved changes</button>}
+    <button className="block min-h-[44px] underline" onClick={() => window.location.reload()}>Reload latest data</button>
+    <button className="block min-h-[44px] underline" onClick={() => void signOut()}>Sign out</button>
   </div>;
   return (
     <ExerciseLibraryProvider>

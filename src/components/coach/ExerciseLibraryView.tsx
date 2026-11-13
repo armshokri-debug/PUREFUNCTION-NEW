@@ -458,12 +458,12 @@ export const ExerciseLibraryView: React.FC<ExerciseLibraryViewProps> = ({
       {editing !== undefined && (
         <ExerciseEditorModal
           exercise={editing}
-          onSave={(ex) => {
-            saveExercise(ex);
+          onSave={async (ex) => {
+            await saveExercise(ex);
             setActiveExerciseId(ex.id);
           }}
-          onDelete={(id) => {
-            deleteExercise(id);
+          onDelete={async (id) => {
+            await deleteExercise(id);
             setActiveExerciseId(null);
           }}
           onClose={() => setEditing(undefined)}

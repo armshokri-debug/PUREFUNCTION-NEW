@@ -216,6 +216,16 @@ const today = iso(new Date());
   ok(/\/storage\/v1\/object\/sign\/exercise-videos\/.+\?token=/.test(src || ''), 'player uses a short-lived signed link to the private video');
   ok(mock.log.some((l) => l.startsWith('GET /storage/v1/object/sign/exercise-videos/')), 'browser fetched the video through that link');
 
+  // Failed library writes keep the editor open and preserve existing media.
+  await C.getByRole('button', { name: 'New exercise' }).click();
+  await C.getByPlaceholder('e.g. Left AIC Split Squat').fill('Unconfirmed exercise');
+  mock.db.failNextExerciseWrite = true;
+  await C.getByRole('button', { name: 'Save', exact: true }).click();
+  await C.getByText(/Exercise was not saved/).waitFor();
+  ok(!mock.db.exercises.some(e => e.data.name === 'Unconfirmed exercise'), 'failed exercise write is not presented as saved');
+  ok(Object.keys(mock.db.files).length === 1, 'failed edit preserves existing video');
+  await C.getByRole('button', { name: 'Close', exact: true }).click();
+
   /* ---------------- private assessment video for Ryan ---------------- */
   await C.getByRole('button', { name: 'Clients' }).first().click();
   await C.locator('main').getByText('Ryan Lee', { exact: true }).first().click();
