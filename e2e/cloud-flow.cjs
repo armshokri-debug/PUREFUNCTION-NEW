@@ -306,6 +306,20 @@ const today = iso(new Date());
   await F.getByText('reset link has expired').waitFor({ timeout: 8000 }).catch(() => {});
   ok(await F.getByText('reset link has expired').isVisible() || (await F.getByText('Workout completed').isVisible()), 'used reset link is not accepted twice');
 
+  // Cancelling password recovery must not leave future sign-ins stuck.
+  const cancelToken = 'rst-cancel-fixture';
+  mock.db.resetTokens[cancelToken] = mock.db.users.find(u => u.email === 'ryan@example.com').id;
+  const K = await open({ width: 375, height: 812 });
+  await K.goto(`http://localhost:${PORT}/?reset=${cancelToken}`);
+  await K.getByRole('heading', { name: 'Choose a new password', exact: true }).waitFor();
+  await K.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await K.getByLabel('Email', { exact: true }).fill('ryan@example.com');
+  await K.getByLabel('Password', { exact: true }).fill('newpass99');
+  await K.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await K.getByText('Workout completed', { exact: true }).waitFor();
+  ok(true, 'cancelled recovery does not block a later login');
+  K.errors.forEach(e => C.errors.push(e));
+
   // Second independent coach: real UI against the scoped mock, no production fixture.
   const O = await open({ width: 768, height: 1024 });
   await signUp(O, 'Other Coach', 'othercoach@example.com', 'otherpass1', 'coach');

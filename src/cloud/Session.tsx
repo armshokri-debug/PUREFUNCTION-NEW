@@ -136,7 +136,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
       if (!active) return;
       setSession(s);
-      if (event === 'SIGNED_OUT') { ++profileRequest.current; setProfile(null); setStatus('signed-out'); }
+      if (event === 'SIGNED_OUT') { resetPending.current = false; ++profileRequest.current; setProfile(null); setStatus('signed-out'); }
       if (event === 'PASSWORD_RECOVERY') { resetPending.current = true; setProfile(null); setStatus('reset'); return; }
       if (event === 'SIGNED_OUT' || ((event === 'SIGNED_IN' || event === 'USER_UPDATED') && !resetPending.current)) {
         // defer: Supabase recommends not awaiting other calls inside this callback
@@ -211,9 +211,12 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const signOut = async () => {
     if (!supabase) return;
-    await supabase.auth.signOut();
+    resetPending.current = false;
+    ++profileRequest.current;
+    setSession(null);
     setProfile(null);
     setStatus('signed-out');
+    await supabase.auth.signOut();
   };
 
   return (
