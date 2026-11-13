@@ -1,0 +1,8 @@
+{
+  "name": "Remix Pure Function 3",
+  "description": "Precision biomechanics, PRI assessment, InBody 270 body composition, and strength coaching platform for coaches and clients.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
