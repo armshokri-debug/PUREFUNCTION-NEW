@@ -9,7 +9,7 @@ export const ProgramTemplates: React.FC<{
   client: ClientProfile;
   onApply: (template: ProgramTemplate, ids: string[], start: string) => void;
 }> = ({ clients, client, onApply }) => {
-  const { templates, ready, save, remove } = useProgramTemplates();
+  const { templates, ready, error, save, remove } = useProgramTemplates();
   const [name, setName] = useState('');
   const [scope, setScope] = useState<'week' | 'program'>('week');
   const [sourceDate, setSourceDate] = useState(todayISO());
@@ -18,7 +18,7 @@ export const ProgramTemplates: React.FC<{
   const [targets, setTargets] = useState<string[]>([client.id]);
   const [feedback, setFeedback] = useState('');
   const [busy, setBusy] = useState(false);
-  if (!ready) return null; // Cloud migration not applied: hide feature completely.
+  if (!ready) return <p role="status" className="text-sm text-gray-500 mb-4">{error ? "Program templates could not load. Reload to retry." : "Loading program templates…"}</p>; // Cloud migration not applied: hide feature completely.
   const selected = templates.find((t) => t.id === selectedId) ?? templates[0];
   const saveNew = async () => {
     try {

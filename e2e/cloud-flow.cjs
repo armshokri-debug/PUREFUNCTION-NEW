@@ -120,6 +120,15 @@ const today = iso(new Date());
   ok(await C.getByText('Saved', { exact: true }).first().isVisible(), 'sync badge shows Saved');
   await shot(C, 'cloud-coach-builder');
 
+  // Private notes use the secure table and never enter clients.data.
+  await C.getByRole('button', { name: 'Notes', exact: true }).click();
+  await C.getByPlaceholder(/Left knee tight/).fill('Private recovery note');
+  await C.getByRole('button', { name: 'Save note', exact: true }).click();
+  await C.getByText('Private recovery note', { exact: true }).waitFor();
+  ok(mock.db.coach_notes_secure.length === 1, 'coach note persists in secure table');
+  ok(!mock.db.clients.find(c => c.id === ryanRow.id).data.coachNotes, 'private note is absent from client JSON');
+  await C.getByRole('button', { name: 'Exercises', exact: true }).click();
+
   /* ---------------- client ---------------- */
   const R = await open({ width: 390, height: 844 });
   await R.goto(`http://localhost:${PORT}/?join=ryan%40example.com`);
@@ -135,6 +144,13 @@ const today = iso(new Date());
   ok((await R.getByRole('button', { name: 'Coach' }).count()) === 0, 'client has no coach switch');
   ok((await R.getByText(/Workouts this week/).count()) === 0, 'client cannot see the coach screens');
   await shot(R, 'cloud-client-today');
+  ok(!(await R.getByText('Private recovery note', { exact: true }).count()), 'private coach note is not rendered for client');
+  await R.getByLabel('Food and portion', { exact: true }).fill('Yogurt, one serving');
+  await R.getByLabel('Calories (kcal)', { exact: true }).fill('120');
+  await R.getByLabel('Protein (g)', { exact: true }).fill('15');
+  await R.getByRole('button', { name: 'Save meal', exact: true }).click();
+  await R.getByText(/120 kcal/).waitFor();
+  ok(mock.db.food_entries.length === 1 && mock.db.food_items[0].protein === 15, 'client food diary uses normalized secure RPC');
 
   ok(!(await R.evaluate(() => location.search.includes('join='))), 'invite parameter removed after sign-in');
   // live: coach adds an exercise -> appears on client without reload
@@ -265,6 +281,26 @@ const today = iso(new Date());
   await F.goto(`http://localhost:${PORT}/?reset=${mail.token}`);
   await F.getByText('reset link has expired').waitFor({ timeout: 8000 }).catch(() => {});
   ok(await F.getByText('reset link has expired').isVisible() || (await F.getByText('Workout completed').isVisible()), 'used reset link is not accepted twice');
+
+  // Second independent coach: real UI against the scoped mock, no production fixture.
+  const O = await open({ width: 768, height: 1024 });
+  await signUp(O, 'Other Coach', 'othercoach@example.com', 'otherpass1', 'coach');
+  await O.getByRole('heading', { name: 'Clients', exact: true }).waitFor();
+  ok(!(await O.getByText('Ryan Lee', { exact: true }).count()), 'second coach cannot see first coach roster');
+  ok((await O.getByRole('button', { name: 'Client', exact: true }).count()) === 0, 'cloud coach cannot switch into client role');
+  const otherToken = mock.db.users.find(u => u.email === 'othercoach@example.com').id;
+  const ownToken = mock.db.users.find(u => u.email === 'ryan@example.com').id;
+  const scopeChecks = await O.evaluate(async ({ otherToken, ownToken, clientId, workoutId }) => {
+    const h = tok => ({ apikey: 'anon', Authorization: 'Bearer tok-' + tok, 'Content-Type': 'application/json' });
+    const foreign = await fetch('https://mock.supabase.co/rest/v1/clients?id=eq.'+clientId, { headers: h(otherToken) });
+    const notes = await fetch('https://mock.supabase.co/rest/v1/coach_notes_secure', { headers: h(ownToken) });
+    const prescription = await fetch('https://mock.supabase.co/rest/v1/workouts?id=eq.'+workoutId, { method: 'PATCH', headers: h(ownToken), body: JSON.stringify({data:{title:'forged'}}) });
+    return { foreign: await foreign.json(), notes: await notes.json(), prescription: prescription.status };
+  }, { otherToken, ownToken, clientId: ryanRow.id, workoutId: w.id });
+  ok(scopeChecks.foreign.length === 0 && scopeChecks.notes.length === 0, 'scoped REST hides foreign client and private notes');
+  ok(mock.db.workouts.find(x => x.id === w.id).data.title !== 'forged', 'direct client PATCH cannot overwrite a prescription');
+  ok(mock.log.some(l => l.startsWith('POST /rest/v1/rpc/save_workout_results_secure')), 'client logging uses secure result RPC');
+  O.errors.forEach(e => C.errors.push(e));
 
   // layout
   for (const [n, p] of [['client', R], ['stranger', S], ['reset', F]]) {

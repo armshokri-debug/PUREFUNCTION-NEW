@@ -7,7 +7,7 @@
 const crypto = require('crypto');
 
 module.exports = function createMock({ coachEmail = 'coach@example.com', otherCoachEmail = 'othercoach@example.com' } = {}) {
-  const db = { users: [], profiles: [], clients: [], workouts: [], exercises: [], files: {}, clientFiles: {}, emails: [], resetTokens: {}, verificationTokens: {}, coach_notes_secure: [], food_entries: [], food_items: [], posture_public_reports: [], program_templates: [] };
+  const db = { users: [], profiles: [], clients: [], workouts: [], exercises: [], files: {}, clientFiles: {}, emails: [], resetTokens: {}, verificationTokens: {}, coach_messages: [], coach_notes_secure: [], food_entries: [], food_items: [], posture_public_reports: [], program_templates: [] };
   const log = [];
   const realtimeLog = [];
   const cors = {
@@ -54,6 +54,7 @@ module.exports = function createMock({ coachEmail = 'coach@example.com', otherCo
     if (table === 'profiles') return row.id === prof.id;
     if (table === 'clients') return row.id === prof.client_id;
     if (['food_entries','food_items','posture_public_reports'].includes(table)) return row.client_id === prof.client_id;
+    if (table === 'coach_messages') return row.client_id === prof.client_id;
     if (table === 'coach_notes_secure') return row.client_id === prof.client_id && row.shared;
     if (table === 'workouts') return row.client_id === prof.client_id;
     if (table === 'exercises') return true;
@@ -68,6 +69,7 @@ module.exports = function createMock({ coachEmail = 'coach@example.com', otherCo
       return canRead(prof, table, row);
     }
     if (table === 'clients') return row.id === prof.client_id;
+    if (table === 'coach_messages') return row.client_id === prof.client_id && !row.from_coach;
     return false;
   };
 
@@ -230,6 +232,7 @@ module.exports = function createMock({ coachEmail = 'coach@example.com', otherCo
       return json(route, 200, []);
     }
 
+    if (path === '/rest/v1/rpc/pf_head_coach') return json(route, 200, false);
     if (path === '/rest/v1/rpc/save_workout_results_secure') {
       const prof = profileOf(uidFrom(req)); const x = JSON.parse(req.postData() || '{}');
       const row = db.workouts.find(w => w.id === x.p_workout_id && w.client_id === x.p_client_id);
@@ -273,6 +276,7 @@ module.exports = function createMock({ coachEmail = 'coach@example.com', otherCo
         const body = JSON.parse(req.postData() || '[]');
         const arr = Array.isArray(body) ? body : [body];
         for (const r of arr) {
+          if (table === 'coach_messages') { r.id ??= crypto.randomUUID(); r.created_at ??= new Date().toISOString(); if (r.from_coach !== (prof?.role === 'coach')) return json(route, 403, { code: '42501', message: 'Sender mismatch' }); }
           if (!canWrite(prof, table, r)) return json(route, 403, { code: '42501', message: `new row violates row-level security policy for table "${table}"` });
           if (table === 'clients' && prof.role !== 'coach') {
             // Real database: INSERT ... ON CONFLICT also checks the INSERT policy (coach only), so a client can never POST here.
@@ -297,13 +301,17 @@ module.exports = function createMock({ coachEmail = 'coach@example.com', otherCo
           }
           broadcast(table, i >= 0 ? 'UPDATE' : 'INSERT', row);
         }
-        if ((req.headers()['prefer'] || '').includes('return=representation')) return json(route, 201, arr.map(r => rows.find(x => x.id === r.id)));
+        if ((req.headers()['prefer'] || '').includes('return=representation')) return json(route, 201, (req.headers()['accept'] || '').includes('vnd.pgrst.object') ? rows.find(x => x.id === arr[0].id) : arr.map(r => rows.find(x => x.id === r.id)));
         return route.fulfill({ status: 201, headers: cors, body: '' });
       }
       if (method === 'PATCH') {
         const patch = JSON.parse(req.postData() || '{}');
         const hit = rows.filter((r) => matches(r, url.searchParams) && canRead(prof, table, r) && canWrite(prof, table, r));
         for (const r of hit) {
+          if (table === 'clients' && prof.role === 'client' && patch.data) {
+            const allowed = ['photoUrl','nutrition','manualRecords'];
+            if ([...new Set([...Object.keys(r.data), ...Object.keys(patch.data)])].some(k => !allowed.includes(k) && JSON.stringify(r.data[k]) !== JSON.stringify(patch.data[k]))) return json(route, 403, { code: '42501', message: 'Coach-owned data' });
+          }
           if (table === 'clients' && prof.role !== 'coach' && 'email' in patch && (patch.email || '') !== (r.email || '')) {
             return json(route, 400, { message: "Only the coach can change a client's email" });
           }
@@ -315,13 +323,15 @@ module.exports = function createMock({ coachEmail = 'coach@example.com', otherCo
       }
       if (method === 'DELETE') {
         if (!prof || prof.role !== 'coach') return route.fulfill({ status: 204, headers: cors }); // RLS: silently nothing
+        const deleted = [];
         for (let i = rows.length - 1; i >= 0; i--) {
           if (matches(rows[i], url.searchParams) && canRead(prof, table, rows[i])) {
-            const [gone] = rows.splice(i, 1);
+            const [gone] = rows.splice(i, 1); deleted.push(gone);
             if (table === 'clients') db.workouts = db.workouts.filter((w) => w.client_id !== gone.id);
             broadcast(table, 'DELETE', { id: gone.id }, gone);
           }
         }
+        if ((req.headers()['prefer'] || '').includes('return=representation')) return json(route, 200, deleted);
         return route.fulfill({ status: 204, headers: cors });
       }
     }

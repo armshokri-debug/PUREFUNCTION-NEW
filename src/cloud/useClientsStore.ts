@@ -84,6 +84,7 @@ export function useCloudClientsStore(profile: Profile | null): ClientsStore {
   const clientVersions = useRef(new Map<string, string>());
   const workoutVersions = useRef(new Map<string, string>());
   const mounted = useRef(true);
+  const blocked = useRef(false);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; if (timer.current) window.clearTimeout(timer.current); }; }, []);
   const timer = useRef<number | null>(null);
   const flushing = useRef(false);
@@ -134,11 +135,11 @@ export function useCloudClientsStore(profile: Profile | null): ClientsStore {
     return () => {
       cancelled = true;
     };
-  }, [profile]);
+  }, [profile?.id, profile?.role, profile?.clientId]);
 
   /* ---------------- writes ---------------- */
   const flush = useCallback(async () => {
-    if (!supabase || !profile || !mounted.current || loadedFor.current !== profile.id) return;
+    if (!supabase || !profile || !mounted.current || blocked.current || loadedFor.current !== profile.id) return;
     if (flushing.current) {
       again.current = true;
       return;
@@ -161,16 +162,22 @@ export function useCloudClientsStore(profile: Profile | null): ClientsStore {
       // 1) deletions first (frees the one-workout-per-day slot for replacements)
       if (isCoach) {
         const goneWorkouts = [...pushedWorkouts.current.keys()].filter((id) => !liveWorkouts.has(id));
-        if (goneWorkouts.length) {
-          const { error } = await supabase.from('workouts').delete().in('id', goneWorkouts);
+        for (const id of goneWorkouts) {
+          const version = workoutVersions.current.get(id);
+          if (!version) throw new Error('Missing workout version');
+          const { data, error } = await supabase.from('workouts').delete().eq('id', id).eq('updated_at', version).select('id');
           if (error) throw error;
-          goneWorkouts.forEach((id) => pushedWorkouts.current.delete(id));
+          if (!data?.length) throw { code: '40001', message: 'Workout changed before deletion' };
+          pushedWorkouts.current.delete(id); workoutVersions.current.delete(id);
         }
         const goneClients = [...pushedClients.current.keys()].filter((id) => !liveClientIds.has(id));
-        if (goneClients.length) {
-          const { error } = await supabase.from('clients').delete().in('id', goneClients);
+        for (const id of goneClients) {
+          const version = clientVersions.current.get(id);
+          if (!version) throw new Error('Missing profile version');
+          const { data, error } = await supabase.from('clients').delete().eq('id', id).eq('updated_at', version).select('id');
           if (error) throw error;
-          goneClients.forEach((id) => pushedClients.current.delete(id));
+          if (!data?.length) throw { code: '40001', message: 'Profile changed before deletion' };
+          pushedClients.current.delete(id); clientVersions.current.delete(id);
         }
       }
 
@@ -232,16 +239,18 @@ export function useCloudClientsStore(profile: Profile | null): ClientsStore {
     } catch (e) {
       failed = true;
       conflict = ['40001', '42501', '23505', '23503'].includes((e as { code?: string }).code ?? '');
+      if (conflict) blocked.current = true;
       if (conflict) setLoadError('Your changes could not be saved safely. Reload to fetch the latest data before editing again.');
     } finally {
       flushing.current = false;
     }
-    if (again.current) {
+    if (again.current && !conflict) {
       again.current = false;
       void flush();
       return;
     }
     if (!mounted.current) return;
+    again.current = false;
     if (failed) {
       setSync(navigator.onLine === false ? 'offline' : 'error');
       // try again shortly (network blips, token refresh)
@@ -268,11 +277,12 @@ export function useCloudClientsStore(profile: Profile | null): ClientsStore {
     const onHide = () => {
       if (document.visibilityState === 'hidden') void flush();
     };
+    const onOnline = () => void flush();
     document.addEventListener('visibilitychange', onHide);
-    window.addEventListener('online', onHide);
+    window.addEventListener('online', onOnline);
     return () => {
       document.removeEventListener('visibilitychange', onHide);
-      window.removeEventListener('online', onHide);
+      window.removeEventListener('online', onOnline);
     };
   }, [flush]);
 

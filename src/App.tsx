@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { CoachAccounts } from './components/coach/CoachAccounts';
 import { FoodDiary } from './components/FoodDiary';
 import { PostureReports } from './components/PostureReports';
 import { supabase } from './cloud/supabase';
@@ -528,6 +529,7 @@ function Workspace({ store, profile }: { store: ClientsStore; profile: Profile |
                     joinedIds={joinedIds}
                   />
                   {supabase && <ReferralsPanel clients={clients} />}
+                  {supabase && <CoachAccounts />}
                 </>
               )
             )}

@@ -55,7 +55,7 @@ export const NotesPanel: React.FC<{ client: ClientProfile; onUpdateClient: (c: C
             <li key={n.id} className="py-3.5 flex gap-3">
               <div className="w-16 shrink-0 text-xs font-semibold text-gray-400 pt-0.5">{formatDate(n.date)}</div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-[#111827] whitespace-pre-wrap leading-relaxed">{n.text}</p>
+                <p className="text-sm text-[#111827] whitespace-pre-wrap break-words leading-relaxed">{n.text}</p>
                 <div className="flex items-center gap-2 mt-2">
                   {n.pinned && <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#FFC809] text-[#111827]">Pinned</span>}
                   <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${n.shared ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
