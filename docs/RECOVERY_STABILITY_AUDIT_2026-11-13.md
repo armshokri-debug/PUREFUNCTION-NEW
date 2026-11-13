@@ -73,7 +73,7 @@ Existing Supabase advisors identify extension placement, public referral RPCs, a
 
 ## Validation record
 
-Local TypeScript checks, unit suite and production build passed; the suite has 85 tests after recovery-contract coverage was added.
+Local TypeScript checks, unit suite and production build passed; the suite has 87 tests after recovery-contract coverage was added.
 Local Chromium execution is restricted by the workspace; browser validation runs in GitHub Actions.
 The final CI run and merge/deployment status must be recorded below after execution, with no claim of production success while required checks are failing.
 

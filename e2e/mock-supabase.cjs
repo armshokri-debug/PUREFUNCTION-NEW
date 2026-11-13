@@ -306,7 +306,7 @@ module.exports = function createMock({ coachEmail = 'coach@example.com', otherCo
       }
       if (method === 'PATCH') {
         const patch = JSON.parse(req.postData() || '{}');
-        const hit = rows.filter((r) => matches(r, url.searchParams) && canRead(prof, table, r) && canWrite(prof, table, r));
+        const hit = rows.filter((r) => matches(r, url.searchParams) && canRead(prof, table, r) && (table === 'coach_messages' ? r.from_coach !== (prof.role === 'coach') : canWrite(prof, table, r)));
         for (const r of hit) {
           if (table === 'clients' && prof.role === 'client' && patch.data) {
             const allowed = ['photoUrl','nutrition','manualRecords'];

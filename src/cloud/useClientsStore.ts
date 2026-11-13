@@ -301,6 +301,8 @@ export function useCloudClientsStore(profile: Profile | null): ClientsStore {
         if (payload.eventType === 'DELETE') {
           const id = (payload.old as { id?: string }).id;
           if (!id) return;
+          const local = current.current.flatMap(c => (c.workouts ?? []).map(w => workoutRow(c.id, w))).find(w => w.id === id);
+          if (local && pushedWorkouts.current.get(id) !== stableStringify(local)) { blocked.current = true; setLoadError('A workout was removed on another device. Reload before saving.'); return; }
           pushedWorkouts.current.delete(id);
           apply((list) =>
             list.map((c) => ({ ...c, workouts: (c.workouts ?? []).filter((w) => w.id !== id) }))
@@ -333,6 +335,8 @@ export function useCloudClientsStore(profile: Profile | null): ClientsStore {
         if (payload.eventType === 'DELETE') {
           const id = (payload.old as { id?: string }).id;
           if (!id) return;
+          const local = current.current.find(c => c.id === id);
+          if (local && pushedClients.current.get(id) !== stableStringify(clientRow(local))) { blocked.current = true; setLoadError('A client record was removed on another device. Reload before saving.'); return; }
           pushedClients.current.delete(id);
           apply((list) => list.filter((c) => c.id !== id));
           return;

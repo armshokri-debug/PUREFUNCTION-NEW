@@ -130,7 +130,7 @@ const today = iso(new Date());
   await C.getByRole('button', { name: 'Exercises', exact: true }).click();
 
   /* ---------------- client ---------------- */
-  const R = await open({ width: 390, height: 844 });
+  const R = await open({ width: 375, height: 812 });
   await R.goto(`http://localhost:${PORT}/?join=ryan%40example.com`);
   await R.getByRole('heading', { name: 'Set up your account' }).waitFor();
   ok((await R.getByLabel('Email').inputValue()) === 'ryan@example.com', 'invite link opens client set-up with the email filled in');
@@ -260,6 +260,20 @@ const today = iso(new Date());
   await R.getByText('Workout completed').waitFor({ timeout: 10000 }).catch(() => {});
   ok(await R.getByText('Workout completed').isVisible(), 'client can sign back in');
 
+  // Messaging is exercised through the real UI and active table, never legacy messages.
+  await C.getByRole('button', { name: 'Messages', exact: true }).first().click();
+  await C.getByRole('button', { name: /Ryan Lee/ }).first().click();
+  await R.getByRole('button', { name: 'Chat', exact: true }).click();
+  await R.getByPlaceholder('Message Coach…').fill('Ready for the next session');
+  await R.getByRole('button', { name: 'Send', exact: true }).click();
+  await C.getByText('Ready for the next session', { exact: true }).last().waitFor();
+  ok(mock.db.coach_messages.some(m => m.body === 'Ready for the next session' && !m.from_coach), 'client message persists in active coach_messages table');
+  await C.getByPlaceholder('Message Ryan…').fill('See you at training');
+  await C.getByRole('button', { name: 'Send', exact: true }).click();
+  await R.getByText('See you at training', { exact: true }).waitFor();
+  ok(true, 'coach reply arrives on client device');
+  await R.getByRole('button', { name: 'Today', exact: true }).click();
+
   // forgot password -> email link -> new password
   const F = await open({ width: 390, height: 844 });
   await F.getByRole('button', { name: 'Forgot password?' }).click();
@@ -301,6 +315,22 @@ const today = iso(new Date());
   ok(mock.db.workouts.find(x => x.id === w.id).data.title !== 'forged', 'direct client PATCH cannot overwrite a prescription');
   ok(mock.log.some(l => l.startsWith('POST /rest/v1/rpc/save_workout_results_secure')), 'client logging uses secure result RPC');
   O.errors.forEach(e => C.errors.push(e));
+
+  for (const width of [375, 768, 1024, 1440]) {
+    await R.setViewportSize({ width, height: 900 });
+    ok((await R.evaluate(() => document.documentElement.scrollWidth === innerWidth)), `cloud client layout at ${width}px`);
+  }
+
+  // A stale coach editor must fail closed instead of replacing newer results.
+  await C.getByRole('button', { name: 'Clients', exact: true }).first().click();
+  if (!(await C.getByRole('button', { name: 'Exercises', exact: true }).count())) await C.locator('main').getByText('Ryan Lee', { exact: true }).first().click();
+  await C.getByRole('button', { name: 'Exercises', exact: true }).click();
+  const serverWorkout = mock.db.workouts.find(x => x.id === w.id);
+  const protectedReps = serverWorkout.data.blocks[0].reps;
+  serverWorkout.updated_at = new Date(Date.now() + 10000).toISOString(); // another device, deliberately no event
+  await C.locator('input[placeholder="8-10"]').first().fill('12');
+  await C.getByRole('heading', { name: 'Data needs a fresh load', exact: true }).waitFor();
+  ok(serverWorkout.data.blocks[0].reps === protectedReps, 'stale editor cannot overwrite a newer workout version');
 
   // layout
   for (const [n, p] of [['client', R], ['stranger', S], ['reset', F]]) {
