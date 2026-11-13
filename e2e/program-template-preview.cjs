@@ -71,9 +71,18 @@ async function measureOverflow(page) {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   let templateGetMode = 'ok';
   let templateGetCount = 0;
+  let failNextTemplateSave = false;
   await ctx.route('https://mock.supabase.co/**', async (route) => {
     const req = route.request();
     const url = new URL(req.url());
+    if (req.method() === 'POST' && url.pathname === '/rest/v1/program_templates' && failNextTemplateSave) {
+      failNextTemplateSave = false;
+      return route.fulfill({
+        status: 500,
+        headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+        body: JSON.stringify({ message: 'Simulated template save failure' })
+      });
+    }
     if (req.method() === 'GET' && url.pathname === '/rest/v1/program_templates') {
       templateGetCount++;
       if (templateGetMode === 'fail') {
@@ -514,6 +523,310 @@ async function measureOverflow(page) {
   ok(JSON.stringify(mock.db.workouts) === workoutsBefore, 'client workouts remain untouched');
   ok(JSON.stringify(mock.db.clients) === clientsBefore, 'client profiles remain untouched');
   ok(JSON.stringify(mock.db.program_templates) === templatesBefore, 'templates remain untouched');
+
+  // ---------------- Program template full lifecycle ----------------
+  const toISO = (d) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const parseISO = (iso) => {
+    const [y, m, d] = iso.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  };
+  const addDaysISO = (iso, n) => {
+    const d = parseISO(iso);
+    d.setDate(d.getDate() + n);
+    return toISO(d);
+  };
+  const mondayOf = (iso) => {
+    const d = parseISO(iso);
+    const dow = (d.getDay() + 6) % 7;
+    return addDaysISO(iso, -dow);
+  };
+  const labelDate = (iso) => {
+    const d = parseISO(iso);
+    return `${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()]}, ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()]} ${d.getDate()}`;
+  };
+
+  const thisMonday = mondayOf(toISO(new Date()));
+  const sourceMon = addDaysISO(thisMonday, -14);
+  const sourceWed = addDaysISO(sourceMon, 2);
+  const destMon = addDaysISO(thisMonday, 7);
+  const destWed = addDaysISO(destMon, 2);
+
+  const makeSyntheticClient = (id, name, email) => ({
+    id,
+    coach_id: coachProfile.id,
+    email,
+    updated_at: new Date().toISOString(),
+    data: {
+      id,
+      name,
+      email,
+      phaseNumber: 1,
+      phaseName: 'Reposition',
+      inBody: {
+        weight: 0,
+        skeletalMuscleMass: 0,
+        bodyFatMass: 0,
+        bodyFatPercent: 0,
+        visceralFatLevel: 0,
+        bmr: 0,
+        inBodyScore: 0,
+        segments: { leftArm: 0, rightArm: 0, trunk: 0, leftLeg: 0, rightLeg: 0 },
+        printoutUploaded: false
+      },
+      rom: [],
+      priTests: [],
+      gaitPosture: [],
+      strengthTests: [],
+      videoAssessments: [],
+      goals: [],
+      assessments: []
+    }
+  });
+
+  mock.db.clients.push(
+    makeSyntheticClient('client-syn-2', 'Target Athlete', 'target.athlete@example.invalid'),
+    makeSyntheticClient('client-syn-3', 'Unselected Athlete', 'unselected.athlete@example.invalid')
+  );
+
+  mock.db.workouts.push(
+    {
+      id: 'wo-lc-src-mon',
+      client_id: 'client-syn-1',
+      date: sourceMon,
+      updated_at: new Date().toISOString(),
+      data: {
+        id: 'wo-lc-src-mon',
+        date: sourceMon,
+        title: 'Lifecycle Push A',
+        focus: 'Anterior chain',
+        status: 'completed',
+        completedAt: `${sourceMon}T12:00:00.000Z`,
+        sessionRpe: 8,
+        clientFeedback: 'Strong press',
+        blocks: [
+          {
+            id: 'blk-lc-1',
+            exerciseId: 'ex-press',
+            name: 'Incline Dumbbell Press',
+            sets: 3,
+            reps: '8-10',
+            loadKg: 30,
+            restSec: 90,
+            notes: 'Controlled tempo',
+            loggedSets: [{ setNumber: 1, kg: 30, reps: 10, completed: true }]
+          }
+        ]
+      }
+    },
+    {
+      id: 'wo-lc-src-wed',
+      client_id: 'client-syn-1',
+      date: sourceWed,
+      updated_at: new Date().toISOString(),
+      data: {
+        id: 'wo-lc-src-wed',
+        date: sourceWed,
+        title: 'Lifecycle Pull B',
+        focus: 'Upper back',
+        status: 'planned',
+        blocks: [
+          {
+            id: 'blk-lc-2',
+            exerciseId: 'ex-row',
+            name: 'Chest Supported Row',
+            sets: 4,
+            reps: '12',
+            loadKg: 40,
+            restSec: 90,
+            notes: '',
+            loggedSets: [{ setNumber: 1, kg: 40, reps: null, completed: false }]
+          }
+        ]
+      }
+    },
+    {
+      id: 'wo-lc-comp-mon',
+      client_id: 'client-syn-2',
+      date: destMon,
+      updated_at: new Date().toISOString(),
+      data: {
+        id: 'wo-lc-comp-mon',
+        date: destMon,
+        title: 'Completed Benchmark',
+        focus: 'Heavy single',
+        status: 'completed',
+        completedAt: `${destMon}T09:30:00.000Z`,
+        sessionRpe: 9,
+        clientFeedback: 'PR day',
+        blocks: [
+          {
+            id: 'blk-lc-comp',
+            exerciseId: 'ex-bench',
+            name: 'Recorded Bench Press',
+            sets: 3,
+            reps: '5',
+            loadKg: 80,
+            restSec: 120,
+            notes: 'Tucked elbows',
+            loggedSets: [{ setNumber: 1, kg: 80, reps: 5, completed: true }]
+          }
+        ]
+      }
+    },
+    {
+      id: 'wo-lc-unsel-wed',
+      client_id: 'client-syn-3',
+      date: destWed,
+      updated_at: new Date().toISOString(),
+      data: {
+        id: 'wo-lc-unsel-wed',
+        date: destWed,
+        title: 'Unselected Original Session',
+        focus: 'Mobility',
+        status: 'planned',
+        blocks: [
+          {
+            id: 'blk-lc-unsel',
+            exerciseId: 'ex-mob',
+            name: 'Unselected Mobility Drill',
+            sets: 3,
+            reps: '10',
+            loadKg: 20,
+            restSec: 60,
+            notes: '',
+            loggedSets: []
+          }
+        ]
+      }
+    }
+  );
+
+  // 1. Create and save a template from synthetic client workouts
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  await page.getByLabel('Template name').fill('Lifecycle Week Template');
+  await page.getByLabel('Template length').selectOption('week');
+  await page.getByLabel('Source week').fill(sourceMon);
+  await page.getByRole('button', { name: 'Save as template' }).click();
+  await page.getByText('Saved 2 workouts as Lifecycle Week Template.').waitFor();
+
+  const savedTplRow = mock.db.program_templates.find((r) => r.data && r.data.name === 'Lifecycle Week Template');
+  ok(!!savedTplRow && savedTplRow.data.days.length === 2, 'lifecycle: saved template persisted in mock program_templates');
+
+  // 2. Reload and verify saved template and prescriptions remain
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  const savedSelect = page.getByLabel('Saved template');
+  await savedSelect.waitFor();
+  await savedSelect.selectOption(savedTplRow.id);
+  await page.getByRole('button', { name: 'Show preview' }).click();
+  const lcPreview = await page.locator('#program-template-preview').innerText();
+  ok(
+    lcPreview.includes('Lifecycle Week Template') &&
+      lcPreview.includes('One week') &&
+      lcPreview.includes('2 workouts') &&
+      lcPreview.includes('Lifecycle Push A') &&
+      lcPreview.includes('Incline Dumbbell Press') &&
+      lcPreview.includes('3 × 8-10') &&
+      lcPreview.includes('66.1 lb') &&
+      lcPreview.includes('Lifecycle Pull B') &&
+      lcPreview.includes('Chest Supported Row') &&
+      lcPreview.includes('4 × 12') &&
+      lcPreview.includes('88.2 lb'),
+    'lifecycle: saved template and prescriptions survive reload'
+  );
+
+  // 3. Apply saved template to selected synthetic client only
+  const unselectedWorkoutsBefore = JSON.stringify(mock.db.workouts.filter((w) => w.client_id === 'client-syn-3'));
+  const completedBenchmarkBefore = JSON.stringify(mock.db.workouts.find((w) => w.id === 'wo-lc-comp-mon'));
+
+  const syn1Box = page.getByRole('checkbox', { name: 'Synthetic Athlete' });
+  if (await syn1Box.isChecked()) await syn1Box.uncheck();
+  const syn2Box = page.getByRole('checkbox', { name: 'Target Athlete' });
+  if (!(await syn2Box.isChecked())) await syn2Box.check();
+  const syn3Box = page.getByRole('checkbox', { name: 'Unselected Athlete' });
+  if (await syn3Box.isChecked()) await syn3Box.uncheck();
+
+  await page.getByLabel('Destination week').fill(destMon);
+  await page.getByRole('button', { name: 'Apply template' }).click();
+  await page.getByText('Applied 1 workouts to 1 clients. 1 days with results were protected.').waitFor();
+
+  // 4. Wait for persistence, reload, and verify resulting workouts
+  let persistedDestWed = null;
+  for (let i = 0; i < 50; i++) {
+    persistedDestWed = mock.db.workouts.find((w) => w.client_id === 'client-syn-2' && w.date === destWed);
+    const savedBadgeVisible = await page.getByText('Saved', { exact: true }).first().isVisible().catch(() => false);
+    if (persistedDestWed && savedBadgeVisible) break;
+    await page.waitForTimeout(100);
+  }
+  ok(!!persistedDestWed && persistedDestWed.data.title === 'Lifecycle Pull B', 'lifecycle: applied workout persisted to mock workouts');
+  ok(
+    !!persistedDestWed &&
+      persistedDestWed.data.status === 'planned' &&
+      !persistedDestWed.data.completedAt &&
+      persistedDestWed.data.blocks[0].loggedSets.every((s) => s.completed === false && s.reps === null),
+    'lifecycle: persisted workout clears source results'
+  );
+
+  // 5 & 6. Verify unselected client and completed workout/results are preserved in mock DB
+  ok(
+    JSON.stringify(mock.db.workouts.filter((w) => w.client_id === 'client-syn-3')) === unselectedWorkoutsBefore,
+    'lifecycle: unselected client workouts remain unchanged in mock DB'
+  );
+  ok(
+    JSON.stringify(mock.db.workouts.find((w) => w.id === 'wo-lc-comp-mon')) === completedBenchmarkBefore,
+    'lifecycle: completed workout and recorded results preserved in mock DB'
+  );
+
+  // Reload and verify UI reflects persisted workouts, protected completed workout, and untouched unselected client
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-2');
+  await page.getByRole('button', { name: 'Next week', exact: true }).click();
+  await page.getByRole('button', { name: labelDate(destWed) }).click();
+  ok(
+    (await page.getByLabel('Workout title').inputValue()) === 'Lifecycle Pull B' &&
+      (await page.getByText('Chest Supported Row').isVisible()),
+    'lifecycle: applied workout remains visible in UI after reload'
+  );
+
+  await page.getByRole('button', { name: labelDate(destMon) }).click();
+  ok(
+    (await page.getByLabel('Workout title').inputValue()) === 'Completed Benchmark' &&
+      (await page.getByText('Recorded Bench Press').isVisible()) &&
+      (await page.getByText('PR day').isVisible()) &&
+      (await page.getByText('Completed', { exact: true }).isVisible()),
+    'lifecycle: completed workout and logged results remain visible in UI after reload'
+  );
+
+  await page.getByLabel('Program for client').selectOption('client-syn-3');
+  await page.getByRole('button', { name: labelDate(destWed) }).click();
+  ok(
+    (await page.getByLabel('Workout title').inputValue()) === 'Unselected Original Session' &&
+      (await page.getByText('Unselected Mobility Drill').isVisible()),
+    'lifecycle: unselected client remains unchanged in UI after reload'
+  );
+
+  // 7. Simulate failed template save: retain form input and avoid false save success
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  const lcNameInput = page.getByLabel('Template name');
+  const lcLengthSelect = page.getByLabel('Template length');
+  const lcSourceInput = page.getByLabel('Source week');
+  await lcNameInput.fill('Failed Save Draft');
+  await lcLengthSelect.selectOption('program');
+  await lcSourceInput.fill(sourceMon);
+  const templateCountBeforeFail = mock.db.program_templates.length;
+  failNextTemplateSave = true;
+  await page.getByRole('button', { name: 'Save as template' }).click();
+  await page.getByText('Could not save template.').waitFor();
+  ok((await page.getByText(/Saved \d+ workouts/).count()) === 0, 'lifecycle: failed save does not show false save success');
+  ok((await lcNameInput.inputValue()) === 'Failed Save Draft', 'lifecycle: failed save retains template name');
+  ok((await lcLengthSelect.inputValue()) === 'program', 'lifecycle: failed save retains template length');
+  ok((await lcSourceInput.inputValue()) === sourceMon, 'lifecycle: failed save retains source week');
+  ok(mock.db.program_templates.length === templateCountBeforeFail, 'lifecycle: failed save writes nothing to mock program_templates');
 
   ok(pageErrors.length === 0, `no page errors (${pageErrors.join(' | ')})`);
 
