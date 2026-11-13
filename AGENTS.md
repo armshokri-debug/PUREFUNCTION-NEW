@@ -47,3 +47,11 @@ Browser checks: `e2e/responsive-check.cjs`, `e2e/cloud-flow.cjs`, `e2e/library.c
 Strict sign-in portal checks are being added on `fix/strict-signin-portals`. Coach credentials must be refused on Client sign-in and vice versa, using the database-owned role after credential verification. Recovery changes are tracked in PR #1; read its current checks and deployment record for the final release status. Source backup checksums and Git bundle restoration passed. Live read-only ownership/RLS assertions passed for the existing coach/client and an unknown authenticated identity. Local TypeScript, unit tests and build pass; 87 unit tests. Browser CI gates must pass on the release head. No production database changes or real-user test mail were performed.
 
 Full database/Auth/Storage restoration, complete fresh-database migrations, real email delivery and the earlier private posture-review editor remain unverified or unavailable. Read the audit before claiming full recovery.
+
+## AI Studio workflow — main-only owner pushes
+
+The owner can push from AI Studio only to main; Gemini cannot push or manage branches. Gemini prepares one explicitly scoped task and provides the actual diff and test results. The owner pushes only after review. Do not instruct the owner to push an AI Studio branch or create a duplicate PR. Maintainer connectors may use a temporary branch/PR for reviewed integration.
+
+Every push to main runs Recovery validation, including the program-template preview browser test. A push does not deploy production. Deploy to GitHub Pages is manual: select main and provide the full reviewed main SHA as reviewed_sha. A wrong branch, short SHA or mismatching SHA must fail before building. Deployment reruns validation and requires the build to pass; production smoke runs afterward. Never dispatch without reviewing the current diff and successful main checks.
+
+After maintainer changes land, AI Studio must load current main before the next edit; do not overwrite newer workflows from an older snapshot. Chat response copy controls belong to AI Studio responses, never the Pure Function UI.
