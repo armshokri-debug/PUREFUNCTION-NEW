@@ -45,7 +45,7 @@ The source Git bundle was restored and verified. A source backup does **not** in
 
 `supabase/schema-reference-2026-11-13.json` is a metadata-only reference. Applied ownership SQL is archived under `supabase/recovered_migrations/`. Imported migration filenames have drifted from production history and do not form a complete fresh-install baseline. Do not replay migrations against the live project. All production migrations require explicit owner approval and a separate private backup/restore drill.
 
-Recovered Edge Function sources mirror deployed versions. This recovery does not itself redeploy functions or send real-user test emails. Verify the hosted `APP_URL`, Resend/domain configuration and delivery before promising working email links to this new site.
+Recovered Edge Function sources preserve the deployed implementations with a tested normalization of retired production links to this site. PR #1 records function deployment and public smoke results. No real-user test emails are sent; verify Resend/domain configuration and inbox delivery before promising email delivery.
 
 ## Known limitations
 

@@ -66,7 +66,7 @@ Existing Supabase advisors identify extension placement, public referral RPCs, a
 - Full disaster recovery remains unverified until a private database/Auth/Storage backup is restored to an isolated project. Never test restore against production.
 - The recovered schema reference and archived migrations do not establish a clean, replayable schema from an empty database; dependencies and migration-history drift need an approved isolated reconciliation.
 - No real invitation, signup, password-reset delivery, or two-device account test was performed. Sending mail to real users was not used as a test fixture.
-- Hosted email functions may have `APP_URL` configured for the old site; source fallback URLs must be reconciled before claiming email links land on the new production URL. Secrets were not read or changed.
+- Email-link resolution now maps missing or retired production URL settings to the recovered site while preserving explicit staging URLs. Unit tests cover this mapping. Function deployment and public smoke results are recorded in PR #1; actual inbox delivery remains unverified. Secrets were not read or changed.
 - The full earlier private Posture interpretation/review interface is not present in this source history. Existing secure drafts are preserved; this repair exposes published summaries, not a fabricated replacement editor.
 - Automatic food parsing, photo nutrition, favorite-meal editing and historical review authoring are not verified by this release. The existing data and deployed parsing function are preserved.
 - Exercise edits and exercise videos use the existing shared library authorization model, not per-coach ownership. Do not store private client information in the shared catalog.
@@ -76,6 +76,6 @@ Existing Supabase advisors identify extension placement, public referral RPCs, a
 
 Local TypeScript checks, unit suite and production build passed; the suite has 87 tests after recovery-contract coverage was added.
 Local Chromium execution is restricted by the workspace; browser validation runs in GitHub Actions.
-The final CI run and merge/deployment status must be recorded below after execution, with no claim of production success while required checks are failing.
+Completed pre-release browser runs reported zero responsive failures and zero unvisited views at all four sizes, plus passing library, PWA and cloud-flow checks. Later changes add messaging, independent-coach isolation, secure-note/food persistence, failed-save and cancelled-recovery coverage.
 
-Release status: validation in progress; PR #1 is a draft. Production has not been changed by this branch.
+The authoritative final head SHA, check conclusions, merge state, Edge Function versions and production smoke result are recorded in [PR #1](https://github.com/armshokri-debug/PUREFUNCTION-NEW/pull/1) and its linked Actions runs. This document does not infer deployment from a source commit. No production database migration is part of this release.
