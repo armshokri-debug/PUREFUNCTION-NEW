@@ -259,6 +259,26 @@ const today = iso(new Date());
   await R.getByRole('heading', { name: 'Client sign in' }).waitFor({ timeout: 5000 }).catch(() => {});
   ok(await R.getByRole('heading', { name: 'Client sign in' }).isVisible(), 'client can sign out (back to client sign-in)');
 
+  // Correct credentials on the wrong portal must never mount any workspace.
+  await R.getByRole('tab', { name: 'I’m the coach' }).click();
+  await R.getByLabel('Email').fill('ryan@example.com');
+  await R.getByLabel('Password').fill('ryanpass1');
+  await R.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await R.getByText('This is a client account. Choose “I’m a client” to sign in.', { exact: true }).waitFor();
+  ok(await R.getByRole('heading', { name: 'Coach sign in', exact: true }).isVisible(), 'client credentials are refused on Coach portal');
+  ok((await R.getByText('Workout completed', { exact: true }).count()) === 0, 'wrong-portal login mounts no client workspace');
+  await R.reload();
+  await R.getByRole('heading', { name: 'Coach sign in', exact: true }).waitFor();
+  ok(true, 'refused login leaves no persistent authenticated session');
+  await R.getByRole('tab', { name: 'I’m a client' }).click();
+  await R.getByLabel('Email').fill('coach@example.com');
+  await R.getByLabel('Password').fill('coachpass1');
+  await R.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await R.getByText('This is a coach account. Choose “I’m the coach” to sign in.', { exact: true }).waitFor();
+  ok(await R.getByRole('heading', { name: 'Client sign in', exact: true }).isVisible(), 'coach credentials are refused on Client portal');
+  ok((await R.getByRole('heading', { name: 'Clients', exact: true }).count()) === 0, 'wrong-portal login mounts no coach workspace');
+  ok(await C.getByRole('button', { name: 'Sign out' }).first().isVisible(), 'refusal signs out only this device, retaining coach session elsewhere');
+
   // wrong password
   await R.getByLabel('Email').fill('ryan@example.com');
   await R.getByLabel('Password').fill('wrongpass');

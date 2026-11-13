@@ -79,3 +79,10 @@ Local Chromium execution is restricted by the workspace; browser validation runs
 Completed pre-release browser runs reported zero responsive failures and zero unvisited views at all four sizes, plus passing library, PWA and cloud-flow checks. Later changes add messaging, independent-coach isolation, secure-note/food persistence, failed-save and cancelled-recovery coverage.
 
 The authoritative final head SHA, check conclusions, merge state, Edge Function versions and production smoke result are recorded in [PR #1](https://github.com/armshokri-debug/PUREFUNCTION-NEW/pull/1) and its linked Actions runs. This document does not infer deployment from a source commit. No production database migration is part of this release.
+
+
+## Follow-up: strict sign-in portals
+
+The Coach/Client selector previously changed the form copy but accepted either account type, routing it to its database role. The follow-up rejects a mismatch before mounting any workspace and signs that attempted session out on this device only. The account's role remains server-controlled. Correct-portal, wrong-password, wrong-portal, reload/session and other-device session cases are covered by the cloud browser suite.
+
+Remaining recovery work is separate from this UI fix. The Supabase connector exposes no full backup/Auth/Storage export or backup-restore drill capability; no development branch exists. The old `audiovido/Purefunction-2` repository returned 404 during source recovery discovery. No missing editor or complete disaster-recovery backup is claimed restored from those unavailable sources.

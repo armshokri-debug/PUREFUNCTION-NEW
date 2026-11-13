@@ -22,8 +22,8 @@ interface SessionValue {
   status: SessionStatus;
   profile: Profile | null;
   email: string | null;
-  signIn: (email: string, password: string) => Promise<string | null>;
-  signUp: (email: string, password: string, name: string) => Promise<string | null>;
+  signIn: (email: string, password: string, portal: Profile['role']) => Promise<string | null>;
+  signUp: (email: string, password: string, name: string, portal: Profile['role']) => Promise<string | null>;
   signOut: () => Promise<void>;
   resendVerification: (email: string) => Promise<string | null>;
   /** One-time message for the sign-in screen (e.g. expired reset link). */
@@ -54,24 +54,35 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const resetPending = React.useRef(new URLSearchParams(window.location.search).has('reset'));
 
   const profileRequest = React.useRef(0);
-  const loadProfile = useCallback(async (s: Session | null) => {
-    if (!supabase) return;
+  const loginPending = React.useRef(false);
+  const loadProfile = useCallback(async (s: Session | null, portal?: Profile['role']): Promise<string | null> => {
+    if (!supabase) return 'Cloud is not configured.';
     const request = ++profileRequest.current;
     if (!s) {
       setProfile(null);
       setStatus('signed-out');
-      return;
+      return null;
     }
     const { data, error } = await supabase
       .from('profiles')
       .select('id, role, display_name, client_id')
       .eq('id', s.user.id)
       .maybeSingle();
-    if (request !== profileRequest.current) return;
+    if (request !== profileRequest.current) return null;
     if (error || !data || !['coach', 'client'].includes(data.role)) {
       setProfile(null);
       setStatus('no-access');
-      return;
+      return null;
+    }
+    if (portal && data.role !== portal) {
+      // Authenticate credentials first, then use the server-owned profile role.
+      // Never mount a workspace for a mismatched portal, even briefly.
+      ++profileRequest.current;
+      setProfile(null); setSession(null); setStatus('signed-out');
+      await supabase.auth.signOut({ scope: 'local' });
+      return portal === 'coach'
+        ? 'This is a client account. Choose “I’m a client” to sign in.'
+        : 'This is a coach account. Choose “I’m the coach” to sign in.';
     }
     const next: Profile = {
       id: data.id,
@@ -92,7 +103,9 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
         ? prev
         : next
     );
+    setSession(s);
     setStatus('ready');
+    return null;
   }, []);
 
   useEffect(() => {
@@ -134,13 +147,13 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
     void start();
     const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
-      if (!active) return;
+      if (!active || (event === 'SIGNED_IN' && loginPending.current)) return;
       setSession(s);
       if (event === 'SIGNED_OUT') { resetPending.current = false; ++profileRequest.current; setProfile(null); setStatus('signed-out'); }
       if (event === 'PASSWORD_RECOVERY') { resetPending.current = true; setProfile(null); setStatus('reset'); return; }
       if (event === 'SIGNED_OUT' || ((event === 'SIGNED_IN' || event === 'USER_UPDATED') && !resetPending.current)) {
         // defer: Supabase recommends not awaiting other calls inside this callback
-        window.setTimeout(() => { if (active) void loadProfile(s); }, 0);
+        window.setTimeout(() => { if (active && !loginPending.current) void loadProfile(s); }, 0);
       }
     });
     return () => {
@@ -149,13 +162,20 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
   }, [loadProfile]);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string, portal: Profile['role']) => {
     if (!supabase) return 'Cloud is not configured.';
-    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-    return error ? friendlyAuthError(error.message) : null;
+    if (loginPending.current) return 'Sign-in is already in progress.';
+    loginPending.current = true;
+    ++profileRequest.current;
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+      if (error) return friendlyAuthError(error.message);
+      return await loadProfile(data.session, portal);
+    } catch { return 'No connection. Check your internet and try again.'; }
+    finally { loginPending.current = false; }
   };
 
-  const signUp = async (email: string, password: string, name: string) => {
+  const signUp = async (email: string, password: string, name: string, portal: Profile['role']) => {
     if (!supabase) return 'Cloud is not configured.';
     try {
       const res = await fetch(`${supabaseUrl}/functions/v1/sign-up`, {
@@ -169,7 +189,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     } catch {
       return 'No connection. Check your internet and try again.';
     }
-    return signIn(email, password);
+    return signIn(email, password, portal);
   };
 
   const resendVerification = async (email: string) => {
@@ -232,7 +252,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
         notice,
         forgotPassword,
         setNewPassword,
-        refresh: () => loadProfile(session)
+        refresh: async () => { await loadProfile(session); }
       }}
     >
       {children}

@@ -72,7 +72,7 @@ export const AuthScreen: React.FC = () => {
       else setSent(true);
       return;
     }
-    const err = mode === 'sign-in' ? await signIn(email, password) : await signUp(email, password, name);
+    const err = mode === 'sign-in' ? await signIn(email, password, who) : await signUp(email, password, name, who);
     setBusy(false);
     if (!err && mode === 'sign-up') { setSent(true); setPassword(''); }
     if (err) {
@@ -112,6 +112,7 @@ export const AuthScreen: React.FC = () => {
             key={w}
             role="tab"
             aria-selected={who === w}
+            disabled={busy}
             onClick={() => pick(w)}
             className={`py-2.5 rounded-lg text-sm font-semibold cursor-pointer ${
               who === w ? 'bg-[#111827] text-white shadow-sm' : 'text-gray-600'

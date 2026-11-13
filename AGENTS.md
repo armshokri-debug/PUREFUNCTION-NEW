@@ -44,6 +44,6 @@ Browser checks: `e2e/responsive-check.cjs`, `e2e/cloud-flow.cjs`, `e2e/library.c
 
 ## Status — 2026-11-13
 
-Recovery changes are tracked in PR #1; read its current checks and deployment record for the final release status. Source backup checksums and Git bundle restoration passed. Live read-only ownership/RLS assertions passed for the existing coach/client and an unknown authenticated identity. Local TypeScript, unit tests and build pass; 87 unit tests. Browser CI gates must pass on the release head. No production database changes or real-user test mail were performed.
+Strict sign-in portal checks are being added on `fix/strict-signin-portals`. Coach credentials must be refused on Client sign-in and vice versa, using the database-owned role after credential verification. Recovery changes are tracked in PR #1; read its current checks and deployment record for the final release status. Source backup checksums and Git bundle restoration passed. Live read-only ownership/RLS assertions passed for the existing coach/client and an unknown authenticated identity. Local TypeScript, unit tests and build pass; 87 unit tests. Browser CI gates must pass on the release head. No production database changes or real-user test mail were performed.
 
 Full database/Auth/Storage restoration, complete fresh-database migrations, real email delivery and the earlier private posture-review editor remain unverified or unavailable. Read the audit before claiming full recovery.
