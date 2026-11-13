@@ -86,3 +86,9 @@ The authoritative final head SHA, check conclusions, merge state, Edge Function 
 The Coach/Client selector previously changed the form copy but accepted either account type, routing it to its database role. The follow-up rejects a mismatch before mounting any workspace and signs that attempted session out on this device only. The account's role remains server-controlled. Correct-portal, wrong-password, wrong-portal, reload/session and other-device session cases are covered by the cloud browser suite.
 
 Remaining recovery work is separate from this UI fix. The Supabase connector exposes no full backup/Auth/Storage export or backup-restore drill capability; no development branch exists. The old `audiovido/Purefunction-2` repository returned 404 during source recovery discovery. No missing editor or complete disaster-recovery backup is claimed restored from those unavailable sources.
+
+## Follow-up: template preview and main-only AI Studio pushes
+
+PR #3 adds a read-only program-template preview and focused synthetic browser tests, including long unbroken text at all four required widths. The preview does not change template persistence or prescriptions. Local reviewer TypeScript, 87 unit tests, build and test syntax checks passed; reviewer local Chromium execution was blocked by the environment. Author-reported browser results are distinguished from GitHub validation on the integrated commit.
+
+AI Studio supports owner pushes to main only. Main pushes now trigger validation while Pages publication is a separate manual workflow requiring the full reviewed main SHA. Both validation and deployment run the new preview test. No production SQL or data modification is part of this follow-up. Actual CI, merge and release outcomes are recorded in PR #3 and its Actions runs; this document does not infer publication from a source push.

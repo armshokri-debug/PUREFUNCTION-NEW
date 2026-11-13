@@ -50,3 +50,9 @@ Recovered Edge Function sources preserve the deployed implementations with a tes
 ## Known limitations
 
 The earlier private posture-review editor is absent from this repository history; existing drafts are preserved. Automated food/photo parsing, favorite-meal authoring and real email delivery have not been verified by this release. Refer to the audit for current release gates and security-advisor findings.
+
+## AI Studio handoff and controlled release
+
+AI Studio changes are prepared as one scoped task, reviewed, then pushed to main by the owner. The owner does not need branch support in AI Studio. Reload current main after maintainer changes before editing again.
+
+Pushes to main run Recovery validation but do not publish the site. To publish a reviewed version, open the Deploy to GitHub Pages workflow, select main, and enter its full 40-character reviewed commit SHA in reviewed_sha. The workflow refuses another branch or a SHA that does not match the selected run commit, reruns checks including the template preview test, and deploys only after the build passes. Check the production smoke job before reporting a successful release. An unpublished push is not visible on the production URL.
