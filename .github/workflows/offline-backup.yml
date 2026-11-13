@@ -1,0 +1,41 @@
+name: Export offline recovery bundle
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/offline-backup.yml'
+permissions:
+  contents: read
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Generate complete git history and source bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p recovery
+          git bundle create recovery/PUREFUNCTION-NEW-all-history.bundle --all
+          git archive --format=zip -o recovery/PUREFUNCTION-NEW-source.zip HEAD
+          git rev-parse HEAD > recovery/COMMIT.txt
+          git branch -a > recovery/BRANCHES.txt
+          git log --all --date=iso --pretty=format:'%h %ad %s' > recovery/COMMIT-HISTORY.txt
+          sha256sum recovery/*.bundle recovery/*.zip > recovery/SHA256SUMS.txt
+          cat > recovery/README.txt <<'EOF'
+          PURE FUNCTION offline source backup.
+          1. Keep this archive somewhere private and copy it to an external drive.
+          2. Restore full history: git clone PUREFUNCTION-NEW-all-history.bundle PUREFUNCTION-NEW
+          3. The source ZIP is an additional standalone source snapshot.
+          IMPORTANT: Supabase live database rows, Auth users, Storage files, dashboard secrets,
+          and third-party API secrets are NOT in this backup.
+          Back those up separately before any migration or cleanup.
+          EOF
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PUREFUNCTION-NEW-OFFLINE-SOURCE-BACKUP
+          path: recovery/
+          retention-days: 30
