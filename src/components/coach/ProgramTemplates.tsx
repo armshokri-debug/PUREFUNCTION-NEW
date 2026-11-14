@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ClientProfile, WorkoutBlock } from '../../types';
-import { useProgramTemplates } from '../../cloud/programTemplates';
+import { DESIGNER_UNAVAILABLE_LABEL, useProgramTemplates } from '../../cloud/programTemplates';
 import { applyProgramTemplate, createProgramTemplate, ProgramTemplate } from '../../lib/programTemplates';
 import { formatWeight } from '../../lib/units';
 import { orderLabels, todayISO } from '../../lib/workouts';
@@ -67,7 +67,7 @@ export const ProgramTemplates: React.FC<{
   client: ClientProfile;
   onApply: (template: ProgramTemplate, ids: string[], start: string) => void;
 }> = ({ clients, client, onApply }) => {
-  const { templates, ready, loading, error, reload, save, update, remove } = useProgramTemplates();
+  const { templates, designerNames, ready, loading, error, reload, save, update, remove } = useProgramTemplates();
   const [name, setName] = useState('');
   const [scope, setScope] = useState<'week' | 'program'>('week');
   const [sourceDate, setSourceDate] = useState(todayISO());
@@ -102,6 +102,7 @@ export const ProgramTemplates: React.FC<{
     );
   }
   const selected = templates.find((t) => t.id === selectedId) ?? templates[0];
+  const designerName = selected ? designerNames[selected.id] ?? null : null;
   const previewData = selected ? groupTemplateDaysByWeek(selected) : null;
   const previewScopeLabel =
     selected?.scope === 'program'
@@ -161,7 +162,7 @@ export const ProgramTemplates: React.FC<{
     setEditError(null);
   };
   return (
-    <section className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-4 mb-6">
+    <section className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-4 mb-6 min-w-0">
       <div>
         <h2 className="text-lg font-bold text-[#111827]">Program templates</h2>
         <p className="text-sm text-gray-500">Save a week or 12 weeks. Apply to multiple clients without overwriting logged workouts.</p>
@@ -179,7 +180,7 @@ export const ProgramTemplates: React.FC<{
         <div className="flex items-end"><button type="button" disabled={operationLocked} onClick={() => void saveNew()} className="w-full min-h-[44px] bg-[#111827] text-white px-4 rounded-xl font-semibold text-sm disabled:opacity-50">Save as template</button></div>
       </div>
       {templates.length > 0 && selected && (
-        <div className="border-t border-gray-100 pt-4 space-y-3">
+        <div className="border-t border-gray-100 pt-4 space-y-3 min-w-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <label className="min-w-0 text-xs font-semibold text-gray-600">Saved template
               <select aria-label="Saved template" disabled={operationLocked} value={selected.id} onChange={(e) => setSelectedId(e.target.value)} className="mt-1 w-full min-h-[44px] border rounded-xl px-3 text-base disabled:opacity-60">{templates.map((t) => <option key={t.id} value={t.id}>{t.name} ({t.days.length} workouts)</option>)}</select>
@@ -214,6 +215,15 @@ export const ProgramTemplates: React.FC<{
             </button>
             <button type="button" disabled={operationLocked} onClick={async () => { if (!selected || !window.confirm(`Delete template ${selected.name}?`)) return; try { setBusy(true); await remove(selected.id); setSelectedId(''); setFeedback('Template deleted.'); } catch { setFeedback('Could not delete template.'); } finally { setBusy(false); } }} className="min-h-[44px] border rounded-xl px-4 text-sm disabled:opacity-50">Delete template</button>
           </div>
+          <p
+            id="program-template-designer"
+            className="text-xs text-gray-500 min-w-0 max-w-full [overflow-wrap:anywhere]"
+          >
+            Designer:{' '}
+            <span className={designerName ? 'font-medium text-gray-700' : 'text-gray-500'}>
+              {designerName ?? DESIGNER_UNAVAILABLE_LABEL}
+            </span>
+          </p>
           {editingSnapshot && (
             <ProgramTemplateEditor
               key={`editor-${editingSnapshot.id}`}

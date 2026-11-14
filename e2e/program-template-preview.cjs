@@ -70,6 +70,7 @@ async function measureOverflow(page) {
 
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   let templateGetMode = 'ok';
+  let templateGetOverride = null;
   let templateGetCount = 0;
   let failNextTemplateSave = false;
   let templateUpdateRpcMode = 'ok';
@@ -166,6 +167,13 @@ async function measureOverflow(page) {
       }
       if (templateGetMode === 'delay-ok') {
         await new Promise((r) => setTimeout(r, 300));
+      }
+      if (templateGetOverride) {
+        return route.fulfill({
+          status: 200,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify(templateGetOverride)
+        });
       }
     }
     return mock.handler(route);
@@ -1120,6 +1128,135 @@ async function measureOverflow(page) {
     }
   }
   await editor.getByRole('button', { name: 'Cancel' }).click();
+
+  // ---------------- Designer Attribution ----------------
+  // 9a. Verified owned template shows stored designer name, never emails/UUIDs/client name, triggers zero extra profile queries or writes
+  const attrLogStart = mock.log.length;
+  await page.getByLabel('Saved template').selectOption('tpl-week');
+  const designerEl = page.locator('#program-template-designer');
+  await designerEl.waitFor();
+  const ownedDesignerText = (await designerEl.innerText()).trim();
+  ok(
+    ownedDesignerText === 'Designer: Coach Demo',
+    `attribution: shows verified owner display name (${ownedDesignerText})`
+  );
+  ok(
+    !ownedDesignerText.includes('coach@example.com') &&
+      !ownedDesignerText.includes(coachProfile.id) &&
+      !ownedDesignerText.includes('Synthetic Athlete'),
+    'attribution: never exposes email, UUID, or selected client name'
+  );
+
+  // Switch between templates & toggle preview without extra profile queries or writes
+  await page.getByLabel('Saved template').selectOption('tpl-12wk');
+  await page.getByRole('button', { name: /Show preview|Hide preview/ }).click();
+  await page.getByLabel('Saved template').selectOption('tpl-week');
+  const attrLogs = mock.log.slice(attrLogStart);
+  const attrWriteLogs = attrLogs.filter((entry) => /^(POST|PATCH|PUT|DELETE)\b/.test(entry));
+  const attrProfileLogs = attrLogs.filter((entry) => /\/rest\/v1\/profiles\b|pf_list_trainers/.test(entry));
+  ok(attrWriteLogs.length === 0, `attribution: switching/viewing triggers zero writes (${attrWriteLogs.length})`);
+  ok(attrProfileLogs.length === 0, `attribution: triggers zero new profiles queries or privileged RPCs (${attrProfileLogs.length})`);
+
+  // 9b. Different persisted owner_id or missing owner_id never assumes signed-in coach
+  const otherCoachUuid = '00000000-0000-0000-0000-000000000999';
+  templateGetOverride = [
+    { id: 'tpl-week', owner_id: coachProfile.id, data: weekTemplate, created_at: '2026-11-01T10:00:00.000Z' },
+    { id: 'tpl-other-owner', owner_id: otherCoachUuid, data: { ...weekTemplate, id: 'tpl-other-owner', name: 'Other Coach Template' }, created_at: '2026-11-02T10:00:00.000Z' },
+    { id: 'tpl-no-owner', owner_id: null, data: { ...weekTemplate, id: 'tpl-no-owner', name: 'Unowned Template' }, created_at: '2026-11-03T10:00:00.000Z' }
+  ];
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  const attrSelect = page.getByLabel('Saved template');
+  await attrSelect.selectOption('tpl-week');
+  ok((await designerEl.innerText()).trim() === 'Designer: Coach Demo', 'attribution: verifies matching owner_id after reload');
+
+  await attrSelect.selectOption('tpl-other-owner');
+  const otherDesignerText = (await designerEl.innerText()).trim();
+  ok(
+    otherDesignerText === 'Designer: Designer name unavailable' &&
+      !otherDesignerText.includes('Coach Demo') &&
+      !otherDesignerText.includes(otherCoachUuid) &&
+      !otherDesignerText.includes('Synthetic Athlete'),
+    `attribution: other coach owner_id falls back honestly without assuming signed-in coach (${otherDesignerText})`
+  );
+
+  await attrSelect.selectOption('tpl-no-owner');
+  const missingOwnerText = (await designerEl.innerText()).trim();
+  ok(
+    missingOwnerText === 'Designer: Designer name unavailable' &&
+      !missingOwnerText.includes('Coach Demo'),
+    `attribution: missing owner_id falls back honestly (${missingOwnerText})`
+  );
+  templateGetOverride = null;
+
+  // 9c. Empty display_name on signed-in profile falls back honestly without leaking email/UUID
+  coachProfile.display_name = '';
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  await page.getByLabel('Saved template').selectOption('tpl-week');
+  const emptyProfileDesignerText = (await designerEl.innerText()).trim();
+  ok(
+    emptyProfileDesignerText === 'Designer: Designer name unavailable' &&
+      !emptyProfileDesignerText.includes('coach@example.com') &&
+      !emptyProfileDesignerText.includes(coachProfile.id),
+    `attribution: blank display_name uses unavailable fallback without leaking email (${emptyProfileDesignerText})`
+  );
+
+  // 9d. Long unbroken designer name wraps cleanly with zero horizontal overflow/clipping at 375, 768, 1024, 1440px
+  const longDesignerName = 'CoachSuperLongUnbrokenDesignerAttributionNameForResponsiveWrappingCheck_0123456789ABCDEF';
+  coachProfile.display_name = longDesignerName;
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  await page.getByLabel('Saved template').selectOption('tpl-week');
+  await page.getByRole('button', { name: /Show preview|Hide preview/ }).click();
+  for (const [w, h] of [
+    [375, 812],
+    [768, 1024],
+    [1024, 768],
+    [1440, 900]
+  ]) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(150);
+    const ov = await measureOverflow(page);
+    const designerBounds = await page.evaluate(() => {
+      const el = document.getElementById('program-template-designer');
+      if (!el) return { missing: true };
+      const section = el.closest('section');
+      const er = el.getBoundingClientRect();
+      const sr = section ? section.getBoundingClientRect() : er;
+      const cs = getComputedStyle(el);
+      const span = el.querySelector('span');
+      const scs = span ? getComputedStyle(span) : cs;
+      return {
+        missing: false,
+        text: el.innerText,
+        scrollW: el.scrollWidth,
+        clientW: el.clientWidth,
+        rightOverflow: er.right - sr.right,
+        clipped:
+          cs.overflowX === 'hidden' ||
+          cs.textOverflow === 'ellipsis' ||
+          scs.overflowX === 'hidden' ||
+          scs.textOverflow === 'ellipsis'
+      };
+    });
+    ok(
+      ov.pageOverflow <= 0 && ov.offRight.length === 0,
+      `attribution: no page horizontal overflow at ${w}x${h} (page=${ov.pageOverflow}, off=${ov.offRight.join(', ')})`
+    );
+    ok(
+      !designerBounds.missing &&
+        designerBounds.text.includes(longDesignerName) &&
+        designerBounds.scrollW <= designerBounds.clientW + 1 &&
+        designerBounds.rightOverflow <= 1 &&
+        !designerBounds.clipped,
+      `attribution: long unbroken designer name wraps without clipping at ${w}x${h}`
+    );
+  }
+  coachProfile.display_name = 'Coach Demo';
 
   ok(pageErrors.length === 0, `no page errors (${pageErrors.join(' | ')})`);
 

@@ -1,8 +1,30 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ProgramTemplate } from '../lib/programTemplates';
+import { Profile, useSession } from './Session';
 import { supabase } from './supabase';
 
 const DEMO_KEY = 'pf.programTemplates.v1';
+export const DESIGNER_UNAVAILABLE_LABEL = 'Designer name unavailable';
+
+const EMAIL_LIKE_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const UUID_LIKE_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Resolves a verified designer display name strictly from persisted template ownership
+ * and the already-loaded Session profile. Never falls back to emails, UUIDs, or client names. */
+export function resolveTemplateDesignerName(
+  ownerId: string | null | undefined,
+  profile: Profile | null | undefined
+): string | null {
+  if (!supabase) return null;
+  const trimmedOwnerId = typeof ownerId === 'string' ? ownerId.trim() : '';
+  if (!trimmedOwnerId) return null;
+  if (!profile || profile.role !== 'coach' || profile.id !== trimmedOwnerId) return null;
+  const displayName = typeof profile.displayName === 'string' ? profile.displayName.trim() : '';
+  if (!displayName) return null;
+  if (EMAIL_LIKE_RE.test(displayName) || UUID_LIKE_RE.test(displayName)) return null;
+  if (profile.email && displayName.toLowerCase() === profile.email.trim().toLowerCase()) return null;
+  return displayName;
+}
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -89,12 +111,17 @@ function isValidProgramTemplateObject(value: unknown, expectedId: string): value
   return true;
 }
 
-function extractRpcUpdatedTemplate(rpcData: unknown, expectedId: string): ProgramTemplate {
+function extractRpcUpdatedRow(
+  rpcData: unknown,
+  expectedId: string
+): { template: ProgramTemplate; ownerId: string | null } {
   const row = Array.isArray(rpcData) ? (rpcData.length === 1 ? rpcData[0] : null) : rpcData;
   if (!isPlainObject(row) || row.id !== expectedId || !isValidProgramTemplateObject(row.data, expectedId)) {
     throw new Error('Received an invalid response while saving the program template.');
   }
-  return cloneTemplate(row.data);
+  const ownerId =
+    typeof row.owner_id === 'string' && row.owner_id.trim() ? row.owner_id.trim() : null;
+  return { template: cloneTemplate(row.data), ownerId };
 }
 
 function mapTemplateUpdateError(err: unknown): Error {
@@ -131,7 +158,9 @@ function mapTemplateUpdateError(err: unknown): Error {
 /** Cloud templates require the optional program_templates migration. No fallback to
  * browser storage in cloud mode: templates must remain shared across coach devices. */
 export function useProgramTemplates() {
+  const { profile, status: sessionStatus } = useSession();
   const [templates, setTemplates] = useState<ProgramTemplate[]>([]);
+  const [ownerIds, setOwnerIds] = useState<Record<string, string>>({});
   const [ready, setReady] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -150,12 +179,14 @@ export function useProgramTemplates() {
         const saved = JSON.parse(localStorage.getItem(DEMO_KEY) ?? '[]') as ProgramTemplate[];
         if (mountedRef.current && reqId === requestIdRef.current) {
           setTemplates(Array.isArray(saved) ? saved : []);
+          setOwnerIds({});
           setError(null);
           setReady(true);
         }
       } catch {
         if (mountedRef.current && reqId === requestIdRef.current) {
           setTemplates([]);
+          setOwnerIds({});
           setError(null);
           setReady(true);
         }
@@ -171,7 +202,7 @@ export function useProgramTemplates() {
     try {
       const { data, error: loadError } = await supabase
         .from('program_templates')
-        .select('data')
+        .select('owner_id, data')
         .order('created_at', { ascending: false });
       if (!mountedRef.current || reqId !== requestIdRef.current) return;
       if (loadError) {
@@ -179,7 +210,17 @@ export function useProgramTemplates() {
         setReady(false);
         setError(loadError.message);
       } else {
-        setTemplates((data ?? []).map((row: { data: ProgramTemplate }) => row.data));
+        const rows = (data ?? []) as { owner_id?: unknown; data: ProgramTemplate }[];
+        const nextOwners: Record<string, string> = {};
+        for (const row of rows) {
+          const tid = row?.data?.id;
+          const oid = typeof row?.owner_id === 'string' ? row.owner_id.trim() : '';
+          if (typeof tid === 'string' && tid && oid) {
+            nextOwners[tid] = oid;
+          }
+        }
+        setTemplates(rows.map((row) => row.data));
+        setOwnerIds(nextOwners);
         setError(null);
         setReady(true);
       }
@@ -216,14 +257,25 @@ export function useProgramTemplates() {
     if (mutatingRef.current) throw new Error('Another template operation is already in progress.');
     mutatingRef.current = true;
     try {
+      let savedOwnerId = '';
       if (supabase) {
-        const { error: writeError } = await supabase.from('program_templates').insert({ id: template.id, data: template });
+        const { data: insertedRow, error: writeError } = await supabase
+          .from('program_templates')
+          .insert({ id: template.id, data: template })
+          .select('owner_id, data')
+          .single();
         if (writeError) { setError(writeError.message); throw writeError; }
+        if (isPlainObject(insertedRow) && typeof insertedRow.owner_id === 'string') {
+          savedOwnerId = insertedRow.owner_id.trim();
+        }
       } else {
         const next = [template, ...templates];
         localStorage.setItem(DEMO_KEY, JSON.stringify(next));
       }
       setTemplates((prev) => [template, ...prev]);
+      if (savedOwnerId) {
+        setOwnerIds((prev) => ({ ...prev, [template.id]: savedOwnerId }));
+      }
     } finally {
       mutatingRef.current = false;
     }
@@ -255,9 +307,15 @@ export function useProgramTemplates() {
         if (rpcError) {
           throw mapTemplateUpdateError(rpcError);
         }
-        const confirmed = extractRpcUpdatedTemplate(rpcData, expectedOriginal.id);
+        const { template: confirmed, ownerId } = extractRpcUpdatedRow(rpcData, expectedOriginal.id);
         if (mountedRef.current) {
           setTemplates((prev) => prev.map((t) => (t.id === expectedOriginal.id ? confirmed : t)));
+          setOwnerIds((prev) => {
+            const next = { ...prev };
+            if (ownerId) next[expectedOriginal.id] = ownerId;
+            else delete next[expectedOriginal.id];
+            return next;
+          });
         }
         return confirmed;
       }
@@ -307,10 +365,25 @@ export function useProgramTemplates() {
         localStorage.setItem(DEMO_KEY, JSON.stringify(templates.filter((t) => t.id !== id)));
       }
       setTemplates((prev) => prev.filter((t) => t.id !== id));
+      setOwnerIds((prev) => {
+        if (!(id in prev)) return prev;
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
     } finally {
       mutatingRef.current = false;
     }
   }, [ready, templates]);
 
-  return { templates, ready, loading, error, reload, save, update, remove };
+  const activeCoachProfile = sessionStatus === 'ready' ? profile : null;
+  const designerNames = useMemo(() => {
+    const resolved: Record<string, string | null> = {};
+    for (const template of templates) {
+      resolved[template.id] = resolveTemplateDesignerName(ownerIds[template.id], activeCoachProfile);
+    }
+    return resolved;
+  }, [templates, ownerIds, activeCoachProfile]);
+
+  return { templates, designerNames, ready, loading, error, reload, save, update, remove };
 }
