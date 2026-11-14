@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createClientProfile } from '../clients';
 import { blankWorkout, upsertWorkout } from '../workouts';
-import { applyProgramTemplate, createProgramTemplate } from '../programTemplates';
+import { applyProgramTemplate, createProgramTemplate, duplicateProgramTemplate, ProgramTemplate } from '../programTemplates';
 
 const client = (name: string) => createClientProfile({ name, email: `${name}@example.invalid`, phaseNumber: 1, phaseName: 'Reposition' });
 
@@ -135,5 +135,173 @@ describe('program templates', () => {
       { setNumber: 1, kg: 80, reps: null, completed: false },
       { setNumber: 2, kg: 80, reps: null, completed: false }
     ]);
+  });
+
+  it('duplicates a template with fresh IDs, preserved prescriptions, cleared results, and full independence', () => {
+    const source: ProgramTemplate = {
+      id: 'tpl-source-1',
+      name: '12-Week Strength',
+      scope: 'program',
+      createdAt: '2026-01-01T00:00:00.000Z',
+      days: [
+        {
+          offset: 0,
+          workout: {
+            id: 'wo-src-1',
+            date: '2026-11-02',
+            title: 'Upper Control',
+            focus: 'Scapular stability',
+            coachNotes: 'Keep ribs stacked',
+            durationMin: 45,
+            status: 'completed',
+            completedAt: '2026-11-02T15:00:00.000Z',
+            sessionRpe: 8,
+            clientFeedback: 'Felt solid',
+            blocks: [
+              {
+                id: 'blk-src-1',
+                exerciseId: 'ex-row',
+                name: 'Seated Row',
+                supersetWithPrevious: false,
+                sets: 3,
+                reps: '10',
+                loadKg: 40,
+                restSec: 90,
+                notes: 'Pause at chest',
+                rpe: 8,
+                pain: false,
+                clientNote: 'Left felt tight',
+                loggedSets: [
+                  { setNumber: 1, kg: 40, reps: 10, completed: true },
+                  { setNumber: 2, kg: 40, reps: 10, completed: true },
+                  { setNumber: 3, kg: 40, reps: 10, completed: true }
+                ]
+              },
+              {
+                id: 'blk-src-2',
+                exerciseId: 'ex-breath',
+                name: '90-90 Breathing',
+                supersetWithPrevious: true,
+                sets: 0,
+                reps: '0',
+                loadKg: 0,
+                restSec: 0,
+                notes: 'Zero values preserved',
+                loggedSets: []
+              }
+            ]
+          }
+        },
+        {
+          offset: 77,
+          workout: {
+            id: 'wo-src-2',
+            date: '2027-01-18',
+            title: 'Peak Week 12',
+            focus: 'Force output',
+            status: 'planned',
+            blocks: [
+              {
+                id: 'blk-src-3',
+                exerciseId: 'ex-squat',
+                name: 'Back Squat',
+                sets: 4,
+                reps: '4',
+                loadKg: 100,
+                restSec: 180,
+                notes: '',
+                loggedSets: []
+              }
+            ]
+          }
+        }
+      ]
+    };
+    const sourceSnapshot = JSON.parse(JSON.stringify(source));
+
+    const copy = duplicateProgramTemplate(source, '  12-Week Strength (Copy)  ');
+    const copyTwo = duplicateProgramTemplate(source, '12-Week Strength v2');
+
+    expect(copy.id).not.toBe(source.id);
+    expect(copyTwo.id).not.toBe(copy.id);
+    expect(copy.name).toBe('12-Week Strength (Copy)');
+    expect(copy.scope).toBe('program');
+    expect(Number.isNaN(Date.parse(copy.createdAt))).toBe(false);
+    expect(copy.days).toHaveLength(2);
+    expect(copy.days.map((d) => d.offset)).toEqual([0, 77]);
+
+    // Distinct IDs and zero shared nested references
+    expect(copy.days).not.toBe(source.days);
+    expect(copy.days[0]).not.toBe(source.days[0]);
+    expect(copy.days[0].workout).not.toBe(source.days[0].workout);
+    expect(copy.days[0].workout.id).not.toBe(source.days[0].workout.id);
+    expect(copy.days[1].workout.id).not.toBe(source.days[1].workout.id);
+    expect(copy.days[0].workout.blocks).not.toBe(source.days[0].workout.blocks);
+    expect(copy.days[0].workout.blocks[0]).not.toBe(source.days[0].workout.blocks[0]);
+    expect(copy.days[0].workout.blocks[0].id).not.toBe(source.days[0].workout.blocks[0].id);
+    expect(copy.days[0].workout.blocks[1].id).not.toBe(source.days[0].workout.blocks[1].id);
+    expect(copy.days[0].workout.blocks[0].loggedSets).not.toBe(source.days[0].workout.blocks[0].loggedSets);
+
+    // Preserved prescriptions & exercise metadata (including zero values and ordering)
+    const w0 = copy.days[0].workout;
+    expect(w0.title).toBe('Upper Control');
+    expect(w0.focus).toBe('Scapular stability');
+    expect(w0.coachNotes).toBe('Keep ribs stacked');
+    expect(w0.durationMin).toBe(45);
+    expect(w0.blocks.map((b) => b.exerciseId)).toEqual(['ex-row', 'ex-breath']);
+    expect(w0.blocks[0]).toMatchObject({
+      exerciseId: 'ex-row',
+      name: 'Seated Row',
+      supersetWithPrevious: false,
+      sets: 3,
+      reps: '10',
+      loadKg: 40,
+      restSec: 90,
+      notes: 'Pause at chest'
+    });
+    expect(w0.blocks[1]).toMatchObject({
+      exerciseId: 'ex-breath',
+      name: '90-90 Breathing',
+      supersetWithPrevious: true,
+      sets: 0,
+      reps: '0',
+      loadKg: 0,
+      restSec: 0,
+      notes: 'Zero values preserved',
+      loggedSets: []
+    });
+
+    // No recorded workout results carried into copy
+    expect(w0.status).toBe('planned');
+    expect(w0.completedAt).toBeUndefined();
+    expect(w0.sessionRpe).toBeUndefined();
+    expect(w0.clientFeedback).toBeUndefined();
+    expect(w0.blocks[0].rpe).toBeUndefined();
+    expect(w0.blocks[0].pain).toBeUndefined();
+    expect(w0.blocks[0].clientNote).toBeUndefined();
+    expect(w0.blocks[0].loggedSets).toEqual([
+      { setNumber: 1, kg: 40, reps: null, completed: false },
+      { setNumber: 2, kg: 40, reps: null, completed: false },
+      { setNumber: 3, kg: 40, reps: null, completed: false }
+    ]);
+
+    // Mutating copy does not affect source
+    copy.name = 'Mutated Copy';
+    copy.days[0].workout.title = 'Mutated Workout';
+    copy.days[0].workout.blocks[0].sets = 99;
+    copy.days[0].workout.blocks[0].loadKg = 120;
+    copy.days[0].workout.blocks[0].notes = 'Changed cue';
+    expect(source).toEqual(sourceSnapshot);
+  });
+
+  it('rejects blank or whitespace-only copy names', () => {
+    const source = createProgramTemplate(
+      upsertWorkout(client('source'), { ...blankWorkout('2026-11-02'), title: 'Session A' }),
+      'Original',
+      'week',
+      '2026-11-02'
+    );
+    expect(() => duplicateProgramTemplate(source, '')).toThrow('Enter a template name.');
+    expect(() => duplicateProgramTemplate(source, '   \t\n  ')).toThrow('Enter a template name.');
   });
 });

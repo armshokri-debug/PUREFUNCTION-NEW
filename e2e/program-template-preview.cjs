@@ -73,6 +73,8 @@ async function measureOverflow(page) {
   let templateGetOverride = null;
   let templateGetCount = 0;
   let failNextTemplateSave = false;
+  let delayNextTemplateSaveMs = 0;
+  const templatePostCalls = [];
   let templateUpdateRpcMode = 'ok';
   const templateRpcCalls = [];
   let templateDirectPatchCount = 0;
@@ -148,13 +150,21 @@ async function measureOverflow(page) {
         body: JSON.stringify({ id: row.id, owner_id: row.owner_id, data: row.data, created_at: row.created_at })
       });
     }
-    if (req.method() === 'POST' && url.pathname === '/rest/v1/program_templates' && failNextTemplateSave) {
-      failNextTemplateSave = false;
-      return route.fulfill({
-        status: 500,
-        headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
-        body: JSON.stringify({ message: 'Simulated template save failure' })
-      });
+    if (req.method() === 'POST' && url.pathname === '/rest/v1/program_templates') {
+      templatePostCalls.push(JSON.parse(req.postData() || '{}'));
+      if (delayNextTemplateSaveMs > 0) {
+        const delayMs = delayNextTemplateSaveMs;
+        delayNextTemplateSaveMs = 0;
+        await new Promise((r) => setTimeout(r, delayMs));
+      }
+      if (failNextTemplateSave) {
+        failNextTemplateSave = false;
+        return route.fulfill({
+          status: 500,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify({ message: 'Simulated template save failure' })
+        });
+      }
     }
     if (req.method() === 'GET' && url.pathname === '/rest/v1/program_templates') {
       templateGetCount++;
@@ -1257,6 +1267,217 @@ async function measureOverflow(page) {
     );
   }
   coachProfile.display_name = 'Coach Demo';
+
+  // ---------------- Template Duplication ----------------
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  const dupSelect = page.getByLabel('Saved template');
+  await dupSelect.selectOption('tpl-week');
+
+  const dupBtn = page.getByRole('button', { name: 'Duplicate template' });
+  const dupBtnBox = await dupBtn.boundingBox();
+  ok(!!dupBtnBox && dupBtnBox.height >= 44, `duplicate: trigger button height >= 44px (${dupBtnBox ? Math.round(dupBtnBox.height) : 0}px)`);
+
+  // 10a. Open with keyboard Enter -> suggested name prefilled -> Cancel performs zero writes
+  const postBeforeCancelDup = templatePostCalls.length;
+  const templatesBeforeCancelDup = JSON.stringify(mock.db.program_templates);
+  const workoutsBeforeDupSuite = JSON.stringify(mock.db.workouts);
+  const clientsBeforeDupSuite = JSON.stringify(mock.db.clients);
+
+  await dupBtn.focus();
+  await page.keyboard.press('Enter');
+  const dupForm = page.locator('#program-template-duplicate');
+  await dupForm.waitFor();
+  const copyNameInput = dupForm.getByLabel('Copy name');
+  ok(
+    (await copyNameInput.inputValue()) === 'Foundation Week (Copy)',
+    `duplicate: suggests edited copy name (${await copyNameInput.inputValue()})`
+  );
+  await copyNameInput.fill('Should Be Cancelled');
+  await dupForm.getByRole('button', { name: 'Cancel' }).click();
+  ok((await dupForm.count()) === 0, 'duplicate: Cancel closes inline form');
+  ok(templatePostCalls.length === postBeforeCancelDup, 'duplicate: Cancel triggers zero writes');
+  ok(JSON.stringify(mock.db.program_templates) === templatesBeforeCancelDup, 'duplicate: Cancel leaves DB untouched');
+
+  // 10b. Open with Space -> blank/whitespace-only rejected without inserts
+  await dupBtn.focus();
+  await page.keyboard.press('Space');
+  await dupForm.waitFor();
+  await copyNameInput.fill('   ');
+  await dupForm.getByRole('button', { name: 'Create copy' }).click();
+  const blankAlert = dupForm.getByRole('alert');
+  await blankAlert.waitFor();
+  ok(
+    (await blankAlert.innerText()).toLowerCase().includes('enter a template name'),
+    'duplicate: rejects whitespace-only name with alert'
+  );
+  ok(templatePostCalls.length === postBeforeCancelDup, 'duplicate: whitespace-only triggers zero inserts');
+  ok(JSON.stringify(mock.db.program_templates) === templatesBeforeCancelDup, 'duplicate: whitespace-only leaves DB untouched');
+
+  // 10c. Failure preserves draft name, avoids false success, keeps original, allows retry
+  await copyNameInput.fill('Retryable Copy');
+  failNextTemplateSave = true;
+  await dupForm.getByRole('button', { name: 'Create copy' }).click();
+  await dupForm.getByRole('alert').waitFor();
+  ok(
+    await dupForm.isVisible(),
+    'duplicate: save failure keeps inline form open'
+  );
+  ok(
+    (await copyNameInput.inputValue()) === 'Retryable Copy',
+    'duplicate: save failure preserves entered copy name'
+  );
+  ok(
+    (await page.getByText(/Created template copy/).count()) === 0,
+    'duplicate: save failure shows zero false success'
+  );
+  ok(
+    JSON.stringify(mock.db.program_templates) === templatesBeforeCancelDup,
+    'duplicate: save failure leaves DB untouched'
+  );
+  ok(
+    (await dupSelect.inputValue()) === 'tpl-week',
+    'duplicate: save failure keeps original template selected'
+  );
+
+  // 10d. Double-submission prevention, DB-default owner, selection after save, fresh IDs & cleared results
+  const postStartDup = templatePostCalls.length;
+  delayNextTemplateSaveMs = 300;
+  const createCopyBtn = dupForm.getByRole('button', { name: /Create copy|Creating copy/ });
+  await createCopyBtn.click();
+  await page.waitForTimeout(40);
+  ok(await createCopyBtn.isDisabled(), 'duplicate: submit button disabled while saving');
+  ok(
+    await dupForm.getByRole('button', { name: 'Cancel' }).isDisabled(),
+    'duplicate: Cancel disabled while saving'
+  );
+  await createCopyBtn.click({ force: true });
+  await page.getByText('Created template copy Retryable Copy.').waitFor();
+
+  ok(
+    templatePostCalls.length - postStartDup === 1,
+    `duplicate: prevents duplicate submission (posts=${templatePostCalls.length - postStartDup})`
+  );
+  const postedDupPayload = templatePostCalls[templatePostCalls.length - 1];
+  ok(
+    !Object.prototype.hasOwnProperty.call(postedDupPayload, 'owner_id') &&
+      !Object.prototype.hasOwnProperty.call(postedDupPayload.data, 'ownerId'),
+    'duplicate: relies on database default ownership without trusting client owner_id'
+  );
+
+  const dupRow = mock.db.program_templates.find((r) => r.data && r.data.name === 'Retryable Copy');
+  const srcRow = mock.db.program_templates.find((r) => r.id === 'tpl-week');
+  ok(!!dupRow && dupRow.id !== srcRow.id && dupRow.data.id === dupRow.id, 'duplicate: persisted copy with fresh template ID');
+  ok((await dupSelect.inputValue()) === dupRow.id, 'duplicate: selects newly persisted copy after save');
+  ok(
+    (await page.locator('#program-template-designer').innerText()).trim() === 'Designer: Coach Demo',
+    'duplicate: resolves designer attribution from persisted owner_id'
+  );
+  ok(
+    dupRow.data.scope === srcRow.data.scope &&
+      dupRow.data.days.length === srcRow.data.days.length &&
+      dupRow.data.days[0].offset === srcRow.data.days[0].offset &&
+      dupRow.data.days[0].workout.id !== srcRow.data.days[0].workout.id &&
+      dupRow.data.days[0].workout.blocks[0].id !== srcRow.data.days[0].workout.blocks[0].id &&
+      dupRow.data.days[0].workout.blocks[0].exerciseId === srcRow.data.days[0].workout.blocks[0].exerciseId &&
+      dupRow.data.days[0].workout.blocks[0].sets === srcRow.data.days[0].workout.blocks[0].sets &&
+      dupRow.data.days[0].workout.blocks[0].reps === srcRow.data.days[0].workout.blocks[0].reps &&
+      dupRow.data.days[0].workout.blocks[0].loadKg === srcRow.data.days[0].workout.blocks[0].loadKg &&
+      dupRow.data.days[0].workout.status === 'planned' &&
+      !dupRow.data.days[0].workout.completedAt &&
+      dupRow.data.days[0].workout.blocks[0].loggedSets.every((s) => s.completed === false && s.reps === null),
+    'duplicate: fresh workout/block IDs, preserved prescriptions, zero recorded results'
+  );
+  ok(
+    JSON.stringify(mock.db.workouts) === workoutsBeforeDupSuite &&
+      JSON.stringify(mock.db.clients) === clientsBeforeDupSuite,
+    'duplicate: never touches assigned client workouts or client profiles'
+  );
+
+  // 10e. Persists across reload and edits independently from source template
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  await dupSelect.selectOption(dupRow.id);
+  await page.getByRole('button', { name: 'Edit template' }).click();
+  await editor.waitFor();
+  await editor.getByLabel('Edit template name').fill('Independent Edited Copy');
+  await editor.getByLabel('Lower Hinge · Romanian Deadlift sets').fill('6');
+  await editor.getByRole('button', { name: 'Save changes' }).click();
+  await page.getByText('Updated template Independent Edited Copy.').waitFor();
+
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  await dupSelect.selectOption(dupRow.id);
+  await page.getByRole('button', { name: /Show preview|Hide preview/ }).click();
+  const dupEditedPreview = await page.locator('#program-template-preview').innerText();
+  ok(
+    dupEditedPreview.includes('Independent Edited Copy') && dupEditedPreview.includes('6 × 6'),
+    'duplicate: editing the copy updates only the copy and persists across reload'
+  );
+  await dupSelect.selectOption('tpl-week');
+  const originalPreviewAfterDupEdit = await page.locator('#program-template-preview').innerText();
+  ok(
+    originalPreviewAfterDupEdit.includes('Foundation Week') &&
+      originalPreviewAfterDupEdit.includes('4 × 6') &&
+      !originalPreviewAfterDupEdit.includes('6 × 6'),
+    'duplicate: original template stays completely untouched after editing copy'
+  );
+
+  // 10f. Responsive widths (375, 768, 1024, 1440px) with long unbroken copy name & phone touch/font checks
+  const longCopyName = 'SuperLongUnbrokenDuplicatedProgramTemplateNameWithoutSpaces_0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  await page.getByRole('button', { name: 'Duplicate template' }).click();
+  await dupForm.waitFor();
+  await dupForm.getByLabel('Copy name').fill(longCopyName);
+
+  for (const [w, h] of [
+    [375, 812],
+    [768, 1024],
+    [1024, 768],
+    [1440, 900]
+  ]) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(100);
+    const ov = await measureOverflow(page);
+    ok(
+      ov.pageOverflow <= 0 && ov.offRight.length === 0,
+      `duplicate form: no horizontal overflow at ${w}x${h} (page=${ov.pageOverflow}, off=${ov.offRight.join(', ')})`
+    );
+    if (w === 375) {
+      const mobileMetrics = await dupForm.evaluate((el) => {
+        const input = el.querySelector('input');
+        const buttons = [...el.querySelectorAll('button')];
+        return {
+          fontPx: input ? parseFloat(getComputedStyle(input).fontSize) : 0,
+          inputHeight: input ? input.getBoundingClientRect().height : 0,
+          minButtonHeight: Math.min(...buttons.map((b) => b.getBoundingClientRect().height))
+        };
+      });
+      ok(mobileMetrics.fontPx >= 16, `duplicate form: phone input font >= 16px (${mobileMetrics.fontPx}px)`);
+      ok(mobileMetrics.inputHeight >= 44, `duplicate form: phone input height >= 44px (${Math.round(mobileMetrics.inputHeight)}px)`);
+      ok(mobileMetrics.minButtonHeight >= 44, `duplicate form: phone button height >= 44px (${Math.round(mobileMetrics.minButtonHeight)}px)`);
+    }
+  }
+
+  await dupForm.getByRole('button', { name: 'Create copy' }).click();
+  await page.getByText(`Created template copy ${longCopyName}.`).waitFor();
+  for (const [w, h] of [
+    [375, 812],
+    [768, 1024],
+    [1024, 768],
+    [1440, 900]
+  ]) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(100);
+    const ov = await measureOverflow(page);
+    ok(
+      ov.pageOverflow <= 0 && ov.offRight.length === 0,
+      `duplicate long result: no horizontal overflow at ${w}x${h} (page=${ov.pageOverflow}, off=${ov.offRight.join(', ')})`
+    );
+  }
 
   ok(pageErrors.length === 0, `no page errors (${pageErrors.join(' | ')})`);
 

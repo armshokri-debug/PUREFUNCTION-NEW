@@ -1,5 +1,5 @@
 import { ClientProfile, Workout } from '../types';
-import { addDays, cloneWorkout, copyWorkouts, startOfWeek } from './workouts';
+import { addDays, cloneWorkout, copyWorkouts, newId, startOfWeek } from './workouts';
 
 export interface ProgramTemplate {
   id: string;
@@ -26,6 +26,26 @@ export function createProgramTemplate(
   return {
     id: `template-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`,
     name: name.trim(), scope, days, createdAt: new Date().toISOString()
+  };
+}
+
+/** Creates an independent copy of an existing template with fresh IDs and no recorded results. */
+export function duplicateProgramTemplate(source: ProgramTemplate, name: string): ProgramTemplate {
+  const trimmedName = name.trim();
+  if (!trimmedName) throw new Error('Enter a template name.');
+  return {
+    id: newId('template'),
+    name: trimmedName,
+    scope: source.scope,
+    createdAt: new Date().toISOString(),
+    days: (source.days ?? []).map((day) => {
+      const blocks = Array.isArray(day.workout.blocks) ? day.workout.blocks : [];
+      const workout = cloneWorkout({ ...day.workout, blocks }, day.workout.date);
+      return {
+        offset: day.offset,
+        workout
+      };
+    })
   };
 }
 

@@ -1,7 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { ClientProfile, WorkoutBlock } from '../../types';
 import { DESIGNER_UNAVAILABLE_LABEL, useProgramTemplates } from '../../cloud/programTemplates';
-import { applyProgramTemplate, createProgramTemplate, ProgramTemplate } from '../../lib/programTemplates';
+import {
+  applyProgramTemplate,
+  createProgramTemplate,
+  duplicateProgramTemplate,
+  ProgramTemplate
+} from '../../lib/programTemplates';
 import { formatWeight } from '../../lib/units';
 import { orderLabels, todayISO } from '../../lib/workouts';
 import { ProgramTemplateEditor } from './ProgramTemplateEditor';
@@ -81,6 +86,11 @@ export const ProgramTemplates: React.FC<{
   const [savingEdit, setSavingEdit] = useState(false);
   const [editError, setEditError] = useState<string | null>(null);
   const savingEditRef = useRef(false);
+  const [duplicatingSource, setDuplicatingSource] = useState<ProgramTemplate | null>(null);
+  const [duplicateName, setDuplicateName] = useState('');
+  const [savingDuplicate, setSavingDuplicate] = useState(false);
+  const [duplicateError, setDuplicateError] = useState<string | null>(null);
+  const savingDuplicateRef = useRef(false);
   if (!ready) {
     if (!error) {
       return <p role="status" className="text-sm text-gray-500 mb-4">Loading program templates…</p>;
@@ -110,7 +120,7 @@ export const ProgramTemplates: React.FC<{
       : selected?.scope === 'week'
       ? 'One week'
       : selected?.scope ?? '';
-  const operationLocked = busy || savingEdit || !!editingSnapshot;
+  const operationLocked = busy || savingEdit || !!editingSnapshot || savingDuplicate || !!duplicatingSource;
   const saveNew = async () => {
     if (operationLocked) return;
     try {
@@ -160,6 +170,45 @@ export const ProgramTemplates: React.FC<{
     if (savingEditRef.current || savingEdit) return;
     setEditingSnapshot(null);
     setEditError(null);
+  };
+  const startDuplicating = () => {
+    if (!selected || operationLocked || savingDuplicateRef.current) return;
+    const baseName = selected.name?.trim() ? selected.name.trim() : 'Untitled template';
+    setDuplicatingSource(JSON.parse(JSON.stringify(selected)) as ProgramTemplate);
+    setDuplicateName(`${baseName} (Copy)`);
+    setDuplicateError(null);
+    setFeedback('');
+  };
+  const handleCreateDuplicate = async () => {
+    if (savingDuplicateRef.current || !duplicatingSource) return;
+    if (!duplicateName.trim()) {
+      setDuplicateError('Enter a template name.');
+      return;
+    }
+    savingDuplicateRef.current = true;
+    setSavingDuplicate(true);
+    setDuplicateError(null);
+    setFeedback('');
+    try {
+      const copy = duplicateProgramTemplate(duplicatingSource, duplicateName);
+      await save(copy);
+      setDuplicatingSource(null);
+      setDuplicateName('');
+      setDuplicateError(null);
+      setSelectedId(copy.id);
+      setFeedback(`Created template copy ${copy.name}.`);
+    } catch (e) {
+      setDuplicateError(e instanceof Error && e.message.trim() ? e.message : 'Could not duplicate template.');
+    } finally {
+      savingDuplicateRef.current = false;
+      setSavingDuplicate(false);
+    }
+  };
+  const handleCancelDuplicate = () => {
+    if (savingDuplicateRef.current || savingDuplicate) return;
+    setDuplicatingSource(null);
+    setDuplicateName('');
+    setDuplicateError(null);
   };
   return (
     <section className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 space-y-4 mb-6 min-w-0">
@@ -213,6 +262,14 @@ export const ProgramTemplates: React.FC<{
             >
               Edit template
             </button>
+            <button
+              type="button"
+              disabled={operationLocked}
+              onClick={startDuplicating}
+              className="min-h-[44px] border border-gray-200 rounded-xl px-4 text-sm font-medium text-[#111827] hover:bg-gray-50 disabled:opacity-50"
+            >
+              Duplicate template
+            </button>
             <button type="button" disabled={operationLocked} onClick={async () => { if (!selected || !window.confirm(`Delete template ${selected.name}?`)) return; try { setBusy(true); await remove(selected.id); setSelectedId(''); setFeedback('Template deleted.'); } catch { setFeedback('Could not delete template.'); } finally { setBusy(false); } }} className="min-h-[44px] border rounded-xl px-4 text-sm disabled:opacity-50">Delete template</button>
           </div>
           <p
@@ -224,6 +281,63 @@ export const ProgramTemplates: React.FC<{
               {designerName ?? DESIGNER_UNAVAILABLE_LABEL}
             </span>
           </p>
+          {duplicatingSource && (
+            <form
+              id="program-template-duplicate"
+              noValidate
+              onSubmit={(e) => {
+                e.preventDefault();
+                void handleCreateDuplicate();
+              }}
+              className="rounded-xl border border-gray-200 bg-[#F7F8FA] p-4 space-y-3 min-w-0 max-w-full"
+            >
+              <div className="min-w-0">
+                <h3 className="text-sm font-bold text-[#111827] min-w-0 max-w-full [overflow-wrap:anywhere]">
+                  Duplicate template
+                </h3>
+                <p className="text-xs text-gray-500 min-w-0 max-w-full [overflow-wrap:anywhere]">
+                  Create an independent copy of {duplicatingSource.name?.trim() || 'Untitled template'}.
+                </p>
+              </div>
+              <label className="block min-w-0 text-xs font-semibold text-gray-600">
+                Copy name
+                <input
+                  type="text"
+                  aria-label="Copy name"
+                  aria-invalid={duplicateError ? 'true' : undefined}
+                  value={duplicateName}
+                  disabled={savingDuplicate}
+                  onChange={(e) => {
+                    setDuplicateName(e.target.value);
+                    if (duplicateError) setDuplicateError(null);
+                  }}
+                  className="mt-1 block w-full min-w-0 min-h-[44px] bg-white border border-gray-200 rounded-xl px-3 py-2 text-base text-[#111827] disabled:opacity-60"
+                />
+              </label>
+              {duplicateError && (
+                <p role="alert" className="text-xs font-medium text-red-600 min-w-0 max-w-full [overflow-wrap:anywhere]">
+                  {duplicateError}
+                </p>
+              )}
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="submit"
+                  disabled={savingDuplicate}
+                  className="min-h-[44px] bg-[#111827] text-white px-4 rounded-xl text-sm font-semibold disabled:opacity-50"
+                >
+                  {savingDuplicate ? 'Creating copy…' : 'Create copy'}
+                </button>
+                <button
+                  type="button"
+                  disabled={savingDuplicate}
+                  onClick={handleCancelDuplicate}
+                  className="min-h-[44px] bg-white border border-gray-200 text-[#111827] px-4 rounded-xl text-sm font-medium hover:bg-gray-50 disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
           {editingSnapshot && (
             <ProgramTemplateEditor
               key={`editor-${editingSnapshot.id}`}
@@ -332,7 +446,7 @@ export const ProgramTemplates: React.FC<{
           )}
         </div>
       )}
-      {feedback && <p role="status" className="text-sm text-gray-700">{feedback}</p>}
+      {feedback && <p role="status" className="text-sm text-gray-700 min-w-0 max-w-full [overflow-wrap:anywhere]">{feedback}</p>}
     </section>
   );
 };
