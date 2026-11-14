@@ -72,9 +72,81 @@ async function measureOverflow(page) {
   let templateGetMode = 'ok';
   let templateGetCount = 0;
   let failNextTemplateSave = false;
+  let templateUpdateRpcMode = 'ok';
+  const templateRpcCalls = [];
+  let templateDirectPatchCount = 0;
   await ctx.route('https://mock.supabase.co/**', async (route) => {
     const req = route.request();
     const url = new URL(req.url());
+    if (req.method() === 'PATCH' && url.pathname === '/rest/v1/program_templates') {
+      templateDirectPatchCount++;
+    }
+    if (req.method() === 'POST' && url.pathname === '/rest/v1/rpc/pf_update_program_template') {
+      const body = JSON.parse(req.postData() || '{}');
+      templateRpcCalls.push(body);
+      if (templateUpdateRpcMode === 'delay-ok') {
+        await new Promise((r) => setTimeout(r, 300));
+      }
+      if (templateUpdateRpcMode === 'conflict') {
+        return route.fulfill({
+          status: 409,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify({ code: '40001', message: 'Program template was modified elsewhere; reload before saving' })
+        });
+      }
+      if (templateUpdateRpcMode === 'forbidden') {
+        return route.fulfill({
+          status: 403,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify({ code: '42501', message: 'Only the owning verified coach may update a program template' })
+        });
+      }
+      if (templateUpdateRpcMode === 'missing') {
+        return route.fulfill({
+          status: 404,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify({ code: 'PGRST202', message: 'Could not find the function public.pf_update_program_template in the schema cache' })
+        });
+      }
+      if (templateUpdateRpcMode === 'network-error') {
+        return route.abort('failed');
+      }
+      if (templateUpdateRpcMode === 'empty-response') {
+        return route.fulfill({
+          status: 200,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify(null)
+        });
+      }
+      if (templateUpdateRpcMode === 'malformed-response') {
+        return route.fulfill({
+          status: 200,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify({ id: body.p_id, data: {} })
+        });
+      }
+      const row = mock.db.program_templates.find((r) => r.id === body.p_id && r.owner_id === coachProfile.id);
+      if (!row) {
+        return route.fulfill({
+          status: 403,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify({ code: '42501', message: 'Program template not found or access denied' })
+        });
+      }
+      if (JSON.stringify(row.data) !== JSON.stringify(body.p_expected_data)) {
+        return route.fulfill({
+          status: 409,
+          headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+          body: JSON.stringify({ code: '40001', message: 'Program template was modified elsewhere; reload before saving' })
+        });
+      }
+      row.data = JSON.parse(JSON.stringify(body.p_data));
+      return route.fulfill({
+        status: 200,
+        headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' },
+        body: JSON.stringify({ id: row.id, owner_id: row.owner_id, data: row.data, created_at: row.created_at })
+      });
+    }
     if (req.method() === 'POST' && url.pathname === '/rest/v1/program_templates' && failNextTemplateSave) {
       failNextTemplateSave = false;
       return route.fulfill({
@@ -827,6 +899,227 @@ async function measureOverflow(page) {
   ok((await lcLengthSelect.inputValue()) === 'program', 'lifecycle: failed save retains template length');
   ok((await lcSourceInput.inputValue()) === sourceMon, 'lifecycle: failed save retains source week');
   ok(mock.db.program_templates.length === templateCountBeforeFail, 'lifecycle: failed save writes nothing to mock program_templates');
+
+  // ---------------- Template Editing ----------------
+  const editSelect = page.getByLabel('Saved template');
+  await editSelect.selectOption(savedTplRow.id);
+
+  // 8a. Open, edit and cancel without any writes
+  const rpcCountBeforeCancel = templateRpcCalls.length;
+  const patchCountBeforeCancel = templateDirectPatchCount;
+  const dbSnapshotBeforeCancel = JSON.stringify(mock.db.program_templates);
+
+  await page.getByRole('button', { name: 'Edit template' }).click();
+  const editor = page.locator('#program-template-editor');
+  await editor.waitFor();
+  await editor.getByLabel('Edit template name').fill('Cancelled Draft Name');
+  await editor.getByLabel('Lifecycle Push A · Incline Dumbbell Press reps').fill('15');
+  await editor.getByLabel('Lifecycle Push A · Incline Dumbbell Press load (lb)').fill('99');
+  await editor.getByLabel('Lifecycle Push A · Incline Dumbbell Press coach note').fill('Should be discarded');
+  await editor.getByRole('button', { name: 'Cancel' }).click();
+  ok((await editor.count()) === 0, 'edit: cancel closes the editor');
+  ok(templateRpcCalls.length === rpcCountBeforeCancel, 'edit: cancel triggers zero RPC calls');
+  ok(templateDirectPatchCount === patchCountBeforeCancel, 'edit: cancel triggers zero direct PATCH calls');
+  ok(JSON.stringify(mock.db.program_templates) === dbSnapshotBeforeCancel, 'edit: cancel leaves mock DB untouched');
+
+  // 8b. Reopen and verify conflict, permission denial, missing RPC, network, and malformed response preserve draft
+  const originalTplSnapshot = JSON.parse(JSON.stringify(savedTplRow.data));
+  await page.getByRole('button', { name: 'Edit template' }).click();
+  await editor.waitFor();
+  const edName = editor.getByLabel('Edit template name');
+  const edSets = editor.getByLabel('Lifecycle Push A · Incline Dumbbell Press sets');
+  const edReps = editor.getByLabel('Lifecycle Push A · Incline Dumbbell Press reps');
+  const edLoad = editor.getByLabel('Lifecycle Push A · Incline Dumbbell Press load (lb)');
+  const edRest = editor.getByLabel('Lifecycle Push A · Incline Dumbbell Press rest (s)');
+  const edNote = editor.getByLabel('Lifecycle Push A · Incline Dumbbell Press coach note');
+
+  await edName.fill('Edited Week Template');
+  await edSets.fill('5');
+  await edReps.fill('AMRAP');
+  await edLoad.fill('100');
+  await edRest.fill('120');
+  await edNote.fill('Control 3s eccentric');
+
+  const verifyDraftPreservedOnFailure = async (mode, expectedAlertSubstr, label) => {
+    templateUpdateRpcMode = mode;
+    await editor.getByRole('button', { name: 'Save changes' }).click();
+    const alert = editor.getByRole('alert');
+    await alert.waitFor();
+    const alertText = (await alert.innerText()).toLowerCase();
+    ok(alertText.includes(expectedAlertSubstr.toLowerCase()), `edit ${label}: shows expected error (${alertText})`);
+    ok(await editor.isVisible(), `edit ${label}: keeps editor open`);
+    ok((await page.getByText(/Updated template/).count()) === 0, `edit ${label}: does not show false success`);
+    ok((await edName.inputValue()) === 'Edited Week Template', `edit ${label}: retains draft name`);
+    ok((await edSets.inputValue()) === '5', `edit ${label}: retains draft sets`);
+    ok((await edReps.inputValue()) === 'AMRAP', `edit ${label}: retains draft reps`);
+    ok((await edLoad.inputValue()) === '100', `edit ${label}: retains draft load`);
+    ok((await edRest.inputValue()) === '120', `edit ${label}: retains draft rest`);
+    ok((await edNote.inputValue()) === 'Control 3s eccentric', `edit ${label}: retains draft coach note`);
+    ok(JSON.stringify(mock.db.program_templates) === dbSnapshotBeforeCancel, `edit ${label}: DB unchanged`);
+  };
+
+  await verifyDraftPreservedOnFailure('conflict', 'reload', 'conflict (40001)');
+  await verifyDraftPreservedOnFailure('forbidden', 'permission', 'permission denied (42501)');
+  await verifyDraftPreservedOnFailure('missing', 'not enabled yet', 'missing RPC');
+  const missingAlertText = (await editor.getByRole('alert').innerText()).trim();
+  ok(
+    missingAlertText === 'Template editing is not enabled yet.' &&
+      !/database|sql|migration/i.test(missingAlertText),
+    `edit missing RPC: exact user-facing message without DB instructions (${missingAlertText})`
+  );
+  await verifyDraftPreservedOnFailure('network-error', 'failed', 'network failure');
+  await verifyDraftPreservedOnFailure('empty-response', 'invalid response', 'empty RPC response');
+  await verifyDraftPreservedOnFailure('malformed-response', 'invalid response', 'malformed RPC response');
+
+  // 8b-bis. Numeric field validation blocks saving without silent rounding/restoration and retains draft
+  templateUpdateRpcMode = 'ok';
+  const rpcCountBeforeInvalidNumeric = templateRpcCalls.length;
+  const checkInvalidNumericBlocksSave = async (input, badValue, expectedValueAfterBlur, expectedSubstr, label) => {
+    await input.fill(badValue);
+    await input.blur();
+    await editor.getByRole('button', { name: 'Save changes' }).click();
+    ok(
+      templateRpcCalls.length === rpcCountBeforeInvalidNumeric,
+      `edit ${label}: blocks Save RPC call`
+    );
+    ok(await editor.isVisible(), `edit ${label}: keeps editor open`);
+    ok((await page.getByText(/Updated template/).count()) === 0, `edit ${label}: does not show false success`);
+    ok((await input.inputValue()) === expectedValueAfterBlur, `edit ${label}: does not silently restore old value`);
+    ok((await input.getAttribute('aria-invalid')) === 'true', `edit ${label}: marks field aria-invalid`);
+    const invalidAlert = (await editor.getByRole('alert').innerText()).toLowerCase();
+    ok(invalidAlert.includes(expectedSubstr), `edit ${label}: shows clear validation error (${invalidAlert})`);
+    ok((await edName.inputValue()) === 'Edited Week Template', `edit ${label}: preserves draft name`);
+    ok((await edReps.inputValue()) === 'AMRAP', `edit ${label}: preserves draft reps`);
+    ok((await edLoad.inputValue()) === '100', `edit ${label}: preserves draft load`);
+    ok((await edNote.inputValue()) === 'Control 3s eccentric', `edit ${label}: preserves draft coach note`);
+  };
+
+  await checkInvalidNumericBlocksSave(edSets, '-2', '-2', 'negative', 'negative sets');
+  await checkInvalidNumericBlocksSave(edSets, '2.5', '2.5', 'whole number', 'fractional sets');
+  await edSets.fill('5');
+  await checkInvalidNumericBlocksSave(edRest, 'abc', 'abc', 'valid number', 'non-numeric rest');
+  await checkInvalidNumericBlocksSave(edRest, '1e999', '1e999', 'finite', 'non-finite rest');
+  await checkInvalidNumericBlocksSave(edRest, '-10', '-10', 'negative', 'negative rest');
+  await edRest.fill('120');
+  ok(
+    (await edSets.getAttribute('aria-invalid')) === null &&
+      (await edRest.getAttribute('aria-invalid')) === null &&
+      (await editor.getByRole('alert').count()) === 0,
+    'edit numeric validation: correcting inputs clears validation error'
+  );
+
+  // 8c. Prevent duplicate submission and confirm successful RPC save
+  const workoutsBeforeEdit = JSON.stringify(mock.db.workouts);
+  const rpcStart = templateRpcCalls.length;
+  templateUpdateRpcMode = 'delay-ok';
+  const saveChangesBtn = editor.getByRole('button', { name: /Save changes|Saving/ });
+  await saveChangesBtn.click();
+  await page.waitForTimeout(40);
+  ok(await saveChangesBtn.isDisabled(), 'edit: save button disabled while request is pending');
+  await saveChangesBtn.click({ force: true });
+  await page.getByText('Updated template Edited Week Template.').waitFor();
+
+  ok(templateRpcCalls.length - rpcStart === 1, `edit: duplicate submission prevented (rpcCount=${templateRpcCalls.length - rpcStart})`);
+  ok(templateDirectPatchCount === 0, `edit: never used direct PATCH on program_templates (count=${templateDirectPatchCount})`);
+
+  const lastRpc = templateRpcCalls[templateRpcCalls.length - 1];
+  ok(
+    lastRpc.p_id === savedTplRow.id &&
+      JSON.stringify(lastRpc.p_expected_data) === JSON.stringify(originalTplSnapshot),
+    'edit: RPC sent original template snapshot as p_expected_data'
+  );
+  ok(
+    lastRpc.p_data.id === originalTplSnapshot.id &&
+      lastRpc.p_data.scope === originalTplSnapshot.scope &&
+      lastRpc.p_data.createdAt === originalTplSnapshot.createdAt &&
+      lastRpc.p_data.days.length === originalTplSnapshot.days.length &&
+      lastRpc.p_data.days[0].offset === originalTplSnapshot.days[0].offset &&
+      lastRpc.p_data.days[0].workout.id === originalTplSnapshot.days[0].workout.id &&
+      lastRpc.p_data.days[0].workout.blocks[0].id === originalTplSnapshot.days[0].workout.blocks[0].id &&
+      lastRpc.p_data.days[0].workout.blocks[0].exerciseId === originalTplSnapshot.days[0].workout.blocks[0].exerciseId &&
+      JSON.stringify(lastRpc.p_data.days[0].workout.blocks[0].loggedSets) ===
+        JSON.stringify(originalTplSnapshot.days[0].workout.blocks[0].loggedSets) &&
+      JSON.stringify(lastRpc.p_data.days[1]) === JSON.stringify(originalTplSnapshot.days[1]),
+    'edit: preserves id, scope, createdAt, offsets, block identity/loggedSets, and unedited days'
+  );
+  ok(JSON.stringify(mock.db.workouts) === workoutsBeforeEdit, 'edit: assigned workouts unchanged after template edit');
+
+  // 8d. Reload and verify edited template + unit round-trip persist
+  templateUpdateRpcMode = 'ok';
+  await page.reload();
+  await page.getByRole('button', { name: 'Programs' }).first().click();
+  await page.getByLabel('Program for client').selectOption('client-syn-1');
+  await page.getByLabel('Saved template').selectOption(savedTplRow.id);
+  await page.getByRole('button', { name: 'Show preview' }).click();
+  const editedPreviewText = await page.locator('#program-template-preview').innerText();
+  ok(
+    editedPreviewText.includes('Edited Week Template') &&
+      editedPreviewText.includes('5 × AMRAP') &&
+      editedPreviewText.includes('100 lb') &&
+      editedPreviewText.includes('4 × 12') &&
+      editedPreviewText.includes('88.2 lb'),
+    'edit: persisted changes and lb round-trip survive reload'
+  );
+
+  // 8e. Zero values round-trip on edgeTemplate (tpl-edge)
+  await page.getByLabel('Saved template').selectOption('tpl-edge');
+  await page.getByRole('button', { name: 'Edit template' }).click();
+  await editor.waitFor();
+  const zeroSetsInput = editor.getByLabel('Untitled workout · Zero Load Drill sets');
+  const zeroRepsInput = editor.getByLabel('Untitled workout · Zero Load Drill reps');
+  const zeroLoadInput = editor.getByLabel('Untitled workout · Zero Load Drill load (lb)');
+  const zeroRestInput = editor.getByLabel('Untitled workout · Zero Load Drill rest (s)');
+  ok(
+    (await zeroSetsInput.inputValue()) === '0' &&
+      (await zeroRepsInput.inputValue()) === '0' &&
+      (await zeroLoadInput.inputValue()) === '0' &&
+      (await zeroRestInput.inputValue()) === '90',
+    'edit: existing zero values display accurately in editor'
+  );
+  await zeroRestInput.fill('0');
+  await editor.getByLabel('Edit template name').fill('Edge Values Zeroed');
+  await editor.getByRole('button', { name: 'Save changes' }).click();
+  await page.getByText('Updated template Edge Values Zeroed.').waitFor();
+  const edgeAfterSave = mock.db.program_templates.find((r) => r.id === 'tpl-edge');
+  ok(
+    edgeAfterSave &&
+      edgeAfterSave.data.name === 'Edge Values Zeroed' &&
+      edgeAfterSave.data.days[0].workout.blocks[0].sets === 0 &&
+      edgeAfterSave.data.days[0].workout.blocks[0].reps === '0' &&
+      edgeAfterSave.data.days[0].workout.blocks[0].loadKg === 0 &&
+      edgeAfterSave.data.days[0].workout.blocks[0].restSec === 0,
+    'edit: zero values round-trip cleanly into persisted template'
+  );
+
+  // 8f. Editor responsive checks (375, 768, 1024, 1440px) with long text + phone input/button sizes
+  await page.getByLabel('Saved template').selectOption('tpl-long');
+  await page.getByRole('button', { name: 'Edit template' }).click();
+  await editor.waitFor();
+  for (const [w, h] of [
+    [375, 812],
+    [768, 1024],
+    [1024, 768],
+    [1440, 900]
+  ]) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(100);
+    const ov = await measureOverflow(page);
+    ok(ov.pageOverflow <= 0 && ov.offRight.length === 0, `edit: no horizontal overflow at ${w}x${h}`);
+    if (w === 375) {
+      const mobileMetrics = await editor.evaluate((el) => {
+        const inputs = [...el.querySelectorAll('input')];
+        const buttons = [...el.querySelectorAll('button')];
+        const minFontPx = Math.min(...inputs.map((i) => parseFloat(getComputedStyle(i).fontSize)));
+        const minInputHeight = Math.min(...inputs.map((i) => i.getBoundingClientRect().height));
+        const minButtonHeight = Math.min(...buttons.map((b) => b.getBoundingClientRect().height));
+        return { minFontPx, minInputHeight, minButtonHeight };
+      });
+      ok(mobileMetrics.minFontPx >= 16, `edit: phone input font >= 16px (${mobileMetrics.minFontPx}px)`);
+      ok(mobileMetrics.minInputHeight >= 44, `edit: phone input height >= 44px (${Math.round(mobileMetrics.minInputHeight)}px)`);
+      ok(mobileMetrics.minButtonHeight >= 44, `edit: phone button height >= 44px (${Math.round(mobileMetrics.minButtonHeight)}px)`);
+    }
+  }
+  await editor.getByRole('button', { name: 'Cancel' }).click();
 
   ok(pageErrors.length === 0, `no page errors (${pageErrors.join(' | ')})`);
 
